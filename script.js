@@ -1,3 +1,349 @@
+// ===== ANALYTICS & TRACKING =====
+
+// Track contact form submissions
+function trackFormSubmission() {
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'form_submit', {
+      event_category: 'Contact',
+      event_label: 'Contact Form Submission'
+    });
+  }
+}
+
+// Track project views
+function trackProjectView(projectName) {
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'view_item', {
+      event_category: 'Portfolio',
+      event_label: projectName
+    });
+  }
+}
+
+// ===== ENHANCED INTERACTIVE ELEMENTS =====
+
+// Enhanced project hover effects and analytics
+function initializeInteractiveElements() {
+  const projectItems = document.querySelectorAll('.work-item');
+  
+  projectItems.forEach(item => {
+    // Add hover analytics tracking
+    item.addEventListener('mouseenter', function() {
+      const projectName = this.querySelector('h3')?.textContent || 'Unknown Project';
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'project_hover', {
+          event_category: 'Portfolio',
+          event_label: projectName
+        });
+      }
+    });
+    
+    // Track project clicks
+    item.addEventListener('click', function() {
+      const projectName = this.querySelector('h3')?.textContent || 'Unknown Project';
+      trackProjectView(projectName);
+    });
+  });
+  
+  // Smooth scroll for navigation
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
+  
+  // Form submission tracking
+  const contactForm = document.querySelector('form[name="contact"]');
+  if (contactForm) {
+    contactForm.addEventListener('submit', trackFormSubmission);
+  }
+}
+
+// ===== ENHANCED LIGHTBOX FUNCTIONALITY =====
+
+// Enhanced lightbox functionality with zoom and multiple images
+function openModal(imageSrc, title, type, date, description, images = []) {
+  const modal = document.getElementById('imageModal');
+  const modalImage = document.getElementById('modalImage');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalType = document.getElementById('modalType');
+  const modalDate = document.getElementById('modalDate');
+  const modalDescription = document.getElementById('modalDescription');
+  
+  modalImage.src = imageSrc;
+  modalTitle.textContent = title;
+  modalType.textContent = type;
+  modalDate.textContent = date;
+  modalDescription.textContent = description;
+  
+  // Reset zoom state
+  modalImage.classList.remove('zoomed');
+  
+  // Add zoom functionality
+  modalImage.onclick = function() {
+    this.classList.toggle('zoomed');
+  };
+  
+  // Add image gallery navigation if multiple images
+  if (images && images.length > 1) {
+    addImageGalleryNavigation(images, imageSrc);
+  }
+  
+  modal.style.display = 'block';
+  document.body.style.overflow = 'hidden';
+  
+  // Track modal opens
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'modal_open', {
+      event_category: 'Portfolio',
+      event_label: title
+    });
+  }
+}
+
+// Add image gallery navigation
+function addImageGalleryNavigation(images, currentImage) {
+  const modalImageContainer = document.querySelector('.modal-image');
+  let currentIndex = images.findIndex(img => img === currentImage);
+  
+  // Remove existing navigation
+  const existingNav = modalImageContainer.querySelector('.image-nav');
+  if (existingNav) existingNav.remove();
+  
+  // Create navigation container
+  const navContainer = document.createElement('div');
+  navContainer.className = 'image-nav';
+  navContainer.innerHTML = `
+    <button class="nav-btn prev-btn" ${currentIndex === 0 ? 'disabled' : ''}>❮</button>
+    <div class="image-counter">${currentIndex + 1} / ${images.length}</div>
+    <button class="nav-btn next-btn" ${currentIndex === images.length - 1 ? 'disabled' : ''}>❯</button>
+  `;
+  
+  // Add navigation functionality
+  const prevBtn = navContainer.querySelector('.prev-btn');
+  const nextBtn = navContainer.querySelector('.next-btn');
+  const counter = navContainer.querySelector('.image-counter');
+  const modalImage = document.getElementById('modalImage');
+  
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      modalImage.src = images[currentIndex];
+      counter.textContent = `${currentIndex + 1} / ${images.length}`;
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.disabled = false;
+    }
+  });
+  
+  nextBtn.addEventListener('click', () => {
+    if (currentIndex < images.length - 1) {
+      currentIndex++;
+      modalImage.src = images[currentIndex];
+      counter.textContent = `${currentIndex + 1} / ${images.length}`;
+      nextBtn.disabled = currentIndex === images.length - 1;
+      prevBtn.disabled = false;
+    }
+  });
+  
+  modalImageContainer.appendChild(navContainer);
+}
+
+// ===== ADMIN FUNCTIONALITY =====
+
+// Admin panel functionality
+function initializeAdminPanel() {
+  if (window.location.pathname.includes('admin.html')) {
+    loadAdminContent();
+    setupAdminEventListeners();
+  }
+}
+
+function loadAdminContent() {
+  // Load existing portfolio data for editing
+  const portfolioData = getPortfolioData();
+  populateAdminForm(portfolioData);
+}
+
+function getPortfolioData() {
+  // This would normally come from a database or CMS
+  // For now, we'll extract it from the existing HTML
+  const workItems = document.querySelectorAll('.work-item');
+  const portfolioData = [];
+  
+  workItems.forEach((item, index) => {
+    const img = item.querySelector('img');
+    const title = item.querySelector('h3')?.textContent;
+    const description = item.querySelector('p')?.textContent;
+    
+    if (img && title) {
+      portfolioData.push({
+        id: index + 1,
+        title: title,
+        description: description,
+        image: img.src,
+        images: [img.src], // For now, single image
+        type: 'Design',
+        date: '2024',
+        featured: item.classList.contains('featured') || false
+      });
+    }
+  });
+  
+  return portfolioData;
+}
+
+function populateAdminForm(data) {
+  const adminContainer = document.getElementById('adminContainer');
+  if (!adminContainer) return;
+  
+  // Create admin interface
+  adminContainer.innerHTML = `
+    <div class="admin-header">
+      <h1>Portfolio Admin Panel</h1>
+      <button class="btn-primary" onclick="addNewProject()">+ Nieuw Project</button>
+    </div>
+    
+    <div class="projects-grid" id="projectsGrid">
+      ${data.map(project => createProjectCard(project)).join('')}
+    </div>
+    
+    <div class="admin-actions">
+      <button class="btn-success" onclick="saveChanges()">Wijzigingen Opslaan</button>
+      <button class="btn-secondary" onclick="previewSite()">Voorvertoning</button>
+    </div>
+  `;
+}
+
+function createProjectCard(project) {
+  return `
+    <div class="admin-project-card" data-id="${project.id}">
+      <div class="project-images">
+        <img src="${project.images[0]}" alt="${project.title}" class="main-image">
+        <div class="image-controls">
+          <button onclick="addImage(${project.id})" class="btn-small">+ Foto</button>
+          <span class="image-count">${project.images.length} foto('s)</span>
+        </div>
+      </div>
+      
+      <div class="project-details">
+        <input type="text" value="${project.title}" class="project-title" placeholder="Project Titel">
+        <textarea class="project-description" placeholder="Project Beschrijving">${project.description}</textarea>
+        
+        <div class="project-meta">
+          <select class="project-type">
+            <option value="Branding" ${project.type === 'Branding' ? 'selected' : ''}>Branding</option>
+            <option value="Web Design" ${project.type === 'Web Design' ? 'selected' : ''}>Web Design</option>
+            <option value="Print" ${project.type === 'Print' ? 'selected' : ''}>Print Design</option>
+            <option value="Packaging" ${project.type === 'Packaging' ? 'selected' : ''}>Packaging</option>
+          </select>
+          
+          <input type="text" value="${project.date}" class="project-date" placeholder="Jaar">
+          
+          <label class="featured-toggle">
+            <input type="checkbox" ${project.featured ? 'checked' : ''}>
+            <span>Uitgelicht</span>
+          </label>
+        </div>
+        
+        <div class="project-actions">
+          <button onclick="editProject(${project.id})" class="btn-edit">Bewerken</button>
+          <button onclick="deleteProject(${project.id})" class="btn-delete">Verwijderen</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Admin functions
+function addNewProject() {
+  const projectsGrid = document.getElementById('projectsGrid');
+  const newId = Date.now(); // Simple ID generation
+  
+  const newProjectHTML = createProjectCard({
+    id: newId,
+    title: 'Nieuw Project',
+    description: 'Project beschrijving...',
+    images: ['images/placeholder.svg'],
+    type: 'Branding',
+    date: new Date().getFullYear(),
+    featured: false
+  });
+  
+  projectsGrid.insertAdjacentHTML('beforeend', newProjectHTML);
+}
+
+function addImage(projectId) {
+  const fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = 'image/*';
+  fileInput.multiple = true;
+  
+  fileInput.onchange = function(e) {
+    const files = Array.from(e.target.files);
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        // Add image to project (in real app, upload to server)
+        console.log(`Adding image to project ${projectId}:`, event.target.result);
+        // Update image count display
+        const card = document.querySelector(`[data-id="${projectId}"]`);
+        const imageCount = card.querySelector('.image-count');
+        const currentCount = parseInt(imageCount.textContent);
+        imageCount.textContent = `${currentCount + 1} foto('s)`;
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+  
+  fileInput.click();
+}
+
+function editProject(projectId) {
+  console.log(`Editing project ${projectId}`);
+  // Implementation for detailed project editing
+}
+
+function deleteProject(projectId) {
+  if (confirm('Weet je zeker dat je dit project wilt verwijderen?')) {
+    const card = document.querySelector(`[data-id="${projectId}"]`);
+    card.remove();
+  }
+}
+
+function saveChanges() {
+  // Collect all project data from admin form
+  const projectCards = document.querySelectorAll('.admin-project-card');
+  const portfolioData = [];
+  
+  projectCards.forEach(card => {
+    const id = card.dataset.id;
+    const title = card.querySelector('.project-title').value;
+    const description = card.querySelector('.project-description').value;
+    const type = card.querySelector('.project-type').value;
+    const date = card.querySelector('.project-date').value;
+    const featured = card.querySelector('input[type="checkbox"]').checked;
+    
+    portfolioData.push({ id, title, description, type, date, featured });
+  });
+  
+  // In real app, send to server
+  console.log('Saving portfolio data:', portfolioData);
+  alert('Wijzigingen opgeslagen! (Demo versie - geen echte opslag)');
+}
+
+function previewSite() {
+  window.open('index.html', '_blank');
+}
+
+// ===== INITIALIZATION =====
+
 const menuBtn = document.getElementById('menuBtn');
 const closeMenu = document.getElementById('closeMenu');
 const sideMenu = document.getElementById('sideMenu');
@@ -711,6 +1057,8 @@ document.addEventListener('DOMContentLoaded', () => {
   loadPosts(); // Load posts from localStorage first
   renderFeed();
   initializeFilters();
+  initializeInteractiveElements(); // Initialize new interactive features
+  initializeAdminPanel(); // Initialize admin panel if on admin page
 });
 
 // Debug function to reset localStorage if needed

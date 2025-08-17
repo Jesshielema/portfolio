@@ -1,0 +1,1536 @@
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Admin - Jesse Hielema</title>
+  
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+  </script>
+  
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigatie -->
+  <header class="navbar">
+    <div class="nav-left">
+      <a href="about.html" class="nav-about-link">Jesse Hielema</a>
+    </div>
+    <div class="nav-center">
+      <a href="index.html" class="logo-container">
+        <img src="images/mono-rond.png" alt="Logo" class="logo-image">
+      </a>
+    </div>
+    <div class="nav-right">
+      <a href="contact.html" class="nav-contact-link">Contact</a>
+    </div>
+  </header>
+
+  <!-- Admin Content -->
+  <div class="admin-container" id="adminContainer">
+    <!-- Content will be populated by JavaScript -->
+    <div style="text-align: center; padding: 60px 20px;">
+      <h1 style="font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: #1937BF; margin-bottom: 20px;">
+        PORTFOLIO ADMIN
+      </h1>
+      <p style="font-size: 1.2rem; color: #666; margin-bottom: 30px;">
+        Beheer je portfolio projecten met meerdere afbeeldingen per project
+      </p>
+      <div style="background: rgba(25, 55, 191, 0.1); padding: 30px; border-radius: 15px; margin: 30px 0;">
+        <h3 style="color: #1937BF; margin-bottom: 15px;">✨ Nieuwe Features:</h3>
+        <ul style="text-align: left; color: #666; line-height: 1.8;">
+          <li>📸 Meerdere foto's per project</li>
+          <li>🎨 Drag & drop afbeelding upload</li>
+          <li>📱 Volledig responsive admin panel</li>
+          <li>⚡ Live preview van wijzigingen</li>
+          <li>🔍 Zoom functionaliteit in lightbox</li>
+          <li>📊 Google Analytics integratie</li>
+        </ul>
+      </div>
+      <button class="btn-primary" onclick="location.reload()" style="margin-top: 20px;">
+        🚀 Admin Panel Laden
+      </button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="footer-logo">
+          <img src="images/mono-rond.png" alt="Jesse Hielema Logo">
+        </div>
+        <p class="footer-description">
+          <span class="bold-word">BOLD</span> design that never <span class="loses-word">LOSES</span> impact.
+        </p>
+      </div>
+
+      <div class="footer-center">
+        <div class="footer-section">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#branding">Branding</a></li>
+            <li><a href="#webdesign">Web Design</a></li>
+            <li><a href="#print">Print Design</a></li>
+            <li><a href="#packaging">Packaging</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Portfolio</h4>
+          <ul>
+            <li><a href="index.html">Recent Work</a></li>
+            <li><a href="about.html">About Me</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="#testimonials">Testimonials</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-right">
+        <div class="footer-contact">
+          <h4>Let's Connect</h4>
+          <p>jessehielema@gmail.com</p>
+          <p>+31 6 12 34 56 78</p>
+        </div>
+        
+        <div class="footer-social">
+          <a href="#" class="social-link">
+            <img src="images/icons8-linkedin-48.png" alt="LinkedIn">
+          </a>
+          <a href="#" class="social-link">
+            <img src="images/icons8-instagram-48.png" alt="Instagram">
+          </a>
+          <a href="mailto:jessehielema@gmail.com" class="social-link">
+            <img src="images/icons8-mail-48.png" alt="Email">
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2024 Jesse Hielema. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .admin-header h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .admin-header p {
+      color: #666;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e1e1e1;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #333;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .file-upload {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+    }
+
+    .file-upload input[type="file"] {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .file-upload-label {
+      display: block;
+      padding: 40px 20px;
+      border: 2px dashed #ccc;
+      border-radius: 8px;
+      text-align: center;
+      background: #fafafa;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .file-upload-label:hover {
+      border-color: #333;
+      background: #f0f0f0;
+    }
+
+    .file-upload-label.has-file {
+      border-color: #4CAF50;
+      background: #f8fff8;
+    }
+
+    .preview-image {
+      max-width: 100%;
+      max-height: 200px;
+      margin-top: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: #333;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background: #555;
+    }
+
+    .submit-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .success-message {
+      background: #d4edda;
+      color: #155724;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .error-message {
+      background: #f8d7da;
+      color: #721c24;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border: 1px solid #f5c6cb;
+    }
+
+    .login-section {
+      text-align: center;
+    }
+
+    .logout-btn {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: #c82333;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
+    .admin-header {
+      position: relative;
+    }
+
+    .admin-header .logout-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: #333;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      .admin-container {
+        margin: 0;
+        padding: 20px;
+        border-radius: 0;
+      }
+    }
+
+    /* Admin Tabs */
+    .admin-tabs {
+      display: flex;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #eee;
+    }
+
+    .tab-btn {
+      padding: 12px 24px;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      color: #666;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn:hover {
+      color: #333;
+      background: #f8f8f8;
+    }
+
+    .tab-btn.active {
+      color: #333;
+      border-bottom-color: #333;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Posts Management */
+    .posts-container {
+      display: grid;
+      gap: 15px;
+      max-height: 500px;
+      overflow-y: auto;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 15px;
+      position: relative;
+    }
+
+    .loading-spinner {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+      color: #666;
+    }
+
+    .loading-spinner.active {
+      display: block;
+    }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #333;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .post-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      background: #fafafa;
+      transition: all 0.3s ease;
+    }
+
+    .post-item:hover {
+      background: #f0f0f0;
+      border-color: #ddd;
+    }
+
+    .post-item-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #ddd;
+    }
+
+    .post-item-info {
+      flex: 1;
+    }
+
+    .post-item-title {
+      font-weight: 600;
+      color: #333;
+      margin: 0 0 5px 0;
+      font-size: 16px;
+    }
+
+    .post-item-meta {
+      color: #666;
+      font-size: 14px;
+      margin: 0;
+    }
+
+    .post-item-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-edit, .btn-delete {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-edit {
+      background: #007bff;
+      color: white;
+    }
+
+    .btn-edit:hover {
+      background: #0056b3;
+    }
+
+    .btn-delete {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-delete:hover {
+      background: #c82333;
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: #545b62;
+    }
+
+    /* Edit Modal */
+    .edit-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .edit-modal-content {
+      background: white;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .edit-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 30px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .edit-modal-header h3 {
+      margin: 0;
+      font-size: 20px;
+      color: #333;
+    }
+
+    .edit-modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #666;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .edit-modal-close:hover {
+      background: #f0f0f0;
+      color: #333;
+    }
+
+    .edit-modal-content .form-group {
+      margin: 0 30px 20px 30px;
+    }
+
+    .edit-modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+      padding: 20px 30px;
+      border-top: 1px solid #eee;
+      background: #fafafa;
+    }
+
+    @media (max-width: 640px) {
+      .admin-container {
+        margin: 0;
+        padding: 20px;
+        border-radius: 0;
+      }
+      
+      .admin-tabs {
+        flex-direction: column;
+      }
+      
+      .tab-btn {
+        text-align: left;
+        border-bottom: none;
+        border-left: 3px solid transparent;
+      }
+      
+      .tab-btn.active {
+        border-left-color: #333;
+        border-bottom-color: transparent;
+      }
+      
+      .post-item {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .post-item-actions {
+        justify-content: center;
+      }
+      
+      .edit-modal-content {
+        margin: 0;
+        border-radius: 0;
+        max-height: 100vh;
+      }
+      
+      .edit-modal-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <a href="index.html" class="back-link">← Terug naar Portfolio</a>
+    
+    <!-- Login Form -->
+    <div id="loginForm" class="login-section">
+      <div class="admin-header">
+        <h1>Admin Login</h1>
+        <p>Voer het admin wachtwoord in om toegang te krijgen</p>
+      </div>
+      
+      <div id="loginError" class="error-message" style="display: none;">
+        Onjuist wachtwoord. Probeer opnieuw.
+      </div>
+      
+      <form id="passwordForm">
+        <div class="form-group">
+          <label for="password">Wachtwoord *</label>
+          <input type="password" id="password" name="password" required 
+                 placeholder="Voer admin wachtwoord in...">
+        </div>
+        
+        <button type="submit" class="submit-btn">
+          Inloggen
+        </button>
+      </form>
+    </div>
+
+    <!-- Admin Panel (initially hidden) -->
+    <div id="adminPanel" style="display: none;">
+      <div class="admin-header">
+        <h1>Portfolio Admin</h1>
+        <p>Beheer je portfolio posts</p>
+        <button id="logoutBtn" class="logout-btn">Uitloggen</button>
+      </div>
+
+      <!-- Tabs -->
+      <div class="admin-tabs">
+        <button class="tab-btn active" data-tab="new-post">Nieuwe Post</button>
+        <button class="tab-btn" data-tab="manage-posts">Posts Beheren</button>
+      </div>
+
+      <div id="successMessage" class="success-message">
+        Post succesvol toegevoegd!
+      </div>
+
+      <!-- New Post Tab -->
+      <div id="new-post" class="tab-content active">
+        <form id="postForm">
+          <div class="form-group">
+            <label for="title">Titel *</label>
+            <input type="text" id="title" name="title" required>
+          </div>
+
+          <div class="form-group">
+            <label for="type">Type Project *</label>
+            <select id="type" name="type" required>
+              <option value="">Selecteer type...</option>
+              <option value="Design">Design</option>
+              <option value="Branding">Branding</option>
+              <option value="UI/UX">UI/UX</option>
+              <option value="Motion">Motion</option>
+              <option value="Web">Web</option>
+              <option value="Illustration">Illustration</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Beschrijving (optioneel)</label>
+            <textarea id="description" name="description" placeholder="Korte beschrijving van het project..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="client">Gemaakt voor (optioneel)</label>
+            <input type="text" id="client" name="client" placeholder="Naam van de klant/organisatie">
+          </div>
+
+          <div class="form-group">
+            <label for="purpose">Doel van het project (optioneel)</label>
+            <input type="text" id="purpose" name="purpose" placeholder="Wat was het doel van dit project?">
+          </div>
+
+          <div class="form-group">
+            <label for="tools">Gebruikte tools (optioneel)</label>
+            <input type="text" id="tools" name="tools" placeholder="Bijv. Photoshop, Illustrator, Figma">
+          </div>
+
+          <div class="form-group">
+            <label for="image">Afbeelding *</label>
+            <div class="file-upload">
+              <input type="file" id="image" name="image" accept="image/*" required>
+              <label for="image" class="file-upload-label" id="fileLabel">
+                <div>📸 Klik om een afbeelding te selecteren</div>
+                <div style="font-size: 14px; color: #666; margin-top: 5px;">
+                  Ondersteunde formaten: JPG, PNG, GIF (max 5MB)
+                </div>
+              </label>
+            </div>
+            <img id="imagePreview" class="preview-image" style="display: none;">
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="featured" name="featured">
+              Uitgelichte post (verschijnt in hero sectie)
+            </label>
+          </div>
+
+          <button type="submit" class="submit-btn" id="submitBtn">
+            Post Toevoegen
+          </button>
+        </form>
+      </div>
+
+      <!-- Manage Posts Tab -->
+      <div id="manage-posts" class="tab-content">
+        <div class="posts-overview">
+          <h3>Alle Posts</h3>
+          <div class="loading-spinner" id="loadingSpinner">
+            <div class="spinner"></div>
+            <p>Posts laden...</p>
+          </div>
+          <div id="postsContainer" class="posts-container">
+            <!-- Posts worden hier dynamisch geladen -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Edit Post Modal -->
+      <div id="editModal" class="edit-modal" style="display: none;">
+        <div class="edit-modal-content">
+          <div class="edit-modal-header">
+            <h3>Post Bewerken</h3>
+            <button class="edit-modal-close" id="closeEditModal">&times;</button>
+          </div>
+          <form id="editPostForm">
+            <input type="hidden" id="editPostId">
+            
+            <div class="form-group">
+              <label for="editTitle">Titel *</label>
+              <input type="text" id="editTitle" name="title" required>
+            </div>
+
+            <div class="form-group">
+              <label for="editType">Type Project *</label>
+              <select id="editType" name="type" required>
+                <option value="">Selecteer type...</option>
+                <option value="Design">Design</option>
+                <option value="Branding">Branding</option>
+                <option value="UI/UX">UI/UX</option>
+                <option value="Motion">Motion</option>
+                <option value="Web">Web</option>
+                <option value="Illustration">Illustration</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="editDescription">Beschrijving</label>
+              <textarea id="editDescription" name="description"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="editClient">Gemaakt voor</label>
+              <input type="text" id="editClient" name="client">
+            </div>
+
+            <div class="form-group">
+              <label for="editPurpose">Doel van het project</label>
+              <input type="text" id="editPurpose" name="purpose">
+            </div>
+
+            <div class="form-group">
+              <label for="editTools">Gebruikte tools</label>
+              <input type="text" id="editTools" name="tools">
+            </div>
+
+            <div class="form-group">
+              <label for="editImage">Nieuwe afbeelding (optioneel)</label>
+              <div class="file-upload">
+                <input type="file" id="editImage" name="image" accept="image/*">
+                <label for="editImage" class="file-upload-label" id="editFileLabel">
+                  <div>📸 Klik om nieuwe afbeelding te selecteren</div>
+                  <div style="font-size: 14px; color: #666; margin-top: 5px;">
+                    Laat leeg om huidige afbeelding te behouden
+                  </div>
+                </label>
+              </div>
+              <img id="editImagePreview" class="preview-image" style="display: none;">
+            </div>
+
+            <div class="form-group">
+              <label>
+                <input type="checkbox" id="editFeatured" name="featured">
+                Uitgelichte post
+              </label>
+            </div>
+
+            <div class="edit-modal-actions">
+              <button type="button" class="btn-secondary" id="cancelEdit">Annuleren</button>
+              <button type="submit" class="submit-btn" id="saveEdit">Opslaan</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div> <!-- End admin panel -->
+  </div>
+
+  <script>
+    // Admin configuration
+    const ADMIN_PASSWORD = 'portfolio2024'; // Verander dit naar je eigen veilige wachtwoord
+    const SESSION_KEY = 'adminLoggedIn';
+    const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minuten in milliseconds
+    
+    // DOM elements
+    const loginForm = document.getElementById('loginForm');
+    const adminPanel = document.getElementById('adminPanel');
+    const passwordForm = document.getElementById('passwordForm');
+    const loginError = document.getElementById('loginError');
+    const logoutBtn = document.getElementById('logoutBtn');
+    
+    // Check if already logged in and session is still valid
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginTime = sessionStorage.getItem('loginTime');
+      const currentTime = new Date().getTime();
+      
+      if (sessionStorage.getItem(SESSION_KEY) === 'true' && 
+          loginTime && 
+          (currentTime - parseInt(loginTime)) < SESSION_TIMEOUT) {
+        showAdminPanel();
+      } else {
+        // Session expired or not logged in
+        sessionStorage.removeItem(SESSION_KEY);
+        sessionStorage.removeItem('loginTime');
+        showLoginForm();
+      }
+    });
+    
+    // Login form submission
+    passwordForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const password = document.getElementById('password').value;
+      
+      if (password === ADMIN_PASSWORD) {
+        // Correct password
+        sessionStorage.setItem(SESSION_KEY, 'true');
+        sessionStorage.setItem('loginTime', new Date().getTime().toString());
+        showAdminPanel();
+        loginError.style.display = 'none';
+      } else {
+        // Wrong password
+        loginError.style.display = 'block';
+        document.getElementById('password').value = '';
+        document.getElementById('password').focus();
+        
+        // Add shake animation to form
+        passwordForm.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+          passwordForm.style.animation = '';
+        }, 500);
+      }
+    });
+    
+    // Logout functionality
+    logoutBtn.addEventListener('click', function() {
+      sessionStorage.removeItem(SESSION_KEY);
+      sessionStorage.removeItem('loginTime');
+      showLoginForm();
+    });
+    
+    // Auto logout after session timeout
+    setInterval(function() {
+      const loginTime = sessionStorage.getItem('loginTime');
+      const currentTime = new Date().getTime();
+      
+      if (loginTime && (currentTime - parseInt(loginTime)) >= SESSION_TIMEOUT) {
+        sessionStorage.removeItem(SESSION_KEY);
+        sessionStorage.removeItem('loginTime');
+        showLoginForm();
+        alert('Sessie verlopen. Log opnieuw in.');
+      }
+    }, 60000); // Check every minute
+    
+    function showAdminPanel() {
+      loginForm.style.display = 'none';
+      adminPanel.style.display = 'block';
+    }
+    
+    function showLoginForm() {
+      loginForm.style.display = 'block';
+      adminPanel.style.display = 'none';
+      document.getElementById('password').value = '';
+      loginError.style.display = 'none';
+    }
+
+    // File upload preview
+    const imageInput = document.getElementById('image');
+    const fileLabel = document.getElementById('fileLabel');
+    const imagePreview = document.getElementById('imagePreview');
+    
+    imageInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        fileLabel.classList.add('has-file');
+        fileLabel.innerHTML = `
+          <div>✅ ${file.name}</div>
+          <div style="font-size: 14px; color: #666; margin-top: 5px;">
+            Klik om een andere afbeelding te selecteren
+          </div>
+        `;
+        
+        // Preview tonen
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          imagePreview.src = e.target.result;
+          imagePreview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Form submission
+    const postForm = document.getElementById('postForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const successMessage = document.getElementById('successMessage');
+
+    postForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Get form data
+      const formData = new FormData(postForm);
+      const postData = {
+        title: formData.get('title'),
+        type: formData.get('type'),
+        description: formData.get('description'),
+        client: formData.get('client'),
+        purpose: formData.get('purpose'),
+        tools: formData.get('tools'),
+        featured: formData.get('featured') === 'on',
+        image: imageInput.files[0]
+      };
+
+      // Simulate upload (in real scenario, this would be an API call)
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Uploaden...';
+
+      // For now, we'll simulate the upload and store data in localStorage
+      // Later this can be replaced with actual API calls to Sanity/Firebase
+      simulatePostUpload(postData);
+    });
+
+    function simulatePostUpload(postData) {
+      // Get existing posts from localStorage
+      let existingPosts = JSON.parse(localStorage.getItem('portfolioPosts') || '[]');
+      
+      // Create new post object
+      const newPost = {
+        id: Date.now(),
+        title: postData.title,
+        type: postData.type,
+        description: postData.description,
+        client: postData.client,
+        purpose: postData.purpose,
+        tools: postData.tools,
+        featured: postData.featured,
+        date: new Date().toISOString().split('T')[0],
+        image: postData.image ? URL.createObjectURL(postData.image) : null
+      };
+
+      // Add to posts array
+      existingPosts.unshift(newPost);
+      
+      // Save to localStorage
+      localStorage.setItem('portfolioPosts', JSON.stringify(existingPosts));
+      
+      // Notify that a new post has been added (for cross-tab communication)
+      localStorage.setItem('newPostAdded', Date.now().toString());
+
+      // Show success message
+      setTimeout(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Post Toevoegen';
+        successMessage.style.display = 'block';
+        successMessage.innerHTML = `
+          Post succesvol toegevoegd! 
+          <a href="index.html" style="color: #155724; text-decoration: underline; margin-left: 10px;">
+            → Bekijk op homepage
+          </a>
+        `;
+        
+        // Reset form
+        postForm.reset();
+        imagePreview.style.display = 'none';
+        fileLabel.classList.remove('has-file');
+        fileLabel.innerHTML = `
+          <div>📸 Klik om een afbeelding te selecteren</div>
+          <div style="font-size: 14px; color: #666; margin-top: 5px;">
+            Ondersteunde formaten: JPG, PNG, GIF (max 5MB)
+          </div>
+        `;
+
+        // Refresh posts overview if on manage tab
+        if (document.querySelector('[data-tab="manage-posts"]').classList.contains('active')) {
+          loadPostsOverview();
+        }
+
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          successMessage.style.display = 'none';
+        }, 5000);
+      }, 1500);
+    }
+
+    // Tab functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const tabButtons = document.querySelectorAll('.tab-btn');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const targetTab = button.getAttribute('data-tab');
+          
+          // Remove active class from all buttons and contents
+          tabButtons.forEach(btn => btn.classList.remove('active'));
+          tabContents.forEach(content => content.classList.remove('active'));
+          
+          // Add active class to clicked button and corresponding content
+          button.classList.add('active');
+          document.getElementById(targetTab).classList.add('active');
+          
+          // Load posts overview when switching to manage tab
+          if (targetTab === 'manage-posts') {
+            loadPostsOverview();
+          }
+        });
+      });
+
+      // Load posts overview initially if needed
+      loadPostsOverview();
+    });
+
+    // Load posts overview
+    function loadPostsOverview() {
+      const container = document.getElementById('postsContainer');
+      const loadingSpinner = document.getElementById('loadingSpinner');
+      
+      // Show loading spinner
+      loadingSpinner.classList.add('active');
+      container.style.display = 'none';
+      
+      // Use setTimeout to allow UI to update before processing
+      setTimeout(() => {
+        try {
+          const allPosts = getAllPosts();
+          
+          if (allPosts.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">Nog geen posts gevonden.</p>';
+          } else {
+            // Use DocumentFragment for better performance
+            const fragment = document.createDocumentFragment();
+            
+            allPosts.forEach(post => {
+              const postDiv = document.createElement('div');
+              postDiv.className = 'post-item';
+              postDiv.innerHTML = `
+                <img src="${post.image || 'images/placeholder.svg'}" alt="${post.title}" class="post-item-image" 
+                     onerror="this.src='images/placeholder.svg'" loading="lazy">
+                <div class="post-item-info">
+                  <h4 class="post-item-title">${escapeHtml(post.title)}</h4>
+                  <p class="post-item-meta">${escapeHtml(post.type)} • ${formatDate(post.date)} ${post.featured ? '• ⭐ Uitgelicht' : ''}</p>
+                </div>
+                <div class="post-item-actions">
+                  <button class="btn-edit" onclick="editPost(${post.id})">Bewerken</button>
+                  <button class="btn-delete" onclick="deletePost(${post.id})">Verwijderen</button>
+                </div>
+              `;
+              fragment.appendChild(postDiv);
+            });
+            
+            container.innerHTML = '';
+            container.appendChild(fragment);
+          }
+          
+          // Hide loading spinner and show container
+          loadingSpinner.classList.remove('active');
+          container.style.display = 'grid';
+          
+        } catch (error) {
+          console.error('Error loading posts:', error);
+          container.innerHTML = '<p style="text-align: center; color: #e74c3c; padding: 20px;">Er is een fout opgetreden bij het laden van de posts.</p>';
+          loadingSpinner.classList.remove('active');
+          container.style.display = 'grid';
+        }
+      }, 100); // Small delay to show loading spinner
+    }
+
+    // Helper function to escape HTML to prevent XSS
+    function escapeHtml(unsafe) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Get all posts (both default and localStorage)
+    function getAllPosts() {
+      const savedPosts = JSON.parse(localStorage.getItem('portfolioPosts') || '[]');
+      const deletedPosts = JSON.parse(localStorage.getItem('deletedDefaultPosts') || '[]');
+      const overriddenPosts = JSON.parse(localStorage.getItem('overriddenDefaultPosts') || '{}');
+      
+      // Default posts (same as in main script)
+      const defaultPosts = [
+        {
+          id: 1,
+          title: "Character Design Project",
+          image: "images/characters.jpg",
+          type: "Design",
+          date: "2024-01-15",
+          featured: true,
+          description: "Een uitgebreide character design studie voor een nieuwe animatieserie.",
+          client: "Animation Studio XYZ",
+          purpose: "Character ontwikkeling voor nieuwe serie",
+          tools: "Photoshop, Illustrator, Procreate"
+        },
+        {
+          id: 2,
+          title: "Brand Identity",
+          image: "images/project2.jpg",
+          type: "Branding",
+          date: "2024-01-10",
+          featured: false,
+          description: "Complete merkidentiteit voor een tech startup.",
+          client: "TechStart BV",
+          purpose: "Volledige rebranding voor marktlancering",
+          tools: "Illustrator, InDesign, Figma"
+        },
+        {
+          id: 3,
+          title: "Mobile App Design",
+          image: "images/project3.jpg",
+          type: "UI/UX",
+          date: "2024-01-08",
+          featured: false,
+          description: "Gebruiksvriendelijke mobile app voor fitness tracking.",
+          client: "FitLife App",
+          purpose: "Intuïtieve fitness tracking experience",
+          tools: "Figma, Principle, After Effects"
+        },
+        {
+          id: 4,
+          title: "Logo Animation",
+          image: "images/project4.jpg",
+          type: "Motion",
+          date: "2024-01-05",
+          featured: true,
+          description: "Dynamische logo animatie voor branding purposes.",
+          client: "Dynamic Brands",
+          purpose: "Levendige merkidentiteit voor video content",
+          tools: "After Effects, Cinema 4D, Illustrator"
+        },
+        {
+          id: 5,
+          title: "Website Redesign",
+          image: "images/project5.png",
+          type: "Web",
+          date: "2024-01-03",
+          featured: false,
+          description: "Moderne website redesign met focus op UX.",
+          client: "E-commerce Plus",
+          purpose: "Verbetering van conversie en gebruikerservaring",
+          tools: "Figma, HTML/CSS, JavaScript"
+        },
+        {
+          id: 6,
+          title: "Packaging Design",
+          image: "images/project6.png",
+          type: "Design",
+          date: "2024-01-01",
+          featured: false,
+          description: "Duurzame packaging oplossing voor cosmetica merk.",
+          client: "Natural Beauty Co",
+          purpose: "Eco-vriendelijke verpakking met premium uitstraling",
+          tools: "Illustrator, Photoshop, KeyShot"
+        },
+        {
+          id: 7,
+          title: "Streetwear Collection",
+          image: "images/project7.png",
+          type: "Design",
+          date: "2024-01-20",
+          featured: false,
+          description: "Urban streetwear collectie met focus op duurzaamheid.",
+          client: "Urban Culture Brand",
+          purpose: "Duurzame streetwear lijn voor jonge doelgroep",
+          tools: "Illustrator, Photoshop, CLO 3D"
+        },
+        {
+          id: 8,
+          title: "Digital Campaign",
+          image: "images/project8.png",
+          type: "Design",
+          date: "2024-01-18",
+          featured: false,
+          description: "Digitale campagne voor nieuwe productlancering.",
+          client: "Innovation Labs",
+          purpose: "Aandacht genereren voor product lancering",
+          tools: "Photoshop, After Effects, Premiere Pro"
+        },
+        {
+          id: 9,
+          title: "E-commerce Platform",
+          image: "images/project9.png",
+          type: "Web",
+          date: "2024-01-16",
+          featured: false,
+          description: "Moderne e-commerce platform met seamless UX.",
+          client: "ShopEasy BV",
+          purpose: "Verhogen van online verkoop en klanttevredenheid",
+          tools: "Figma, React, Node.js"
+        },
+        {
+          id: 10,
+          title: "Motion Graphics Reel",
+          image: "images/project10.png",
+          type: "Motion",
+          date: "2024-01-14",
+          featured: false,
+          description: "Showcase van motion graphics projecten.",
+          client: "Portfolio showcase",
+          purpose: "Demonstratie van motion design vaardigheden",
+          tools: "After Effects, Cinema 4D, Premiere Pro"
+        },
+        {
+          id: 11,
+          title: "Corporate Identity",
+          image: "images/project11.png",
+          type: "Branding",
+          date: "2024-01-12",
+          featured: false,
+          description: "Complete corporate identity voor financiële instelling.",
+          client: "SecureBank NL",
+          purpose: "Professionele en betrouwbare uitstraling",
+          tools: "Illustrator, InDesign, Photoshop"
+        },
+        {
+          id: 12,
+          title: "Product Photography",
+          image: "images/project12.png",
+          type: "Photography",
+          date: "2024-01-09",
+          featured: false,
+          description: "High-end product fotografie voor luxe merk.",
+          client: "Luxury Goods Inc",
+          purpose: "Premium productpresentatie voor e-commerce",
+          tools: "Canon 5D, Lightroom, Photoshop"
+        }
+      ];
+
+      // Filter out deleted default posts and apply overrides
+      const visibleDefaultPosts = defaultPosts
+        .filter(post => !deletedPosts.includes(post.id))
+        .map(post => overriddenPosts[post.id] ? overriddenPosts[post.id] : post);
+
+      // Combine all posts and sort by date (newest first)
+      const allPosts = [...visibleDefaultPosts, ...savedPosts];
+      
+      // Remove duplicates based on ID (saved posts override default posts)
+      const uniquePosts = [];
+      const seenIds = new Set();
+      
+      for (const post of allPosts) {
+        if (!seenIds.has(post.id)) {
+          uniquePosts.push(post);
+          seenIds.add(post.id);
+        }
+      }
+      
+      // Sort by date (newest first)
+      return uniquePosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
+
+    // Format date
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('nl-NL', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+    }
+
+    // Edit post
+    function editPost(postId) {
+      const posts = getAllPosts();
+      const post = posts.find(p => p.id === postId);
+      
+      if (!post) return;
+
+      // Fill edit form
+      document.getElementById('editPostId').value = post.id;
+      document.getElementById('editTitle').value = post.title;
+      document.getElementById('editType').value = post.type;
+      document.getElementById('editDescription').value = post.description || '';
+      document.getElementById('editClient').value = post.client || '';
+      document.getElementById('editPurpose').value = post.purpose || '';
+      document.getElementById('editTools').value = post.tools || '';
+      document.getElementById('editFeatured').checked = post.featured;
+
+      // Show current image if exists
+      const editImagePreview = document.getElementById('editImagePreview');
+      if (post.image) {
+        editImagePreview.src = post.image;
+        editImagePreview.style.display = 'block';
+      } else {
+        editImagePreview.style.display = 'none';
+      }
+
+      // Reset file input and label
+      document.getElementById('editImage').value = '';
+      const editFileLabel = document.getElementById('editFileLabel');
+      editFileLabel.innerHTML = `
+        <div>📸 Klik om nieuwe afbeelding te selecteren</div>
+        <div style="font-size: 14px; color: #666; margin-top: 5px;">
+          Laat leeg om huidige afbeelding te behouden
+        </div>
+      `;
+      editFileLabel.classList.remove('has-file');
+
+      // Show edit modal
+      document.getElementById('editModal').style.display = 'flex';
+      document.body.style.overflow = 'hidden'; // Prevent scrolling behind modal
+    }
+
+    // Delete post
+    function deletePost(postId) {
+      if (!confirm('Weet je zeker dat je deze post wilt verwijderen?')) return;
+
+      // Check if it's a default post (ID 1-12) or saved post
+      let savedPosts = JSON.parse(localStorage.getItem('portfolioPosts') || '[]');
+      
+      if (postId <= 12) {
+        // It's a default post, add it to a "deleted" list in localStorage
+        let deletedPosts = JSON.parse(localStorage.getItem('deletedDefaultPosts') || '[]');
+        if (!deletedPosts.includes(postId)) {
+          deletedPosts.push(postId);
+          localStorage.setItem('deletedDefaultPosts', JSON.stringify(deletedPosts));
+        }
+      } else {
+        // It's a saved post, remove from localStorage
+        savedPosts = savedPosts.filter(post => post.id !== postId);
+        localStorage.setItem('portfolioPosts', JSON.stringify(savedPosts));
+      }
+      
+      // Notify change
+      localStorage.setItem('newPostAdded', Date.now().toString());
+      
+      // Refresh overview
+      loadPostsOverview();
+      
+      // Show success
+      const successMessage = document.getElementById('successMessage');
+      successMessage.style.display = 'block';
+      successMessage.innerHTML = 'Post succesvol verwijderd!';
+      setTimeout(() => {
+        successMessage.style.display = 'none';
+      }, 3000);
+    }
+
+    // Edit modal functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const editModal = document.getElementById('editModal');
+      const closeEditModal = document.getElementById('closeEditModal');
+      const cancelEdit = document.getElementById('cancelEdit');
+      const editForm = document.getElementById('editPostForm');
+      const editImageInput = document.getElementById('editImage');
+      const editImagePreview = document.getElementById('editImagePreview');
+      const editFileLabel = document.getElementById('editFileLabel');
+      const successMessage = document.getElementById('successMessage');
+
+      // Close modal function
+      function closeModal() {
+        editModal.style.display = 'none';
+        document.body.style.overflow = 'auto'; // Restore scrolling
+        // Reset form
+        editForm.reset();
+        editImagePreview.style.display = 'none';
+        editFileLabel.innerHTML = `
+          <div>📸 Klik om nieuwe afbeelding te selecteren</div>
+          <div style="font-size: 14px; color: #666; margin-top: 5px;">
+            Laat leeg om huidige afbeelding te behouden
+          </div>
+        `;
+        editFileLabel.classList.remove('has-file');
+      }
+
+      // Close modal events
+      closeEditModal.addEventListener('click', closeModal);
+      
+      if (cancelEdit) {
+        cancelEdit.addEventListener('click', closeModal);
+      }
+
+      // Close modal when clicking outside
+      editModal.addEventListener('click', function(e) {
+        if (e.target === editModal) {
+          closeModal();
+        }
+      });
+
+      // Close modal with ESC key
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && editModal.style.display === 'flex') {
+          closeModal();
+        }
+      });
+
+      // Image preview for edit
+      editImageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+          // Check file size (max 5MB)
+          if (file.size > 5 * 1024 * 1024) {
+            alert('Bestand is te groot. Maximaal 5MB toegestaan.');
+            this.value = '';
+            return;
+          }
+
+          // Check file type
+          if (!file.type.startsWith('image/')) {
+            alert('Alleen afbeeldingen zijn toegestaan.');
+            this.value = '';
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            editImagePreview.src = e.target.result;
+            editImagePreview.style.display = 'block';
+            editFileLabel.innerHTML = `
+              <div>✅ ${file.name}</div>
+              <div style="font-size: 14px; color: #666; margin-top: 5px;">
+                Klik om een andere afbeelding te selecteren
+              </div>
+            `;
+            editFileLabel.classList.add('has-file');
+          };
+          reader.readAsDataURL(file);
+        } else {
+          editImagePreview.style.display = 'none';
+          editFileLabel.innerHTML = `
+            <div>📸 Klik om nieuwe afbeelding te selecteren</div>
+            <div style="font-size: 14px; color: #666; margin-top: 5px;">
+              Laat leeg om huidige afbeelding te behouden
+            </div>
+          `;
+          editFileLabel.classList.remove('has-file');
+        }
+      });
+
+      // Edit form submission
+      editForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const postId = parseInt(document.getElementById('editPostId').value);
+        const posts = getAllPosts();
+        const post = posts.find(p => p.id === postId);
+        
+        if (!post) {
+          alert('Post niet gevonden!');
+          return;
+        }
+
+        // Get form data
+        const formData = new FormData(editForm);
+        const updatedPost = {
+          ...post,
+          title: formData.get('title').trim(),
+          type: formData.get('type'),
+          description: formData.get('description')?.trim() || '',
+          client: formData.get('client')?.trim() || '',
+          purpose: formData.get('purpose')?.trim() || '',
+          tools: formData.get('tools')?.trim() || '',
+          featured: document.getElementById('editFeatured').checked
+        };
+
+        // Validate required fields
+        if (!updatedPost.title || !updatedPost.type) {
+          alert('Titel en type zijn verplicht!');
+          return;
+        }
+
+        // Handle new image if uploaded
+        const newImageFile = editImageInput.files[0];
+        if (newImageFile) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            updatedPost.image = e.target.result;
+            saveUpdatedPost(updatedPost, postId);
+          };
+          reader.readAsDataURL(newImageFile);
+        } else {
+          saveUpdatedPost(updatedPost, postId);
+        }
+      });
+
+      function saveUpdatedPost(updatedPost, postId) {
+        if (postId <= 12) {
+          // It's a default post - save to localStorage with override
+          let overriddenPosts = JSON.parse(localStorage.getItem('overriddenDefaultPosts') || '{}');
+          overriddenPosts[postId] = updatedPost;
+          localStorage.setItem('overriddenDefaultPosts', JSON.stringify(overriddenPosts));
+        } else {
+          // It's a user-created post - update in saved posts
+          let savedPosts = JSON.parse(localStorage.getItem('portfolioPosts') || '[]');
+          const postIndex = savedPosts.findIndex(post => post.id === postId);
+          
+          if (postIndex !== -1) {
+            savedPosts[postIndex] = updatedPost;
+            localStorage.setItem('portfolioPosts', JSON.stringify(savedPosts));
+          }
+        }
+
+        // Notify change
+        localStorage.setItem('newPostAdded', Date.now().toString());
+        
+        // Close modal and refresh
+        closeModal();
+        loadPostsOverview();
+        
+        // Show success
+        successMessage.style.display = 'block';
+        successMessage.innerHTML = 'Post succesvol bijgewerkt!';
+        setTimeout(() => {
+          successMessage.style.display = 'none';
+        }, 3000);
+      }
+    });
+  </script>
+</body>
+</html>
