@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bedankt! - Jesse Hielema Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="success-page">
+        <div class="success-container">
+            <div class="success-content">
+                <div class="success-icon">🎉</div>
+                <h1>BEDANKT VOOR JE <span class="bold-word">BOLD</span> BERICHT!</h1>
+                <p>Je bericht is succesvol verstuurd. Ik neem binnen 24 uur contact met je op om je project te bespreken.</p>
+                <div class="success-actions">
+                    <a href="index.html" class="success-btn primary">Terug naar Home</a>
+                    <a href="about.html" class="success-btn secondary">Meer over mij</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .success-page {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1937BF 0%, #1527a0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .success-container {
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .success-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 60px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 30px;
+        }
+
+        .success-content h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .bold-word {
+            color: #ffff00;
+        }
+
+        .success-content p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .success-actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .success-btn {
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .success-btn.primary {
+            background: #ffff00;
+            color: #1937BF;
+        }
+
+        .success-btn.primary:hover {
+            background: #ffff33;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 255, 0, 0.3);
+        }
+
+        .success-btn.secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .success-btn.secondary:hover {
+            background: white;
+            color: #1937BF;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .success-content {
+                padding: 40px 30px;
+            }
+
+            .success-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .success-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .success-btn {
+                width: 200px;
+            }
+        }
+    </style>
+</body>
+</html>
