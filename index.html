@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio - Jesse Hielema</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Navigatiebalk -->
+  <header class="navbar">
+    <div class="nav-left">
+      <a href="about.html" class="nav-about-link">Jesse Hielema</a>
+    </div>
+    <div class="nav-center">
+      <a href="index.html" class="logo-container">
+        <img src="images/mono-wit-01-01.png" alt="Logo" class="logo">
+        <img src="images/mono-rond.png" alt="Logo Dark" class="logo-dark">
+        <video class="logo-video" muted loop>
+          <source src="video/Monogram.webm" type="video/webm">
+        </video>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button id="menuBtn">MENU</button>
+    </div>
+  </header>
+
+  <!-- Hoofdinhoud -->
+  <main class="content">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-text">
+        <h1>
+          WHERE <span class="bold-word" data-text="BOLD">BOLD</span> DESIGN WINS,<br>
+          ORDINARY <span class="loses-word">LOSES</span>
+        </h1>
+        <div class="cta-container">
+          <button class="cta-button" id="ctaButton">
+            See the <span class="cta-bold">BOLD</span> work
+            <svg class="cta-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 16L8 12H16L12 16Z" fill="currentColor"/>
+              <path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Feed Section -->
+    <section class="feed">
+      <div class="feed-header">
+        <h2>Recent Work</h2>
+        
+        <!-- Desktop Filter Buttons -->
+        <div class="filter-buttons desktop-filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="Design">Design</button>
+          <button class="filter-btn" data-filter="Branding">Branding</button>
+          <button class="filter-btn" data-filter="UI/UX">UI/UX</button>
+          <button class="filter-btn" data-filter="Motion">Motion</button>
+          <button class="filter-btn" data-filter="Web">Web</button>
+          <button class="filter-btn" data-filter="Illustration">Illustration</button>
+        </div>
+        
+        <!-- Mobile Filter Dropdown -->
+        <div class="mobile-filter-dropdown">
+          <button class="mobile-filter-btn" id="mobileFilterBtn">
+            <span class="filter-text">All Categories</span>
+            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="mobile-filter-menu" id="mobileFilterMenu">
+            <button class="mobile-filter-option active" data-filter="all">All Categories</button>
+            <button class="mobile-filter-option" data-filter="Design">Design</button>
+            <button class="mobile-filter-option" data-filter="Branding">Branding</button>
+            <button class="mobile-filter-option" data-filter="UI/UX">UI/UX</button>
+            <button class="mobile-filter-option" data-filter="Motion">Motion</button>
+            <button class="mobile-filter-option" data-filter="Web">Web</button>
+            <button class="mobile-filter-option" data-filter="Illustration">Illustration</button>
+          </div>
+        </div>
+      </div>
+      <div id="postsContainer" class="feed-grid">
+        <!-- Posts worden hier geladen via JavaScript -->
+      </div>
+      <div class="see-more-container" id="seeMoreContainer">
+        <button class="see-more-btn" id="seeMoreBtn">
+          <span class="see-more-text">See more</span>
+          <svg class="see-more-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- My Experiences Section -->
+    <section class="experiences">
+      <div class="experiences-content">
+        <h2>My Experiences</h2>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-date">2024 - Present</div>
+            <div class="timeline-content">
+              <h3>Senior Creative Designer</h3>
+              <p class="timeline-company">Creative Agency Amsterdam</p>
+              <p>Leading creative projects and mentoring junior designers in brand identity and digital experiences.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">2022 - 2024</div>
+            <div class="timeline-content">
+              <h3>UI/UX Designer</h3>
+              <p class="timeline-company">Tech Startup Rotterdam</p>
+              <p>Designed user interfaces and experiences for mobile and web applications, focusing on user-centered design.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">2020 - 2022</div>
+            <div class="timeline-content">
+              <h3>Graphic Designer</h3>
+              <p class="timeline-company">Design Studio Utrecht</p>
+              <p>Created visual identities, marketing materials and digital content for various clients across different industries.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">2018 - 2020</div>
+            <div class="timeline-content">
+              <h3>Junior Designer</h3>
+              <p class="timeline-company">Local Design Agency</p>
+              <p>Started my career working on print materials, logos and basic web design projects.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-brand">
+          <img src="images/mono-rond.png" alt="Jesse Hielema Logo" class="footer-logo">
+          <h3>Jesse Hielema</h3>
+          <p>Creative Designer</p>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <div class="contact-info">
+          <a href="mailto:Jessehielema@gmail.com" class="footer-link">
+            <img src="images/icons8-mail-48.png" alt="Email" class="footer-icon">
+            Jessehielema@gmail.com
+          </a>
+          <p class="footer-text">Groningen, Nederland</p>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Volg mij</h4>
+        <div class="footer-social">
+          <a href="https://instagram.com/jesse_hielema" target="_blank" class="footer-social-link">
+            <img src="images/icons8-instagram-48.png" alt="Instagram" class="footer-icon">
+            Instagram
+          </a>
+          <a href="https://linkedin.com/in/jesse-hielema" target="_blank" class="footer-social-link">
+            <img src="images/icons8-linkedin-48.png" alt="LinkedIn" class="footer-icon">
+            LinkedIn
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Services</h4>
+        <ul class="footer-list">
+          <li>Brand Identity Design</li>
+          <li>Digital Marketing</li>
+          <li>Web Design</li>
+          <li>Visual Storytelling</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-copyright">
+      <p>&copy; 2025 Jesse Hielema. Alle rechten voorbehouden.</p>
+      <p class="footer-tagline">Designed with <span class="heart">♥</span> in Groningen</p>
+    </div>
+  </footer>
+
+  <!-- Overlay (blur effect) -->
+  <div id="overlay"></div>
+
+  <!-- Slide-in Menu -->
+  <aside id="sideMenu">
+    <button id="closeMenu">&times;</button>
+    <ul>
+      <li><a href="index.html">Home <span class="menu-arrow">→</span></a></li>
+      <li><a href="#" onclick="scrollToFeed()">Projecten <span class="menu-arrow">→</span></a></li>
+      <li><a href="about.html">Over mij <span class="menu-arrow">→</span></a></li>
+      <li><a href="contact.html">Contact <span class="menu-arrow">→</span></a></li>
+    </ul>
+    
+    <div class="menu-footer">
+      <div class="social-section">
+        <h3 class="section-title">Volg mij</h3>
+        <div class="social-icons">
+          <a href="https://instagram.com/jesse_hielema" target="_blank" class="social-icon">
+            <img src="images/icons8-instagram-48.png" alt="Instagram">
+          </a>
+          <a href="https://linkedin.com/in/jesse-hielema" target="_blank" class="social-icon">
+            <img src="images/icons8-linkedin-48.png" alt="LinkedIn">
+          </a>
+          <a href="mailto:Jessehielema@gmail.com" class="social-icon">
+            <img src="images/icons8-mail-48.png" alt="Email">
+          </a>
+        </div>
+      </div>
+      
+      <div class="contact-section">
+        <h3 class="section-title">Koffietje doen?</h3>
+        <a href="mailto:Jessehielema@gmail.com" class="email-link">
+          Jessehielema@gmail.com
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Post Detail Modal -->
+  <div class="post-modal" id="postModal">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">&times;</button>
+      
+      <div class="modal-body">
+        <div class="modal-image">
+          <img id="modalImage" src="" alt="">
+        </div>
+        
+        <div class="modal-info">
+          <div class="modal-header">
+            <h2 id="modalTitle"></h2>
+            <span class="modal-type" id="modalType"></span>
+          </div>
+          
+          <div class="modal-meta">
+            <span class="modal-date" id="modalDate"></span>
+          </div>
+          
+          <div class="modal-description">
+            <h3>Project Beschrijving</h3>
+            <p id="modalDescription"></p>
+          </div>
+          
+          <div class="modal-details">
+            <div class="detail-item">
+              <strong>Client:</strong>
+              <span id="modalClient"></span>
+            </div>
+            <div class="detail-item">
+              <strong>Project Type:</strong>
+              <span id="modalProjectType"></span>
+            </div>
+            <div class="detail-item">
+              <strong>Project Doel:</strong>
+              <span id="modalPurpose"></span>
+            </div>
+            <div class="detail-item">
+              <strong>Gebruikte Tools:</strong>
+              <span id="modalTools"></span>
+            </div>
+            <div class="detail-item">
+              <strong>Datum:</strong>
+              <span id="modalProjectDate"></span>
+            </div>
+            <div class="detail-item">
+              <strong>Status:</strong>
+              <span id="modalFeatured"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

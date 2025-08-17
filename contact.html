@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - Jesse Hielema</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Navigatiebalk -->
+  <header class="navbar">
+    <div class="nav-left">
+      <a href="about.html" class="nav-about-link">Jesse Hielema</a>
+    </div>
+    <div class="nav-center">
+      <a href="index.html" class="logo-container">
+        <img src="images/mono-wit-01-01.png" alt="Logo" class="logo">
+        <img src="images/mono-rond.png" alt="Logo Dark" class="logo-dark">
+        <video class="logo-video" muted loop>
+          <source src="video/Monogram.webm" type="video/webm">
+        </video>
+      </a>
+    </div>
+    <div class="nav-right">
+      <button id="menuBtn">MENU</button>
+    </div>
+  </header>
+
+  <!-- Side Menu -->
+  <div id="overlay"></div>
+  <nav id="sideMenu">
+    <button id="closeMenu">&times;</button>
+    <ul>
+      <li><a href="index.html">Home <span class="menu-arrow">→</span></a></li>
+      <li><a href="about.html">Over mij <span class="menu-arrow">→</span></a></li>
+      <li><a href="contact.html">Contact <span class="menu-arrow">→</span></a></li>
+      <li><a href="#portfolio">Portfolio <span class="menu-arrow">→</span></a></li>
+    </ul>
+    
+    <div class="menu-footer">
+      <div class="social-section">
+        <h4 class="section-title">Volg mij</h4>
+        <div class="social-icons">
+          <a href="https://instagram.com/jesse_hielema" target="_blank" class="social-icon">
+            <img src="images/icons8-instagram-48.png" alt="Instagram">
+          </a>
+          <a href="https://linkedin.com/in/jesse-hielema" target="_blank" class="social-icon">
+            <img src="images/icons8-linkedin-48.png" alt="LinkedIn">
+          </a>
+        </div>
+      </div>
+      
+      <div class="contact-section">
+        <h4 class="section-title">Direct Contact</h4>
+        <a href="mailto:jesse.hielema@example.com" class="email-link">jesse.hielema@example.com</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hoofdinhoud -->
+  <main class="content">
+    <!-- Contact Hero Section --> 
+    <section class="contact-hero">
+      <div class="contact-hero-content">
+        <h1>LET'S CREATE SOMETHING <span class="bold-word">BOLD</span> TOGETHER</h1>
+        <p>Klaar om te beginnen?</p>
+      </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section class="contact-form-section">
+      <div class="contact-container">
+        <div class="contact-info">
+          <h2>Get In Touch</h2>
+          <p>Ik help bedrijven en individuen met <strong>BOLD design</strong> dat resultaat oplevert. Van branding tot digital design - laten we samen iets bijzonders creëren.</p>
+          
+          <div class="contact-details">
+            <div class="contact-item">
+              <div class="contact-icon">📧</div>
+              <div class="contact-text">
+                <h4>Email</h4>
+                <a href="mailto:jessehielema@gmail.com">jessehielema@gmail.com</a>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="contact-icon">📱</div>
+              <div class="contact-text">
+                <h4>Telefoon</h4>
+                <a href="tel:+31612345678">+31 6 12 34 56 78</a>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="contact-icon">🌍</div>
+              <div class="contact-text">
+                <h4>Locatie</h4>
+                <p>Nederland</p>
+              </div>
+            </div>
+            
+            <div class="contact-item">
+              <div class="contact-icon">⚡</div>
+              <div class="contact-text">
+                <h4>Response Tijd</h4>
+                <p>Binnen 24 uur</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-wrapper">
+          <form name="contact" method="POST" data-netlify="true" class="contact-form">
+            <input type="hidden" name="form-name" value="contact">
+            
+            <div class="form-group">
+              <label for="name">Naam *</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="company">Bedrijf</label>
+              <input type="text" id="company" name="company">
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">Telefoon</label>
+              <input type="tel" id="phone" name="phone">
+            </div>
+            
+            <div class="form-group">
+              <label for="project-type">Type Project</label>
+              <select id="project-type" name="project-type">
+                <option value="">Selecteer project type</option>
+                <option value="branding">Branding & Logo Design</option>
+                <option value="website">Website Design</option>
+                <option value="print">Print Design</option>
+                <option value="marketing">Marketing Materialen</option>
+                <option value="packaging">Packaging Design</option>
+                <option value="other">Anders</option>
+              </select>
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="message">Vertel over je project *</label>
+              <textarea id="message" name="message" rows="6" required placeholder="Beschrijf je project, doelen, timeline en wat je zoekt in een designer..."></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">
+              SEND <span class="bold-word">BOLD</span> MESSAGE
+              <svg class="submit-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Success Message -->
+    <section class="success-message" id="successMessage" style="display: none;">
+      <div class="success-content">
+        <h2>🎉 Message Sent!</h2>
+        <p>Bedankt voor je bericht! Ik neem binnen 24 uur contact met je op om je <strong>BOLD</strong> project te bespreken.</p>
+        <a href="index.html" class="back-btn">Terug naar Home</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-brand">
+          <img src="images/mono-rond.png" alt="Jesse Hielema Logo" class="footer-logo">
+          <h3>Jesse Hielema</h3>
+          <p>Creative Designer</p>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <div class="contact-info">
+          <a href="mailto:Jessehielema@gmail.com" class="footer-link">
+            <img src="images/icons8-mail-48.png" alt="Email" class="footer-icon">
+            Jessehielema@gmail.com
+          </a>
+          <p class="footer-text">Groningen, Nederland</p>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Volg mij</h4>
+        <div class="footer-social">
+          <a href="https://instagram.com/jesse_hielema" target="_blank" class="footer-social-link">
+            <img src="images/icons8-instagram-48.png" alt="Instagram" class="footer-icon">
+            Instagram
+          </a>
+          <a href="https://linkedin.com/in/jesse-hielema" target="_blank" class="footer-social-link">
+            <img src="images/icons8-linkedin-48.png" alt="LinkedIn" class="footer-icon">
+            LinkedIn
+          </a>
+        </div>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Navigatie</h4>
+        <ul class="footer-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">Over mij</a></li>
+          <li><a href="index.html#portfolio">Portfolio</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-copyright">
+      <p>&copy; 2025 Jesse Hielema. Alle rechten voorbehouden.</p>
+      <p class="footer-tagline">Gemaakt met <span class="heart">♥</span> in Groningen</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Contact form success handling
+    const form = document.querySelector('.contact-form');
+    const successMessage = document.getElementById('successMessage');
+    
+    // Check for success parameter in URL
+    if (window.location.search.includes('success=true')) {
+      document.querySelector('.contact-form-section').style.display = 'none';
+      successMessage.style.display = 'block';
+    }
+    
+    // Form submission handling
+    form.addEventListener('submit', function(e) {
+      const submitBtn = form.querySelector('.submit-btn');
+      submitBtn.innerHTML = 'SENDING... <div class="spinner"></div>';
+      submitBtn.disabled = true;
+    });
+  </script>
+</body>
+</html>
