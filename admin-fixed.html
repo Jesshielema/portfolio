@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio Admin - Jesse Hielema</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Specifieke admin styling */
+    body {
+      background: #f8f9fa;
+    }
+    
+    .admin-main {
+      min-height: 100vh;
+      padding: 100px 20px 50px;
+    }
+    
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    
+    .admin-header {
+      background: linear-gradient(135deg, #1937BF 0%, #1527a0 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+    
+    .admin-header h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem;
+      margin: 0 0 15px 0;
+      letter-spacing: -2px;
+    }
+    
+    .admin-header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+    
+    .admin-content {
+      padding: 40px;
+    }
+    
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .admin-card {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .admin-card:hover {
+      background: white;
+      border-color: #1937BF;
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(25, 55, 191, 0.1);
+    }
+    
+    .admin-card h3 {
+      color: #1937BF;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      font-family: 'Bebas Neue', sans-serif;
+    }
+    
+    .admin-card p {
+      color: #666;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+    
+    .admin-btn {
+      background: #1937BF;
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .admin-btn:hover {
+      background: #ffff00;
+      color: #1937BF;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 255, 0, 0.3);
+    }
+    
+    .admin-btn.secondary {
+      background: transparent;
+      color: #1937BF;
+      border: 2px solid #1937BF;
+    }
+    
+    .admin-btn.secondary:hover {
+      background: #1937BF;
+      color: white;
+    }
+    
+    .features-list {
+      background: rgba(25, 55, 191, 0.05);
+      border-radius: 15px;
+      padding: 30px;
+      margin: 30px 0;
+    }
+    
+    .features-list h3 {
+      color: #1937BF;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .feature-icon {
+      font-size: 2rem;
+      min-width: 50px;
+    }
+    
+    .feature-text {
+      color: #666;
+      font-weight: 600;
+    }
+    
+    .coming-soon {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, rgba(25, 55, 191, 0.1) 0%, rgba(255, 255, 0, 0.1) 100%);
+      border-radius: 20px;
+      margin: 30px 0;
+    }
+    
+    .coming-soon h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem;
+      color: #1937BF;
+      margin-bottom: 20px;
+    }
+    
+    .coming-soon p {
+      font-size: 1.2rem;
+      color: #666;
+      margin-bottom: 30px;
+    }
+    
+    @media (max-width: 768px) {
+      .admin-header h1 {
+        font-size: 2.2rem;
+      }
+      
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigatie -->
+  <header class="navbar">
+    <div class="nav-left">
+      <a href="about.html" class="nav-about-link">Jesse Hielema</a>
+    </div>
+    <div class="nav-center">
+      <a href="index.html" class="logo-container">
+        <img src="images/mono-rond.png" alt="Logo" class="logo-image">
+      </a>
+    </div>
+    <div class="nav-right">
+      <a href="contact.html" class="nav-contact-link">Contact</a>
+    </div>
+  </header>
+
+  <!-- Admin Content -->
+  <main class="admin-main">
+    <div class="admin-container">
+      <div class="admin-header">
+        <h1>PORTFOLIO ADMIN</h1>
+        <p>Professioneel beheer voor je portfolio</p>
+      </div>
+      
+      <div class="admin-content">
+        <!-- Quick Actions -->
+        <div class="admin-grid">
+          <div class="admin-card">
+            <h3>📸 PORTFOLIO BEHEER</h3>
+            <p>Bekijk en bewerk je huidige portfolio projecten direct vanuit de hoofdpagina</p>
+            <a href="index.html" class="admin-btn">Naar Portfolio</a>
+          </div>
+          
+          <div class="admin-card">
+            <h3>📧 CONTACT BERICHTEN</h3>
+            <p>Controleer je contact form berichten in je Netlify dashboard</p>
+            <a href="#" class="admin-btn secondary" onclick="alert('Ga naar je Netlify dashboard → Forms sectie')">Netlify Forms</a>
+          </div>
+          
+          <div class="admin-card">
+            <h3>📊 ANALYTICS</h3>
+            <p>Bekijk je portfolio statistieken en bezoeker gedrag</p>
+            <a href="#" class="admin-btn secondary" onclick="alert('Setup Google Analytics eerst (zie handleiding)')">Analytics Dashboard</a>
+          </div>
+        </div>
+
+        <!-- Features Overview -->
+        <div class="features-list">
+          <h3>✨ BESCHIKBARE FEATURES</h3>
+          <div class="features-grid">
+            <div class="feature-item">
+              <div class="feature-icon">🎨</div>
+              <div class="feature-text">Live project editing via homepage</div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">📱</div>
+              <div class="feature-text">Volledig responsive design</div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🔍</div>
+              <div class="feature-text">Lightbox zoom functionaliteit</div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">📧</div>
+              <div class="feature-text">Werkend contact formulier</div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">⚡</div>
+              <div class="feature-text">Snelle loading en SEO</div>
+            </div>
+            <div class="feature-item">
+              <div class="feature-icon">🚀</div>
+              <div class="feature-text">Automatische Netlify deployment</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="coming-soon">
+          <h2>HOE GEBRUIK JE DE ADMIN?</h2>
+          <p>Je portfolio werkt via een slim systeem:</p>
+          <div style="text-align: left; max-width: 600px; margin: 0 auto;">
+            <p><strong>1. 📝 Content bewerken:</strong><br>Bewerk je portfolio rechtstreeks in de HTML bestanden via VS Code</p>
+            <p><strong>2. 🔄 Updates deployen:</strong><br>Gebruik <code>git add . → git commit → git push</code> voor live updates</p>
+            <p><strong>3. 📊 Monitoring:</strong><br>Check Netlify dashboard voor form submissions en site statistieken</p>
+            <p><strong>4. 🎨 Styling aanpassen:</strong><br>Wijzig kleuren en layout in <code>styles.css</code></p>
+          </div>
+          <div style="margin-top: 30px;">
+            <a href="index.html" class="admin-btn">Ga naar Portfolio</a>
+            <a href="contact.html" class="admin-btn secondary" style="margin-left: 15px;">Test Contact Form</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <div class="footer-logo">
+          <img src="images/mono-rond.png" alt="Jesse Hielema Logo">
+        </div>
+        <p class="footer-description">
+          <span class="bold-word">BOLD</span> design that never <span class="loses-word">LOSES</span> impact.
+        </p>
+      </div>
+
+      <div class="footer-center">
+        <div class="footer-section">
+          <h4>Services</h4>
+          <ul>
+            <li><a href="#branding">Branding</a></li>
+            <li><a href="#webdesign">Web Design</a></li>
+            <li><a href="#print">Print Design</a></li>
+            <li><a href="#packaging">Packaging</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h4>Portfolio</h4>
+          <ul>
+            <li><a href="index.html">Recent Work</a></li>
+            <li><a href="about.html">About Me</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="admin.html">Admin</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-right">
+        <div class="footer-contact">
+          <h4>Let's Connect</h4>
+          <p>jessehielema@gmail.com</p>
+          <p>+31 6 12 34 56 78</p>
+        </div>
+        
+        <div class="footer-social">
+          <a href="#" class="social-link">
+            <img src="images/icons8-linkedin-48.png" alt="LinkedIn">
+          </a>
+          <a href="#" class="social-link">
+            <img src="images/icons8-instagram-48.png" alt="Instagram">
+          </a>
+          <a href="mailto:jessehielema@gmail.com" class="social-link">
+            <img src="images/icons8-mail-48.png" alt="Email">
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2024 Jesse Hielema. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
