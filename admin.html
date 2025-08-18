@@ -1503,7 +1503,14 @@
       // Signal main portfolio to reload
       localStorage.setItem('portfolioUpdated', Date.now().toString());
       localStorage.setItem('newPostAdded', 'true');
-      console.log('Portfolio bijgewerkt - signaal verstuurd naar hoofdpagina');
+      
+      // If main portfolio is open in another tab, trigger immediate refresh
+      window.postMessage({
+        type: 'PORTFOLIO_UPDATED',
+        timestamp: Date.now()
+      }, '*');
+      
+      console.log('📡 Portfolio bijgewerkt - signaal verstuurd naar hoofdpagina');
     }
 
     // Hardcoded portfolio items (same as in script.js)
@@ -1665,13 +1672,18 @@
 
     // Edit hardcoded post
     function editHardcodedPost(id) {
+      console.log('🔧 Editing hardcoded post with ID:', id);
       const overriddenPosts = JSON.parse(localStorage.getItem('overriddenHardcodedPosts') || '{}');
       const originalPost = hardcodedPosts.find(p => p.id === id);
       const currentPost = overriddenPosts[id] || originalPost;
       
+      console.log('📝 Found post:', currentPost);
+      
       if (currentPost) {
         // Set as current editing post
         currentEditingPost = {...currentPost, isHardcoded: true, originalId: id};
+        
+        console.log('💾 Setting form values...');
         
         // Fill form with current data
         document.getElementById('editTitle').value = currentPost.title;
@@ -1687,19 +1699,34 @@
         
         // Display current images (single image for hardcoded posts)
         const currentImagesContainer = document.getElementById('currentImages');
-        currentImagesContainer.innerHTML = `
-          <div class="image-preview">
-            <img src="${currentPost.image}" alt="${currentPost.title}">
-            <span class="image-name">Hardcoded afbeelding</span>
-          </div>
-        `;
+        if (currentImagesContainer) {
+          currentImagesContainer.innerHTML = `
+            <div class="image-preview">
+              <img src="${currentPost.image || currentPost.images?.[0] || currentPost.mainImage}" alt="${currentPost.title}">
+              <span class="image-name">Hardcoded afbeelding</span>
+            </div>
+          `;
+        }
         
         // Reset new images
         editingImages = [];
-        document.getElementById('editImageGallery').innerHTML = '';
+        const editImageGallery = document.getElementById('editImageGallery');
+        if (editImageGallery) {
+          editImageGallery.innerHTML = '';
+        }
         
         // Show modal
-        editModal.style.display = 'block';
+        const editModal = document.getElementById('editModal');
+        if (editModal) {
+          editModal.style.display = 'block';
+          console.log('✅ Edit modal opened for hardcoded post');
+        } else {
+          console.error('❌ Edit modal not found');
+          alert('Edit modal niet gevonden in de HTML!');
+        }
+      } else {
+        console.error('❌ Post not found with ID:', id);
+        alert('Hardcoded post niet gevonden!');
       }
     }
 

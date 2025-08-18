@@ -821,8 +821,13 @@ function loadPosts() {
   
   posts = uniquePosts;
   
+  console.log('Posts loaded:', posts.length);
+  
   // Update hero section with latest post
   updateHeroSection();
+  
+  // Always render feed after loading posts
+  renderFeed();
 }
 
 // Feed rendering functie
@@ -1456,6 +1461,32 @@ document.addEventListener('visibilitychange', () => {
     updateHeroSection();
   }
 });
+
+// Listen for direct messages from admin panel
+window.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'PORTFOLIO_UPDATED') {
+    console.log('📡 Direct update signal received from admin panel');
+    loadPosts();
+    renderFeed();
+    updateHeroSection();
+  }
+});
+
+// Force reload posts periodically when page is active
+setInterval(() => {
+  if (!document.hidden) {
+    const lastUpdate = localStorage.getItem('portfolioUpdated');
+    const lastCheck = sessionStorage.getItem('lastPortfolioCheck');
+    
+    if (lastUpdate && lastUpdate !== lastCheck) {
+      console.log('🔄 Periodic update check - reloading posts');
+      loadPosts();
+      renderFeed();
+      updateHeroSection();
+      sessionStorage.setItem('lastPortfolioCheck', lastUpdate);
+    }
+  }
+}, 2000); // Check every 2 seconds
 
 // Initialize filter functionality
 function initializeFilters() {
