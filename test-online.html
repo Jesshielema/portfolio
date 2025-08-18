@@ -51,8 +51,12 @@
   <h1>🔧 Online Portfolio Diagnostic Tool</h1>
   
   <div class="test-card">
-    <h2>Environment Detection</h2>
+    <h2>🌍 Platform Detection & Sync Availability</h2>
     <div id="environmentStatus"></div>
+    <p style="margin-top: 15px; padding: 10px; background: #e3f2fd; border-radius: 6px;">
+      <strong>💡 Belangrijk:</strong> Netlify sync werkt alleen op <code>portfoliojessehielema.netlify.app</code>, 
+      niet lokaal. Universal sync werkt overal!
+    </p>
   </div>
   
   <div class="test-card">
@@ -82,6 +86,7 @@
   <script src="online-sync.js"></script>
   <script src="netlify-sync.js"></script>
   <script src="universal-sync.js"></script>
+  <script src="platform-detector.js"></script>
   
   <script>
     let consoleMessages = [];
@@ -285,9 +290,9 @@
       }
     }
     
-    // Initialize tests
+    // Initialize tests - checkEnvironment now handled by platform-detector.js
     window.addEventListener('DOMContentLoaded', function() {
-      checkEnvironment();
+      // checkEnvironment(); // Handled by platform-detector.js
       testStorage();
       testSync();
     });
