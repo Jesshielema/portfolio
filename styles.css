@@ -25,9 +25,12 @@
   box-sizing: border-box;
 }
 
-/* Smooth scrolling */
+/* Enhanced smooth scrolling with performance optimizations */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Better performance than smooth */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
 }
 
 body {
@@ -64,6 +67,84 @@ img[data-src] {
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
+}
+
+/* Enhanced performance optimizations for ultra-smooth interactions */
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeSpeed;
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+  transform: translateZ(0);
+  contain: layout style paint;
+  will-change: scroll-position;
+}
+
+/* Optimize all interactive elements for smooth hover effects */
+.post-card,
+.nav-left,
+.logo-container,
+.cta-button,
+.filter-btn,
+.see-more-btn,
+.footer-link,
+.footer-social-link,
+#sideMenu ul li a {
+  contain: layout style paint;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+/* Ultra-smooth transition timing for all hover effects */
+.post-card {
+  transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              box-shadow 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+.post-image img {
+  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+.post-overlay {
+  transition: opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+.nav-left {
+  transition: color 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+              transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+.logo-container {
+  transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+}
+
+/* Additional performance optimizations for ultra-smooth experience */
+.feed,
+.feed-content,
+.posts-grid {
+  contain: layout style paint;
+  will-change: auto;
+}
+
+/* Optimize images for better performance */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Debounce scroll events for better performance */
+body.scrolling * {
+  pointer-events: none;
+}
+
+/* Disable hover effects during touch scrolling on mobile */
+body.touch-scrolling *:hover {
+  transition-duration: 0.01ms !important;
 }
 
 /* Optimize heavy animations */
@@ -1950,6 +2031,48 @@ img[data-src] {
   margin: 0;
 }
 
+/* Experiences CTA Button */
+.experiences-cta {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.experiences-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 35px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 0, 0.3);
+  transition: all 0.3s ease;
+  font-family: 'Bebas Neue', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.experiences-btn:hover {
+  background: rgba(255, 255, 0, 0.15);
+  border-color: #ffff00;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(255, 255, 0, 0.2);
+}
+
+.experiences-btn .btn-arrow {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.experiences-btn:hover .btn-arrow {
+  transform: translateX(5px);
+}
+
 .post-card.featured::before {
   content: "★ FEATURED";
   position: absolute;
@@ -2006,7 +2129,7 @@ img[data-src] {
   .post-card:nth-child(n) { grid-row-end: span 40; }
 }
 
-/* Post Detail Modal */
+/* Post Detail Modal - Fixed positioning for perfect centering */
 .post-modal {
   position: fixed;
   top: 0;
@@ -2019,28 +2142,42 @@ img[data-src] {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: 20px;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease-in-out;
+  /* Ensure modal always appears in viewport center */
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .post-modal.active {
   opacity: 1;
   visibility: visible;
+  /* Force rendering on top layer to prevent scroll issues */
+  transform: translateZ(0);
 }
 
 .modal-content {
   background: white;
   border-radius: 20px;
-  max-width: 1200px;
-  max-height: 90vh;
+  max-width: 95vw;
   width: 100%;
+  max-height: calc(100vh - 40px);
   overflow: hidden;
   position: relative;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   transform: translateY(30px) scale(0.95);
-  transition: all 0.3s ease-out;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  /* Ensure content stays centered in viewport */
+  margin: auto;
+}
+
+/* Larger screens get max-width constraint */
+@media (min-width: 1300px) {
+  .modal-content {
+    max-width: 1200px;
+  }
 }
 
 .post-modal.active .modal-content {
@@ -2575,6 +2712,15 @@ img[data-src] {
   
   .timeline-date {
     font-size: 1rem;
+  }
+  
+  .experiences-cta {
+    margin-top: 40px;
+  }
+  
+  .experiences-btn {
+    font-size: 1rem;
+    padding: 15px 30px;
   }
 }
 

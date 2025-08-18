@@ -1,3 +1,39 @@
+// ===== PERFORMANCE OPTIMIZATIONS FOR SMOOTH SCROLLING =====
+
+// Debounce scroll events for better performance
+let scrollTimer;
+let isScrolling = false;
+
+function optimizeScrollPerformance() {
+  // Mark body as scrolling to disable hover effects during scroll
+  document.addEventListener('scroll', function() {
+    if (!isScrolling) {
+      document.body.classList.add('scrolling');
+      isScrolling = true;
+    }
+    
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function() {
+      document.body.classList.remove('scrolling');
+      isScrolling = false;
+    }, 150); // 150ms delay after scroll ends
+  }, { passive: true });
+  
+  // Optimize touch events for mobile
+  document.addEventListener('touchstart', function() {
+    document.body.classList.add('touch-scrolling');
+  }, { passive: true });
+  
+  document.addEventListener('touchend', function() {
+    setTimeout(() => {
+      document.body.classList.remove('touch-scrolling');
+    }, 300);
+  }, { passive: true });
+}
+
+// Initialize performance optimizations
+optimizeScrollPerformance();
+
 // ===== ANALYTICS & TRACKING =====
 
 // Track contact form submissions
@@ -1313,10 +1349,27 @@ function changeModalImage(direction) {
   }
 }
 
+// Close modal functionality
 function closePostModal() {
   const modal = document.getElementById('postModal');
   modal.classList.remove('active');
+  
+  // Restore scroll position
+  const scrollY = modal.getAttribute('data-scroll-y');
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
   document.body.style.overflow = '';
+  
+  if (scrollY) {
+    window.scrollTo(0, parseInt(scrollY));
+    modal.removeAttribute('data-scroll-y');
+  }
+  
+  // Use timeout to allow CSS transition to complete before hiding
+  setTimeout(() => {
+    modal.style.display = 'none';
+  }, 300);
 }
 
 // Modal event listeners
