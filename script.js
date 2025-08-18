@@ -1430,26 +1430,46 @@ window.resetPortfolioData = resetPortfolioData;
 
 // Listen for storage changes (new posts added from admin panel)
 window.addEventListener('storage', (e) => {
+  console.log('Storage event detected:', e.key);
   if (e.key === 'newPostAdded' || 
       e.key === 'portfolioPosts' || 
       e.key === 'portfolioUpdated' ||
+      e.key === 'lastPortfolioUpdate' ||
+      e.key === 'forcePortfolioReload' ||
+      e.key === 'forceRefresh' ||
       e.key === 'deletedDefaultPosts' || 
       e.key === 'overriddenDefaultPosts') {
     // Reload posts and update hero when posts are modified
-    console.log('Storage change detected, reloading posts...');
-    loadPosts();
-    renderFeed();
-    updateHeroSection();
+    console.log('🔄 Storage change detected, reloading posts...');
+    setTimeout(() => {
+      loadPosts();
+      renderFeed();
+      updateHeroSection();
+    }, 100); // Small delay to ensure storage is updated
   }
 });
 
 // Also listen for storage changes in the same tab
 window.addEventListener('focus', () => {
   // Check if there are new posts when returning to the tab
-  console.log('Window focus detected, checking for updates...');
-  loadPosts();
-  renderFeed();
-  updateHeroSection();
+  console.log('🔍 Window focus detected, checking for updates...');
+  
+  // Check multiple storage keys for updates
+  const portfolioUpdated = localStorage.getItem('portfolioUpdated');
+  const newPostAdded = localStorage.getItem('newPostAdded');
+  const lastUpdate = localStorage.getItem('lastPortfolioUpdate');
+  const sessionUpdate = sessionStorage.getItem('portfolioNeedsUpdate');
+  
+  if (portfolioUpdated || newPostAdded || lastUpdate || sessionUpdate) {
+    console.log('📥 Updates found, reloading...');
+    loadPosts();
+    renderFeed();
+    updateHeroSection();
+    
+    // Clear the flags
+    localStorage.removeItem('newPostAdded');
+    sessionStorage.removeItem('portfolioNeedsUpdate');
+  }
 });
 
 // Check for updates when page becomes visible
@@ -1472,10 +1492,10 @@ window.addEventListener('message', (event) => {
   }
 });
 
-// Force reload posts periodically when page is active
+// Force reload posts periodically when page is active (especially for file:// protocol)
 setInterval(() => {
   if (!document.hidden) {
-    const lastUpdate = localStorage.getItem('portfolioUpdated');
+    const lastUpdate = localStorage.getItem('lastPortfolioUpdate');
     const lastCheck = sessionStorage.getItem('lastPortfolioCheck');
     
     if (lastUpdate && lastUpdate !== lastCheck) {
@@ -1485,8 +1505,18 @@ setInterval(() => {
       updateHeroSection();
       sessionStorage.setItem('lastPortfolioCheck', lastUpdate);
     }
+    
+    // Also check for new posts flag
+    const newPostAdded = localStorage.getItem('newPostAdded');
+    if (newPostAdded === 'true') {
+      console.log('🆕 New post flag detected - reloading');
+      loadPosts();
+      renderFeed();
+      updateHeroSection();
+      localStorage.removeItem('newPostAdded');
+    }
   }
-}, 2000); // Check every 2 seconds
+}, 1000); // Check every 1 second for file:// protocol
 
 // Initialize filter functionality
 function initializeFilters() {
