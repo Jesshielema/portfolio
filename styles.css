@@ -1245,7 +1245,6 @@ img[data-src] {
   .post-category {
     font-size: 0.75rem; /* Kleinere categorie tekst */
   }
-  }
   
   .post-content {
     padding: 15px;
@@ -1341,13 +1340,16 @@ img[data-src] {
   }
 }
 
-/* Keyframe animations */
+/* ===== END MOBILE RESPONSIVE ===== */
+
+/* ===== KEYFRAME ANIMATIONS ===== */
+
 @keyframes slideInUp {
-  from {
+  0% {
     opacity: 0;
     transform: translateY(20px);
   }
-  to {
+  100% {
     opacity: 1;
     transform: translateY(0);
   }
