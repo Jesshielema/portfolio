@@ -1,6 +1,9 @@
 // Online Debug Script - Add this to check what's happening online
 console.log('=== ONLINE DEBUG SCRIPT ===');
 
+// Timing control for better debugging
+const DEBUG_DELAY = 2000; // Wait 2 seconds for DOM to be ready
+
 // Check localStorage availability
 function checkLocalStorage() {
   try {
@@ -57,13 +60,26 @@ function checkAdminPanel() {
   if (window.location.href.includes('admin.html')) {
     console.log('✅ On admin page');
     
-    // Check if upload form exists
-    const uploadForm = document.getElementById('postForm');
+    // Check admin container visibility
+    const adminContainer = document.getElementById('adminContainer');
+    console.log('Admin container exists:', !!adminContainer);
+    console.log('Admin container visible:', adminContainer ? adminContainer.style.display !== 'none' : false);
+    
+    // Check if upload form exists (correct ID)
+    const uploadForm = document.getElementById('addPostForm');
     console.log('Upload form exists:', !!uploadForm);
     
-    // Check if hardcoded posts section exists
-    const hardcodedSection = document.getElementById('hardcodedPostsSection');
+    // Check if file upload area exists
+    const fileUpload = document.getElementById('fileUpload');
+    console.log('File upload area exists:', !!fileUpload);
+    
+    // Check if hardcoded posts section exists (correct ID)
+    const hardcodedSection = document.getElementById('hardcodedPostsList');
     console.log('Hardcoded posts section exists:', !!hardcodedSection);
+    
+    // Check posts list
+    const postsList = document.getElementById('postsList');
+    console.log('Posts list exists:', !!postsList);
     
   } else {
     console.log('Not on admin page, current URL:', window.location.href);
@@ -116,17 +132,22 @@ function runAllChecks() {
   checkLocalStorage();
   checkSessionStorage();
   checkStorageData();
-  checkAdminPanel();
-  checkMainPortfolio();
   
-  console.log('🔍 Debug checks complete');
+  // Delay admin panel check to ensure DOM is ready
+  setTimeout(() => {
+    checkAdminPanel();
+    checkMainPortfolio();
+    console.log('🔍 Debug checks complete');
+  }, DEBUG_DELAY);
 }
 
-// Auto-run on page load
+// Auto-run on page load with proper timing
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', runAllChecks);
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(runAllChecks, 500); // Small additional delay
+  });
 } else {
-  runAllChecks();
+  setTimeout(runAllChecks, 500);
 }
 
 // Make functions globally available for manual testing

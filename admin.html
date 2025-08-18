@@ -1,2003 +1,685 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Jesse Hielema</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin - Portfolio</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
-      padding: 20px;
-    }
-
-    /* Login Screen */
-    .login-container {
-      max-width: 400px;
-      margin: 100px auto;
-      background: white;
-      border-radius: 12px;
-      padding: 40px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    .login-container h1 {
-      color: #1937BF;
-      margin-bottom: 30px;
-      font-size: 2rem;
-    }
-
-    .login-form input {
-      width: 100%;
-      padding: 15px;
-      margin: 10px 0;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
-    }
-
-    .login-form input:focus {
-      outline: none;
-      border-color: #1937BF;
-    }
-
-    .login-btn {
-      width: 100%;
-      background: #1937BF;
-      color: white;
-      padding: 15px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 20px;
-    }
-
-    .login-btn:hover {
-      background: #1527a0;
-    }
-
-    .error-message {
-      color: #f44336;
-      margin-top: 15px;
-      display: none;
-    }
-
-    /* Admin Interface */
-    .admin-container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 12px;
-      padding: 40px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      display: none;
-    }
-
-    .admin-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 40px;
-      padding-bottom: 20px;
-      border-bottom: 2px solid #eee;
-    }
-
-    .admin-header h1 {
-      color: #1937BF;
-      font-size: 2rem;
-    }
-
-    .logout-btn {
-      background: #f44336;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .admin-section {
-      margin-bottom: 40px;
-    }
-
-    .admin-section h2 {
-      color: #333;
-      margin-bottom: 20px;
-      font-size: 1.5rem;
-    }
-
-    .add-post-form {
-      background: #f9f9f9;
-      padding: 30px;
-      border-radius: 8px;
-      margin-bottom: 30px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-      color: #333;
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid #ddd;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-
-    .form-group textarea {
-      height: 100px;
-      resize: vertical;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: #1937BF;
-    }
-
-    .btn {
-      background: #1937BF;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      margin-right: 10px;
-    }
-
-    .btn:hover {
-      background: #1527a0;
-    }
-
-    .btn-danger {
-      background: #f44336;
-    }
-
-    .btn-danger:hover {
-      background: #d32f2f;
-    }
-
-    .posts-list {
-      display: grid;
-      gap: 20px;
-    }
-
-    .post-item {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      border: 2px solid #f0f0f0;
-      transition: transform 0.3s ease;
-    }
-
-    .post-item:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(25, 55, 191, 0.15);
-    }
-
-    .post-images-container {
-      margin-bottom: 15px;
-      border-radius: 8px;
-      overflow: hidden;
-      background: #f8f9fa;
-    }
-
-    .single-image {
-      width: 100%;
-      max-height: 300px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .post-images-slider {
-      position: relative;
-      width: 100%;
-      max-height: 300px;
-      overflow: hidden;
-      background: #000;
-      border-radius: 8px;
-    }
-
-    .slider-container {
-      position: relative;
-      width: 100%;
-      height: 300px;
-    }
-
-    .slide {
-      display: none;
-      width: 100%;
-      height: 100%;
-    }
-
-    .slide.active {
-      display: block;
-    }
-
-    .slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .slider-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      pointer-events: none;
-      padding: 0 10px;
-    }
-
-    .nav-btn {
-      background: rgba(0,0,0,0.5);
-      color: white;
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 18px;
-      pointer-events: all;
-      transition: background 0.3s ease;
-    }
-
-    .nav-btn:hover {
-      background: rgba(0,0,0,0.7);
-    }
-
-    .slider-dots {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.5);
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .dot.active {
-      background: white;
-    }
-
-    .post-content h3 {
-      color: #1937BF;
-      margin: 0 0 10px 0;
-      font-size: 1.4em;
-    }
-
-    .post-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .post-category {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.8em;
-      font-weight: bold;
-      text-transform: uppercase;
-      color: white;
-    }
-
-    .post-category.design { background: #1937BF; }
-    .post-category.branding { background: #e74c3c; }
-    .post-category.ui\/ux { background: #9b59b6; }
-    .post-category.motion { background: #f39c12; }
-    .post-category.web { background: #27ae60; }
-    .post-category.illustration { background: #e67e22; }
-
-    .post-details {
-      margin-bottom: 15px;
-    }
-
-    .post-details p {
-      margin: 8px 0;
-      font-size: 0.9em;
-      line-height: 1.5;
-    }
-
-    .post-details strong {
-      color: #1937BF;
-    }
-
-    .post-content p {
-      color: #666;
-      margin: 0 0 15px 0;
-      line-height: 1.6;
-    }
-
-    .post-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding-top: 15px;
-      border-top: 1px solid #eee;
-    }
-
-    .post-meta span {
-      color: #888;
-      font-size: 0.9em;
-    }
-
-    .post-actions {
-      display: flex;
-      gap: 10px;
-    }
-
-    .post-actions .btn {
-      padding: 8px 16px;
-      font-size: 0.9em;
-    }
-
-    .admin-info {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 8px;
-      color: #666;
-      margin-bottom: 20px;
-      border-left: 4px solid #1937BF;
-    }
-
-    .hardcoded-posts-list {
-      display: grid;
-      gap: 15px;
-    }
-
-    .hardcoded-post-item {
-      background: #fff9e6;
-      border: 2px solid #ffff00;
-      border-radius: 12px;
-      padding: 15px;
-      transition: all 0.3s ease;
-    }
-
-    .hardcoded-post-item:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(255, 255, 0, 0.2);
-    }
-
-    .hardcoded-post-item.hidden {
-      opacity: 0.5;
-      background: #f5f5f5;
-      border-color: #ccc;
-    }
-
-    .hardcoded-post-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 10px;
-    }
-
-    .hardcoded-post-header h4 {
-      color: #1937BF;
-      margin: 0;
-      font-size: 1.2em;
-    }
-
-    .hardcoded-post-status {
-      padding: 4px 8px;
-      border-radius: 12px;
-      font-size: 0.8em;
-      font-weight: bold;
-    }
-
-    .hardcoded-post-status.visible {
-      background: #d4edda;
-      color: #155724;
-    }
-
-    .hardcoded-post-status.hidden {
-      background: #f8d7da;
-      color: #721c24;
-    }
-
-    .hardcoded-post-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .hardcoded-post-actions .btn {
-      padding: 6px 12px;
-      font-size: 0.8em;
-    }
-
-    .file-upload {
-      border: 2px dashed #ddd;
-      border-radius: 8px;
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .file-upload:hover {
-      border-color: #1937BF;
-      background: #f0f8ff;
-    }
-
-    .file-upload.dragover {
-      border-color: #1937BF;
-      background: #f0f8ff;
-    }
-
-    /* Instagram-style Image Gallery */
-    .image-gallery {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 15px;
-    }
-
-    .image-preview {
-      position: relative;
-      width: 100px;
-      height: 100px;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 2px solid #ddd;
-    }
-
-    .image-preview img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .image-preview .remove-btn {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      background: #f44336;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .image-preview .image-name {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: rgba(0,0,0,0.7);
-      color: white;
-      font-size: 10px;
-      padding: 2px 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .add-more-images {
-      width: 100px;
-      height: 100px;
-      border: 2px dashed #1937BF;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #f0f8ff;
-      cursor: pointer;
-      font-size: 24px;
-      color: #1937BF;
-    }
-
-    /* Post Preview in List */
-    .post-images-preview {
-      display: flex;
-      gap: 5px;
-      margin: 10px 0;
-    }
-
-    .post-images-preview img {
-      width: 50px;
-      height: 50px;
-      object-fit: cover;
-      border-radius: 4px;
-      border: 1px solid #ddd;
-    }
-
-    .images-count {
-      background: #1937BF;
-      color: white;
-      padding: 2px 8px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-
-    /* Edit Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7);
-      z-index: 1000;
-      overflow-y: auto;
-    }
-
-    .modal-content {
-      background: white;
-      margin: 20px auto;
-      padding: 30px;
-      border-radius: 12px;
-      max-width: 600px;
-      position: relative;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 24px;
-      cursor: pointer;
-      color: #999;
-    }
-
-    .modal-close:hover {
-      color: #333;
-    }
-
-    .modal h2 {
-      color: #1937BF;
-      margin-bottom: 20px;
-    }
-
-    /* Instagram-style Image Slider in Posts */
-    .post-images-slider {
-      position: relative;
-      width: 100%;
-      height: 200px;
-      margin: 15px 0;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-
-    .slider-container {
-      display: flex;
-      height: 100%;
-      transition: transform 0.3s ease;
-    }
-
-    .slide {
-      min-width: 100%;
-      height: 100%;
-    }
-
-    .slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .slider-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0,0,0,0.5);
-      color: white;
-      border: none;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 50%;
-    }
-
-    .slider-nav.prev {
-      left: 10px;
-    }
-
-    .slider-nav.next {
-      right: 10px;
-    }
-
-    .slider-dots {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 5px;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.5);
-      cursor: pointer;
-    }
-
-    .dot.active {
-      background: white;
-    }
-
-    @media (max-width: 768px) {
-      body {
-        padding: 10px;
-      }
-      
-      .admin-container {
-        padding: 20px;
-      }
-      
-      .admin-header {
-        flex-direction: column;
-        gap: 20px;
-        text-align: center;
-      }
-    }
+    :root {
+      --blue:#1937BF; --blue-dark:#142a8c; --red:#f44336; --bg:#f5f7fb; --radius:12px;
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Arial, sans-serif; background:var(--bg); padding:32px 18px 60px; color:#1c1f24; }
+    h1,h2,h3 { margin:0 0 18px; font-weight:600; letter-spacing:.5px; }
+    a { color:var(--blue); }
+    .container { max-width:1040px; margin:0 auto; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; margin-bottom:34px; }
+    header h1 { font-size:clamp(1.6rem,2.3vw,2.2rem); color:var(--blue); }
+    .badge { background:var(--blue); color:#fff; padding:6px 14px; border-radius:24px; font-size:.72rem; letter-spacing:.5px; }
+
+    /* Card */
+    .card { background:#fff; border-radius:var(--radius); padding:28px 28px 30px; box-shadow:0 4px 18px -6px rgba(15,40,120,.18); border:1px solid #e4e9f2; }
+    .card + .card { margin-top:40px; }
+
+    form .grid { display:grid; gap:18px; }
+    .g2 { grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+    label { font-size:.72rem; text-transform:uppercase; letter-spacing:.9px; font-weight:600; display:block; margin:0 0 6px; color:#384156; }
+    input[type=text],input[type=date],select,textarea { width:100%; border:1.8px solid #d5dce6; border-radius:8px; background:#fff; padding:12px 13px; font-size:.9rem; font-family:inherit; resize:vertical; min-height:46px; }
+    textarea { min-height:110px; line-height:1.4; }
+    input:focus, select:focus, textarea:focus { outline:none; border-color:var(--blue); box-shadow:0 0 0 3px rgba(25,55,191,.18); }
+    .row-inline { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+    .check { display:flex; align-items:center; gap:8px; font-size:.8rem; margin-top:4px; }
+
+    /* Upload */
+    .upload-box { border:2px dashed var(--blue); background:#f0f4ff; border-radius:16px; min-height:150px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:22px 18px; cursor:pointer; transition:.25s; }
+    .upload-box:hover, .upload-box.drag { background:#e5ecff; border-color:var(--blue-dark); }
+    .upload-box p { margin:0; font-size:.85rem; color:#2a3550; }
+    .gallery { margin-top:18px; display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:14px; }
+    .thumb { position:relative; border-radius:12px; overflow:hidden; aspect-ratio:1; background:#eef1f7; box-shadow:0 3px 10px -3px rgba(0,0,0,.25); }
+    .thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+    .thumb button { position:absolute; inset:6px 6px auto auto; width:30px; height:30px; border:none; border-radius:50%; background:rgba(0,0,0,.55); color:#fff; cursor:pointer; font-size:15px; display:flex; align-items:center; justify-content:center; }
+    .thumb button:hover { background:#d62828; }
+
+    /* Buttons */
+    .actions { display:flex; gap:12px; flex-wrap:wrap; }
+    button, .btn { --btn-bg:var(--blue); --btn-bg-hover:var(--blue-dark); font-family:inherit; font-size:.9rem; padding:12px 22px; border-radius:10px; background:var(--btn-bg); color:#fff; border:1px solid var(--btn-bg); cursor:pointer; font-weight:600; letter-spacing:.5px; transition:.25s; position:relative; }
+    button:hover { background:var(--btn-bg-hover); }
+    .danger { --btn-bg:var(--red); --btn-bg-hover:#cf2e24; }
+    .subtle { --btn-bg:#6b7890; --btn-bg-hover:#596274; }
+
+    /* Post list */
+    .post-list { margin-top:10px; display:grid; gap:26px; }
+    .post { background:#fff; border:1px solid #e2e8f1; border-radius:18px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 4px 14px -4px rgba(0,0,0,.12); }
+    .post figure { margin:0; aspect-ratio:16/9; background:#111; position:relative; max-height:160px; }
+    .post figure img { width:100%; height:100%; object-fit:cover; display:block; }
+    .post .p-body { padding:18px 20px 20px; display:flex; flex-direction:column; gap:10px; }
+    .chips { display:flex; gap:8px; flex-wrap:wrap; }
+    .chip { background:#eef2f9; color:#223; padding:4px 10px; font-size:.65rem; letter-spacing:.5px; font-weight:600; border-radius:16px; }
+    .meta { font-size:.7rem; letter-spacing:.5px; color:#5a6475; display:flex; gap:10px; flex-wrap:wrap; }
+    .post h3 { margin:0 0 4px; font-size:1.05rem; }
+    .post p { margin:0; font-size:.8rem; line-height:1.45; color:#2d3647; }
+    .post footer { margin-top:4px; display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
+
+    /* Modal */
+    dialog { border:none; border-radius:22px; padding:0; width:clamp(260px,90%,820px); max-width:820px; box-shadow:0 20px 60px -12px rgba(0,0,0,.35); animation:pop .5s cubic-bezier(.65,.03,.19,1); }
+    dialog::backdrop { background:rgba(18,23,45,.55); backdrop-filter:blur(4px); }
+    .m-wrapper { padding:38px clamp(18px,3.2vw,42px) 46px; }
+    .m-head { display:flex; justify-content:space-between; gap:26px; align-items:flex-start; margin:0 0 12px; }
+    .m-head h3 { margin:0; font-size:1.3rem; }
+    .close-x { background:#e3e8f1; border:none; width:38px; height:38px; border-radius:14px; cursor:pointer; font-size:18px; font-weight:600; display:flex; align-items:center; justify-content:center; }
+    .close-x:hover { background:#d1dae5; }
+
+    @keyframes pop { 0% { transform:translateY(20px) scale(.95); opacity:0;} 100% { transform:translateY(0) scale(1); opacity:1;} }
+    @media (max-width:720px){ header{flex-direction:column; align-items:flex-start;} .m-wrapper{padding:34px 20px 40px;} }
   </style>
 </head>
 <body>
-  <!-- Login Screen -->
-  <div class="login-container" id="loginContainer">
-    <h1>🔒 Admin Login</h1>
-    <form class="login-form" id="loginForm">
-      <input type="password" id="passwordInput" placeholder="Admin Wachtwoord" required>
-      <button type="submit" class="login-btn">Inloggen</button>
-      <div class="error-message" id="errorMessage">Onjuist wachtwoord</div>
+  <div class="container">
+    <header>
+      <h1>Admin Panel</h1>
+      <div style="display:flex; gap:12px; align-items:center;">
+        <span class="badge">Direct Access</span>
+        <button type="button" onclick="uploadToGitHub()" style="background:#28a745; padding:8px 16px; border:none; border-radius:8px; color:white; font-size:.8rem; cursor:pointer;">🌐 Upload Online</button>
+      </div>
+    </header>
+
+    <!-- CREATE -->
+    <section class="card" id="createSection">
+      <h2>Nieuw Project</h2>
+      <form id="addPostForm">
+        <div class="grid g2">
+          <div><label for="title">Titel</label><input id="title" type="text" required></div>
+          <div><label for="category">Categorie</label><select id="category" required><option value="DESIGN">DESIGN</option><option value="BRANDING">BRANDING</option><option value="UI/UX">UI/UX</option><option value="MOTION">MOTION</option><option value="WEB">WEB</option><option value="ILLUSTRATION">ILLUSTRATION</option></select></div>
+          <div><label for="type">Type</label><select id="type" required><option>Design</option><option>Branding</option><option>UI/UX</option><option>Motion</option><option>Web</option><option>Illustration</option></select></div>
+          <div><label for="date">Datum</label><input id="date" type="date" required></div>
+          <div><label for="client">Client</label><input id="client" type="text" placeholder="Bedrijf / Persoon"></div>
+          <div><label for="tools">Tools</label><input id="tools" type="text" placeholder="Figma, Illustrator..." /></div>
+        </div>
+        <div class="grid" style="margin-top:14px;">
+          <div><label for="purpose">Doel</label><textarea id="purpose" placeholder="Doel van het project"></textarea></div>
+          <div><label for="description">Beschrijving</label><textarea id="description" required placeholder="Korte beschrijving..."></textarea></div>
+        </div>
+        <div class="grid g2" style="margin-top:10px;">
+          <div><label for="status">Status</label><select id="status"><option value="Standaard Project">Standaard Project</option><option value="Featured Project">Featured Project</option><option value="Premium Project">Premium Project</option><option value="Concept Project">Concept Project</option></select></div>
+          <div class="check"><input id="featured" type="checkbox" /> <label style="margin:0; font-size:.7rem; text-transform:none; font-weight:500;" for="featured">Featured</label></div>
+        </div>
+        <div style="margin-top:22px;">
+          <label>Afbeeldingen</label>
+          <div id="uploadBox" class="upload-box">
+            <p>📁 Sleep of klik om afbeeldingen te kiezen<br><span style="opacity:.65; font-size:.7rem;">Meerdere toegestaan • JPG / PNG / GIF</span></p>
+            <input id="imageInput" type="file" accept="image/*" multiple hidden />
+          </div>
+          <div id="gallery" class="gallery"></div>
+        </div>
+        <div class="actions" style="margin-top:28px;">
+          <button type="submit">Project opslaan</button>
+          <button type="button" class="subtle" id="clearFormBtn">Leeg maken</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- LIST -->
+    <section class="card" id="listSection">
+      <h2>Projecten</h2>
+      <div id="postsList" class="post-list"></div>
+    </section>
+
+    <!-- HARDCODED POSTS -->
+    <section class="card" id="hardcodedSection">
+      <h2>🏠 Hardcoded Posts</h2>
+      <p style="opacity:.7; font-size:.8rem; margin-bottom:20px;">Deze posts zitten hardcoded in de code. Je kunt ze hier bewerken of verbergen.</p>
+      <div id="hardcodedList" class="post-list"></div>
+    </section>
+  </div>
+
+  <!-- EDIT MODAL -->
+  <dialog id="editDialog">
+    <form method="dialog" id="editForm" class="m-wrapper">
+      <div class="m-head">
+        <h3>Project Bewerken</h3>
+        <button type="button" class="close-x" id="closeEdit">×</button>
+      </div>
+      <div class="grid g2">
+        <div><label for="e_title">Titel</label><input id="e_title" required></div>
+        <div><label for="e_category">Categorie</label><select id="e_category" required><option value="DESIGN">DESIGN</option><option value="BRANDING">BRANDING</option><option value="UI/UX">UI/UX</option><option value="MOTION">MOTION</option><option value="WEB">WEB</option><option value="ILLUSTRATION">ILLUSTRATION</option></select></div>
+        <div><label for="e_type">Type</label><select id="e_type" required><option>Design</option><option>Branding</option><option>UI/UX</option><option>Motion</option><option>Web</option><option>Illustration</option></select></div>
+        <div><label for="e_date">Datum</label><input id="e_date" type="date"></div>
+        <div><label for="e_client">Client</label><input id="e_client" type="text"></div>
+        <div><label for="e_tools">Tools</label><input id="e_tools" type="text"></div>
+      </div>
+      <div class="grid" style="margin-top:14px;">
+        <div><label for="e_purpose">Doel</label><textarea id="e_purpose"></textarea></div>
+        <div><label for="e_description">Beschrijving</label><textarea id="e_description" required></textarea></div>
+      </div>
+      <div class="grid g2" style="margin-top:10px;">
+        <div><label for="e_status">Status</label><select id="e_status"><option value="Standaard Project">Standaard Project</option><option value="Featured Project">Featured Project</option><option value="Premium Project">Premium Project</option><option value="Concept Project">Concept Project</option></select></div>
+        <div class="check"><input id="e_featured" type="checkbox" /> <label for="e_featured" style="margin:0; font-size:.7rem; text-transform:none; font-weight:500;">Featured</label></div>
+      </div>
+      <div style="margin-top:22px;">
+        <label>Afbeeldingen (toevoegen)</label>
+        <div id="editUploadBox" class="upload-box" style="min-height:120px;">
+          <p>Sleep / klik om extra afbeeldingen toe te voegen</p>
+          <input id="editImageInput" type="file" accept="image/*" multiple hidden />
+        </div>
+        <div id="editGallery" class="gallery" style="margin-top:14px;"></div>
+        <div style="margin-top:10px; font-size:.65rem; opacity:.7;" id="currentImagesNote"></div>
+      </div>
+      <div class="actions" style="margin-top:30px;">
+        <button type="submit">Opslaan</button>
+        <button type="button" class="danger" id="deleteBtn">Verwijderen</button>
+      </div>
     </form>
-  </div>
-
-  <!-- Admin Interface -->
-  <div class="admin-container" id="adminContainer">
-    <div class="admin-header">
-      <h1>Portfolio Admin</h1>
-      <button class="logout-btn" onclick="logout()">Uitloggen</button>
-    </div>
-
-    <!-- Add New Post -->
-    <div class="admin-section">
-      <h2>📝 Nieuw Project Toevoegen</h2>
-      <form class="add-post-form" id="addPostForm">
-        <div class="form-group">
-          <label for="postTitle">Project Titel</label>
-          <input type="text" id="postTitle" required>
-        </div>
-
-        <div class="form-group">
-          <label for="postDescription">Beschrijving</label>
-          <textarea id="postDescription" required></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="postCategory">Project Categorie</label>
-          <select id="postCategory" required>
-            <option value="">Selecteer categorie</option>
-            <option value="DESIGN">DESIGN</option>
-            <option value="BRANDING">BRANDING</option>
-            <option value="UI/UX">UI/UX</option>
-            <option value="MOTION">MOTION</option>
-            <option value="WEB">WEB</option>
-            <option value="ILLUSTRATION">ILLUSTRATION</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="postType">Type Project</label>
-          <select id="postType" required>
-            <option value="">Selecteer type</option>
-            <option value="Branding">Branding</option>
-            <option value="Web Design">Web Design</option>
-            <option value="Print Design">Print Design</option>
-            <option value="Packaging">Packaging</option>
-            <option value="Photography">Photography</option>
-            <option value="Logo Design">Logo Design</option>
-            <option value="Mobile App">Mobile App</option>
-            <option value="Website">Website</option>
-            <option value="Motion Graphics">Motion Graphics</option>
-            <option value="Illustration">Illustration</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="postClient">Client</label>
-          <input type="text" id="postClient" placeholder="Bedrijfsnaam of client">
-        </div>
-
-        <div class="form-group">
-          <label for="postProjectDoel">Project Doel</label>
-          <textarea id="postProjectDoel" placeholder="Wat was het hoofddoel van dit project?"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="postTools">Gebruikte Tools</label>
-          <input type="text" id="postTools" placeholder="bijv. Illustrator, Photoshop, Figma">
-        </div>
-
-        <div class="form-group">
-          <label for="postProjectDate">Project Datum</label>
-          <input type="date" id="postProjectDate" required>
-        </div>
-
-        <div class="form-group">
-          <label for="postStatus">Project Status</label>
-          <select id="postStatus">
-            <option value="Standaard Project">Standaard Project</option>
-            <option value="Featured Project">Featured Project</option>
-            <option value="Premium Project">Premium Project</option>
-            <option value="Concept Project">Concept Project</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>
-            <input type="checkbox" id="postFeatured"> 
-            Featured project (wordt prominent weergegeven)
-          </label>
-        </div>
-
-        <div class="form-group">
-          <label>📸 Afbeeldingen (Instagram-style)</label>
-          <div class="multi-image-upload">
-            <div class="file-upload" id="fileUpload">
-              <p>📁 Sleep afbeeldingen hierheen of klik om te selecteren</p>
-              <input type="file" id="postImages" accept="image/*" multiple style="display: none;">
-            </div>
-            
-            <div class="image-gallery" id="imageGallery">
-              <!-- Uploaded images will appear here -->
-            </div>
-          </div>
-        </div>
-
-        <button type="submit" class="btn">Project Toevoegen</button>
-        
-        <!-- Manual refresh button for file:// protocol -->
-        <div style="margin-top: 20px; padding: 15px; background: #f0f8ff; border-radius: 8px;">
-          <p style="margin: 0 0 10px 0; font-size: 14px; color: #666;">
-            💡 Als je project niet verschijnt op de homepage, klik hier:
-          </p>
-          <button type="button" class="btn btn-secondary" onclick="forceHomepageRefresh()">
-            🔄 Forceer Homepage Refresh
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <!-- Existing Posts -->
-    <div class="admin-section">
-      <h2>📚 Bestaande Projecten</h2>
-      <div class="posts-list" id="postsList">
-        <!-- Posts will be loaded here -->
-      </div>
-    </div>
-
-    <!-- Hardcoded Portfolio Items -->
-    <div class="admin-section">
-      <h2>🏠 Portfolio Basis Items (Hardcoded)</h2>
-      <p class="admin-info">Deze items zitten hardcoded in je portfolio. Je kunt ze hier bewerken of verbergen.</p>
-      <div class="hardcoded-posts-list" id="hardcodedPostsList">
-        <!-- Hardcoded posts will be loaded here -->
-      </div>
-    </div>
-  </div>
-
-  <!-- Edit Post Modal -->
-  <div class="modal" id="editModal">
-    <div class="modal-content">
-      <span class="close" id="closeModal">&times;</span>
-      <h3>✏️ Project Bewerken</h3>
-      
-      <form id="editPostForm">
-        <div class="form-group">
-          <label for="editTitle">Project Titel</label>
-          <input type="text" id="editTitle" required>
-        </div>
-
-        <div class="form-group">
-          <label for="editDescription">Beschrijving</label>
-          <textarea id="editDescription" required></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="editCategory">Project Categorie</label>
-          <select id="editCategory" required>
-            <option value="DESIGN">DESIGN</option>
-            <option value="BRANDING">BRANDING</option>
-            <option value="UI/UX">UI/UX</option>
-            <option value="MOTION">MOTION</option>
-            <option value="WEB">WEB</option>
-            <option value="ILLUSTRATION">ILLUSTRATION</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="editType">Type Project</label>
-          <select id="editType" required>
-            <option value="Branding">Branding</option>
-            <option value="Web Design">Web Design</option>
-            <option value="Print Design">Print Design</option>
-            <option value="Packaging">Packaging</option>
-            <option value="Photography">Photography</option>
-            <option value="Logo Design">Logo Design</option>
-            <option value="Mobile App">Mobile App</option>
-            <option value="Website">Website</option>
-            <option value="Motion Graphics">Motion Graphics</option>
-            <option value="Illustration">Illustration</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="editClient">Client</label>
-          <input type="text" id="editClient" placeholder="Bedrijfsnaam of client">
-        </div>
-
-        <div class="form-group">
-          <label for="editProjectDoel">Project Doel</label>
-          <textarea id="editProjectDoel" placeholder="Wat was het hoofddoel van dit project?"></textarea>
-        </div>
-
-        <div class="form-group">
-          <label for="editTools">Gebruikte Tools</label>
-          <input type="text" id="editTools" placeholder="bijv. Illustrator, Photoshop, Figma">
-        </div>
-
-        <div class="form-group">
-          <label for="editProjectDate">Project Datum</label>
-          <input type="date" id="editProjectDate" required>
-        </div>
-
-        <div class="form-group">
-          <label for="editStatus">Project Status</label>
-          <select id="editStatus">
-            <option value="Standaard Project">Standaard Project</option>
-            <option value="Featured Project">Featured Project</option>
-            <option value="Premium Project">Premium Project</option>
-            <option value="Concept Project">Concept Project</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>
-            <input type="checkbox" id="editFeatured"> 
-            Featured project (wordt prominent weergegeven)
-          </label>
-        </div>
-
-        <div class="form-group">
-          <label>📸 Huidige Afbeeldingen</label>
-          <div class="current-images" id="currentImages">
-            <!-- Current images will be shown here -->
-          </div>
-          
-          <label>➕ Nieuwe Afbeeldingen Toevoegen</label>
-          <div class="file-upload" id="editFileUpload">
-            <p>📁 Sleep nieuwe afbeeldingen hierheen</p>
-            <input type="file" id="editNewImages" accept="image/*" multiple style="display: none;">
-          </div>
-          
-          <div class="image-gallery" id="editImageGallery">
-            <!-- New uploaded images will appear here -->
-          </div>
-        </div>
-
-        <div class="modal-buttons">
-          <button type="submit" class="btn">💾 Opslaan</button>
-          <button type="button" class="btn btn-danger" id="deletePost">🗑️ Verwijderen</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- Online Debug Scripts -->
-  <script src="safe-storage.js"></script>
-  <script src="debug-online.js"></script>
-  <script src="online-sync.js"></script>
-  <script src="netlify-sync.js"></script>
-  <script src="universal-sync.js"></script>
-  <script src="direct-sync.js"></script>
-  <script src="visual-debug.js"></script>
+  </dialog>
 
   <script>
-    // Online Compatibility Layer - Wrapper for localStorage with fallback
-    const onlineStorage = {
-      data: {},
-      
-      getItem: function(key) {
-        try {
-          if (typeof localStorage !== 'undefined' && localStorage.getItem) {
-            return localStorage.getItem(key);
-          } else {
-            return this.data[key] || null;
-          }
-        } catch (e) {
-          console.warn('localStorage not available, using fallback for key:', key);
-          return this.data[key] || null;
+    // ========== Storage Helpers ==========
+    function getPosts(){ try { return JSON.parse(localStorage.getItem('portfolioPosts')||'[]'); } catch(e){ return []; } }
+    function setPosts(list){ localStorage.setItem('portfolioPosts', JSON.stringify(list)); }
+    function signalUpdate(){ const t=Date.now().toString(); localStorage.setItem('portfolioUpdated', t); localStorage.setItem('newPostAdded','true'); }
+
+    // ========== State ==========
+    let newImages = []; // {dataUrl, name}
+    let editAddImages = [];
+    let editingId = null;
+
+    // ========== Elements ==========
+    const form = document.getElementById('addPostForm');
+    const gallery = document.getElementById('gallery');
+    const uploadBox = document.getElementById('uploadBox');
+    const imageInput = document.getElementById('imageInput');
+    const postsListEl = document.getElementById('postsList');
+    const clearFormBtn = document.getElementById('clearFormBtn');
+
+    // Edit dialog elements
+    const editDialog = document.getElementById('editDialog');
+    const closeEdit = document.getElementById('closeEdit');
+    const editForm = document.getElementById('editForm');
+    const editImageInput = document.getElementById('editImageInput');
+    const editUploadBox = document.getElementById('editUploadBox');
+    const editGallery = document.getElementById('editGallery');
+    const deleteBtn = document.getElementById('deleteBtn');
+    const currentImagesNote = document.getElementById('currentImagesNote');
+
+    // ========== Image Handling (Create) ==========
+    uploadBox.addEventListener('click', () => imageInput.click());
+    uploadBox.addEventListener('dragover', e => { e.preventDefault(); uploadBox.classList.add('drag'); });
+    uploadBox.addEventListener('dragleave', () => uploadBox.classList.remove('drag'));
+    uploadBox.addEventListener('drop', e => { e.preventDefault(); uploadBox.classList.remove('drag'); handleFiles(Array.from(e.dataTransfer.files), newImages, gallery); });
+    imageInput.addEventListener('change', e => handleFiles(Array.from(e.target.files), newImages, gallery));
+
+    function handleFiles(files, targetArray, targetGallery){
+      files.forEach(f=>{ if(!f.type.startsWith('image/')) return; const r=new FileReader(); r.onload=e=>{ targetArray.push({dataUrl:e.target.result, name:f.name}); renderGallery(targetArray,targetGallery); }; r.readAsDataURL(f); });
+    }
+    function renderGallery(list, target){ target.innerHTML=''; list.forEach((img,i)=>{ const d=document.createElement('div'); d.className='thumb'; d.innerHTML=`<img src="${img.dataUrl}" alt="img"><button type="button" data-i="${i}">×</button>`; d.querySelector('button').onclick=()=>{ list.splice(i,1); renderGallery(list,target); }; target.appendChild(d); }); }
+
+    // ========== Submit (Create) ==========
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const posts = getPosts();
+      const post = {
+        id: Date.now(),
+        title: document.getElementById('title').value.trim(),
+        description: document.getElementById('description').value.trim(),
+        category: document.getElementById('category').value,
+        type: document.getElementById('type').value,
+        client: document.getElementById('client').value.trim(),
+        purpose: document.getElementById('purpose').value.trim(),
+        tools: document.getElementById('tools').value.trim(),
+        date: document.getElementById('date').value || new Date().toISOString().slice(0,10),
+        status: document.getElementById('status').value,
+        featured: document.getElementById('featured').checked,
+        images: newImages.map(i=>i.dataUrl)
+      };
+      if(!post.title || !post.description){ alert('Titel en beschrijving verplicht'); return; }
+      posts.unshift(post);
+      setPosts(posts); signalUpdate();
+      renderPosts();
+      form.reset(); newImages=[]; gallery.innerHTML='';
+      alert('Project opgeslagen! Ga naar home om te zien.');
+    });
+
+    clearFormBtn.addEventListener('click', ()=>{ form.reset(); newImages=[]; gallery.innerHTML=''; });
+
+    // ========== Render Posts ==========
+    function renderPosts(){
+      const posts=getPosts();
+      if(posts.length===0){ postsListEl.innerHTML='<p style="opacity:.6; font-size:.8rem;">Nog geen projecten toegevoegd.</p>'; return; }
+      postsListEl.innerHTML = posts.map(p=>{
+        const cover = (p.images && p.images[0]) || 'images/placeholder.svg';
+        return `<div class="post" data-id="${p.id}">
+          <figure><img src="${cover}" alt="${p.title}"></figure>
+            <div class="p-body">
+              <div class="chips"><span class="chip">${p.category}</span>${p.featured?'<span class="chip" style="background:#ffd76b;">FEATURED</span>':''}</div>
+              <h3>${p.title}</h3>
+              <p>${escapeHtml(p.description).slice(0,160)}${p.description.length>160?'…':''}</p>
+              <div class="meta"><span>${p.type}</span><span>${p.date}</span><span>${(p.images||[]).length} img</span></div>
+              <footer class="actions"><button type="button" data-edit="${p.id}" class="subtle">Bewerken</button><button type="button" data-del="${p.id}" class="danger">Verwijderen</button></footer>
+            </div></div>`;
+      }).join('');
+    }
+
+    function escapeHtml(str){ return str.replace(/[&<>"]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c])); }
+
+    // ========== Edit ==========
+    postsListEl.addEventListener('click', e=>{
+      const editId = e.target.getAttribute('data-edit');
+      const delId = e.target.getAttribute('data-del');
+      if(editId){ openEdit(+editId); }
+      if(delId){ deletePost(+delId); }
+    });
+
+    function openEdit(id){
+      const posts=getPosts();
+      const post=posts.find(p=>p.id===id); if(!post) return;
+      editingId=id; editAddImages=[]; editGallery.innerHTML='';
+      // Fill fields
+      e_title.value=post.title; e_description.value=post.description; e_category.value=post.category; e_type.value=post.type; e_client.value=post.client||''; e_purpose.value=post.purpose||''; e_tools.value=post.tools||''; e_date.value=post.date||''; e_status.value=post.status||'Standaard Project'; e_featured.checked=!!post.featured;
+      currentImagesNote.textContent = `Huidige afbeeldingen: ${(post.images||[]).length}. Toegevoegde nieuwe: 0`;
+      editDialog.showModal();
+    }
+
+    closeEdit.addEventListener('click', ()=> editDialog.close());
+    editDialog.addEventListener('close', ()=>{ editingId=null; editAddImages=[]; });
+
+    editUploadBox.addEventListener('click', ()=> editImageInput.click());
+    editUploadBox.addEventListener('dragover', e=>{ e.preventDefault(); editUploadBox.classList.add('drag'); });
+    editUploadBox.addEventListener('dragleave', ()=> editUploadBox.classList.remove('drag'));
+    editUploadBox.addEventListener('drop', e=>{ e.preventDefault(); editUploadBox.classList.remove('drag'); handleFiles(Array.from(e.dataTransfer.files), editAddImages, editGallery); updateEditNote(); });
+    editImageInput.addEventListener('change', e=>{ handleFiles(Array.from(e.target.files), editAddImages, editGallery); updateEditNote(); });
+    function updateEditNote(){ currentImagesNote.textContent = `Extra toe te voegen afbeeldingen: ${editAddImages.length}`; }
+
+    editForm.addEventListener('submit', e=>{
+      e.preventDefault(); if(editingId==null) return;
+      const posts=getPosts(); const i=posts.findIndex(p=>p.id===editingId); if(i===-1) return;
+      const post=posts[i];
+      post.title=e_title.value.trim(); post.description=e_description.value.trim(); post.category=e_category.value; post.type=e_type.value; post.client=e_client.value.trim(); post.purpose=e_purpose.value.trim(); post.tools=e_tools.value.trim(); post.date=e_date.value || post.date; post.status=e_status.value; post.featured=e_featured.checked;
+      if(!post.images) post.images=[]; post.images = [...post.images, ...editAddImages.map(x=>x.dataUrl)];
+      posts[i]=post; setPosts(posts); signalUpdate(); renderPosts(); editDialog.close(); alert('Project bijgewerkt');
+    });
+
+    deleteBtn.addEventListener('click', ()=>{ if(editingId==null) return; if(!confirm('Verwijderen?')) return; deletePost(editingId); editDialog.close(); });
+
+    function deletePost(id){ let posts=getPosts().filter(p=>p.id!==id); setPosts(posts); signalUpdate(); renderPosts(); }
+
+    // ========== Init ==========
+    renderPosts();
+    renderHardcodedPosts();
+
+    // ========== Hardcoded Posts Management ==========
+    function getHardcodedPosts(){
+      // Haal ALLE hardcoded posts op uit script.js data (12 posts)
+      return [
+        {
+          id: 1,
+          title: "Character Design Project",
+          image: "images/characters.jpg",
+          images: ["images/characters.jpg"],
+          type: "Design",
+          category: "DESIGN",
+          date: "2024-01-15",
+          featured: true,
+          description: "Een uitgebreide character design studie voor een nieuwe animatieserie.",
+          client: "Animation Studio XYZ",
+          purpose: "Character ontwikkeling voor nieuwe serie",
+          tools: "Photoshop, Illustrator, Procreate",
+          status: "Featured Project"
+        },
+        {
+          id: 2,
+          title: "Brand Identity",
+          image: "images/project2.jpg", 
+          images: ["images/project2.jpg"],
+          type: "Branding",
+          category: "BRANDING",
+          date: "2024-01-10",
+          featured: false,
+          description: "Complete merkidentiteit voor een tech startup.",
+          client: "TechStart BV",
+          purpose: "Volledige rebranding voor marktlancering",
+          tools: "Illustrator, InDesign, Figma",
+          status: "Standaard Project"
+        },
+        {
+          id: 3,
+          title: "Mobile App Design",
+          image: "images/project3.jpg",
+          images: ["images/project3.jpg"],
+          type: "UI/UX",
+          category: "UI/UX",
+          date: "2024-01-08",
+          featured: false,
+          description: "Gebruiksvriendelijke mobile app voor fitness tracking.",
+          client: "FitLife App",
+          purpose: "Intuïtieve fitness tracking experience",
+          tools: "Figma, Principle, After Effects",
+          status: "Standaard Project"
+        },
+        {
+          id: 4,
+          title: "Logo Animation",
+          image: "images/project4.jpg",
+          images: ["images/project4.jpg"],
+          type: "Motion",
+          category: "MOTION",
+          date: "2024-01-05", 
+          featured: true,
+          description: "Dynamische logo animatie voor branding purposes.",
+          client: "Dynamic Brands",
+          purpose: "Levendige merkidentiteit voor video content",
+          tools: "After Effects, Cinema 4D, Illustrator",
+          status: "Featured Project"
+        },
+        {
+          id: 5,
+          title: "Website Redesign",
+          image: "images/project5.png",
+          images: ["images/project5.png"],
+          type: "Web",
+          category: "WEB",
+          date: "2024-01-03",
+          featured: false,
+          description: "Moderne website redesign met focus op UX.",
+          client: "E-commerce Plus",
+          purpose: "Verbetering van conversie en gebruikerservaring",
+          tools: "Figma, HTML/CSS, JavaScript",
+          status: "Standaard Project"
+        },
+        {
+          id: 6,
+          title: "Packaging Design",
+          image: "images/project6.png",
+          images: ["images/project6.png"],
+          type: "Design",
+          category: "DESIGN",
+          date: "2024-01-01",
+          featured: false,
+          description: "Duurzame packaging oplossing voor cosmetica merk.",
+          client: "Natural Beauty Co",
+          purpose: "Eco-vriendelijke verpakking met premium uitstraling",
+          tools: "Illustrator, Photoshop, KeyShot",
+          status: "Standaard Project"
+        },
+        {
+          id: 7,
+          title: "Streetwear Collection",
+          image: "images/project7.png",
+          images: ["images/project7.png"],
+          type: "Design",
+          category: "DESIGN",
+          date: "2024-01-20",
+          featured: false,
+          description: "Urban streetwear collectie met focus op duurzaamheid.",
+          client: "Urban Culture Brand",
+          purpose: "Duurzame streetwear lijn voor jonge doelgroep",
+          tools: "Illustrator, Photoshop, CLO 3D",
+          status: "Standaard Project"
+        },
+        {
+          id: 8,
+          title: "Digital Campaign",
+          image: "images/project8.png",
+          images: ["images/project8.png"],
+          type: "Design",
+          category: "DESIGN",
+          date: "2024-01-18",
+          featured: false,
+          description: "Digitale campagne voor nieuwe productlancering.",
+          client: "Innovation Labs",
+          purpose: "Aandacht genereren voor product lancering",
+          tools: "Photoshop, After Effects, Premiere Pro",
+          status: "Standaard Project"
+        },
+        {
+          id: 9,
+          title: "E-commerce Platform",
+          image: "images/project9.png",
+          images: ["images/project9.png"],
+          type: "Web",
+          category: "WEB",
+          date: "2024-01-16",
+          featured: false,
+          description: "Moderne e-commerce platform met seamless UX.",
+          client: "ShopEasy BV",
+          purpose: "Verhogen van online verkoop en klanttevredenheid",
+          tools: "Figma, React, Node.js",
+          status: "Standaard Project"
+        },
+        {
+          id: 10,
+          title: "Motion Graphics Reel",
+          image: "images/project10.png",
+          images: ["images/project10.png"],
+          type: "Motion",
+          category: "MOTION",
+          date: "2024-01-14",
+          featured: false,
+          description: "Showcase van motion graphics projecten.",
+          client: "Portfolio showcase",
+          purpose: "Demonstratie van motion design vaardigheden",
+          tools: "After Effects, Cinema 4D, Premiere Pro",
+          status: "Standaard Project"
+        },
+        {
+          id: 11,
+          title: "Corporate Identity",
+          image: "images/project11.png",
+          images: ["images/project11.png"],
+          type: "Branding",
+          category: "BRANDING",
+          date: "2024-01-12",
+          featured: false,
+          description: "Complete corporate identity voor financiële instelling.",
+          client: "SecureBank NL",
+          purpose: "Professionele en betrouwbare uitstraling",
+          tools: "Illustrator, InDesign, Photoshop",
+          status: "Standaard Project"
+        },
+        {
+          id: 12,
+          title: "Product Photography",
+          image: "images/project12.png",
+          images: ["images/project12.png"],
+          type: "Photography",
+          category: "DESIGN",
+          date: "2024-01-09",
+          featured: false,
+          description: "High-end product fotografie voor luxe merk.",
+          client: "Luxury Goods Inc",
+          purpose: "Premium productpresentatie voor e-commerce",
+          tools: "Canon 5D, Lightroom, Photoshop",
+          status: "Standaard Project"
         }
-      },
-      
-      setItem: function(key, value) {
-        try {
-          if (typeof localStorage !== 'undefined' && localStorage.setItem) {
-            localStorage.setItem(key, value);
-          }
-          this.data[key] = value;
-          console.log('✅ Storage setItem success:', key);
-        } catch (e) {
-          console.warn('localStorage not available, using fallback storage for key:', key);
-          this.data[key] = value;
-        }
-      },
-      
-      removeItem: function(key) {
-        try {
-          if (typeof localStorage !== 'undefined' && localStorage.removeItem) {
-            localStorage.removeItem(key);
-          }
-          delete this.data[key];
-        } catch (e) {
-          console.warn('localStorage not available for removeItem:', key);
-          delete this.data[key];
-        }
+      ];
+    }
+
+    function getHardcodedOverrides(){ try { return JSON.parse(localStorage.getItem('overriddenHardcodedPosts')||'{}'); } catch(e){ return {}; } }
+    function setHardcodedOverrides(overrides){ localStorage.setItem('overriddenHardcodedPosts', JSON.stringify(overrides)); }
+    function getHiddenHardcoded(){ try { return JSON.parse(localStorage.getItem('hiddenHardcodedPosts')||'[]'); } catch(e){ return []; } }
+    function setHiddenHardcoded(list){ localStorage.setItem('hiddenHardcodedPosts', JSON.stringify(list)); }
+
+    function renderHardcodedPosts(){
+      const hardcodedList = document.getElementById('hardcodedList');
+      const hardcoded = getHardcodedPosts();
+      const overrides = getHardcodedOverrides();
+      const hidden = getHiddenHardcoded();
+
+      if(hardcoded.length === 0){ 
+        hardcodedList.innerHTML='<p style="opacity:.6;">Geen hardcoded posts gevonden.</p>'; 
+        return; 
       }
+
+      hardcodedList.innerHTML = hardcoded.map(p=>{
+        const finalPost = overrides[p.id] || p;
+        const isHidden = hidden.includes(p.id);
+        const cover = (finalPost.images && finalPost.images[0]) || finalPost.image || 'images/placeholder.svg';
+        
+        return `<div class="post" data-id="h_${p.id}" style="${isHidden ? 'opacity:0.5; border:2px dashed #ccc;' : ''}">
+          <figure><img src="${cover}" alt="${finalPost.title}"></figure>
+          <div class="p-body">
+            <div class="chips">
+              <span class="chip">${finalPost.category || finalPost.type}</span>
+              ${finalPost.featured?'<span class="chip" style="background:#ffd76b;">FEATURED</span>':''}
+              ${isHidden?'<span class="chip" style="background:#f44336; color:white;">HIDDEN</span>':''}
+            </div>
+            <h3>${finalPost.title}</h3>
+            <p>${escapeHtml(finalPost.description || '').slice(0,160)}${(finalPost.description||'').length>160?'…':''}</p>
+            <div class="meta"><span>${finalPost.type}</span><span>${finalPost.date}</span><span>Hardcoded</span></div>
+            <footer class="actions">
+              <button type="button" data-edit-hardcoded="${p.id}" class="subtle">Bewerken</button>
+              <button type="button" data-toggle-hardcoded="${p.id}" class="${isHidden?'':'danger'}">${isHidden?'Tonen':'Verbergen'}</button>
+              ${overrides[p.id] ? `<button type="button" data-reset-hardcoded="${p.id}" style="background:#6c757d;">Reset</button>` : ''}
+            </footer>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // Hardcoded post event handling
+    document.getElementById('hardcodedList').addEventListener('click', e=>{
+      const editId = e.target.getAttribute('data-edit-hardcoded');
+      const toggleId = e.target.getAttribute('data-toggle-hardcoded');
+      const resetId = e.target.getAttribute('data-reset-hardcoded');
+      
+      if(editId){ editHardcodedPost(+editId); }
+      if(toggleId){ toggleHardcodedPost(+toggleId); }
+      if(resetId){ resetHardcodedPost(+resetId); }
+    });
+
+    function editHardcodedPost(id){
+      const hardcoded = getHardcodedPosts();
+      const overrides = getHardcodedOverrides();
+      const post = overrides[id] || hardcoded.find(p=>p.id===id);
+      if(!post) return;
+
+      editingId = `hardcoded_${id}`;
+      editAddImages = [];
+      editGallery.innerHTML = '';
+
+      // Fill fields
+      e_title.value = post.title;
+      e_description.value = post.description || '';
+      e_category.value = post.category || 'DESIGN';
+      e_type.value = post.type || 'Design';
+      e_client.value = post.client || '';
+      e_purpose.value = post.purpose || '';
+      e_tools.value = post.tools || '';
+      e_date.value = post.date || '';
+      e_status.value = post.status || 'Standaard Project';
+      e_featured.checked = !!post.featured;
+      
+      currentImagesNote.textContent = `Huidige afbeeldingen: ${(post.images||[]).length}. Dit is een hardcoded post.`;
+      editDialog.showModal();
+    }
+
+    function toggleHardcodedPost(id){
+      const hidden = getHiddenHardcoded();
+      const index = hidden.indexOf(id);
+      
+      if(index === -1){
+        hidden.push(id);
+      } else {
+        hidden.splice(index, 1);
+      }
+      
+      setHiddenHardcoded(hidden);
+      signalUpdate();
+      renderHardcodedPosts();
+    }
+
+    function resetHardcodedPost(id){
+      if(!confirm('Reset naar originele hardcoded waarden?')) return;
+      const overrides = getHardcodedOverrides();
+      delete overrides[id];
+      setHardcodedOverrides(overrides);
+      signalUpdate();
+      renderHardcodedPosts();
+    }
+
+    // Update form submission to handle hardcoded posts
+    const originalFormSubmit = editForm.onsubmit;
+    editForm.onsubmit = function(e){
+      e.preventDefault();
+      
+      if(editingId && editingId.toString().startsWith('hardcoded_')){
+        // Handle hardcoded post update
+        const id = +editingId.replace('hardcoded_', '');
+        const overrides = getHardcodedOverrides();
+        
+        const updatedPost = {
+          id: id,
+          title: e_title.value.trim(),
+          description: e_description.value.trim(),
+          category: e_category.value,
+          type: e_type.value,
+          client: e_client.value.trim(),
+          purpose: e_purpose.value.trim(),
+          tools: e_tools.value.trim(),
+          date: e_date.value,
+          status: e_status.value,
+          featured: e_featured.checked,
+          images: [...(getHardcodedPosts().find(p=>p.id===id)?.images || []), ...editAddImages.map(x=>x.dataUrl)]
+        };
+        
+        overrides[id] = updatedPost;
+        setHardcodedOverrides(overrides);
+        signalUpdate();
+        renderHardcodedPosts();
+        editDialog.close();
+        alert('Hardcoded post bijgewerkt (override opgeslagen)');
+        return;
+      }
+      
+      // Regular post handling
+      originalFormSubmit.call(this, e);
     };
-    
-    // Replace localStorage with safe version
-    if (typeof localStorage === 'undefined' || !localStorage) {
-      window.localStorage = onlineStorage;
-      console.log('⚠️ localStorage replaced with fallback');
-    }
 
-    // Simple password protection (change this!)
-    const ADMIN_PASSWORD = 'JesseDesign2024!'; // Verander dit naar je eigen wachtwoord
-
-    // Check if already logged in
-    if (onlineStorage.getItem('adminLoggedIn') === 'true') {
-      showAdmin();
-    }
-
-    // Login form handler
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const password = document.getElementById('passwordInput').value;
+    // ========== Upload to GitHub ==========
+    function uploadToGitHub() {
+      if (!confirm('Upload alle wijzigingen naar GitHub?\n\nDit zal je portfolio online updaten.')) return;
       
-      if (password === ADMIN_PASSWORD) {
-        onlineStorage.setItem('adminLoggedIn', 'true');
-        showAdmin();
-      } else {
-        document.getElementById('errorMessage').style.display = 'block';
-        document.getElementById('passwordInput').value = '';
-      }
-    });
-
-    function showAdmin() {
-      document.getElementById('loginContainer').style.display = 'none';
-      document.getElementById('adminContainer').style.display = 'block';
+      const statusDiv = document.createElement('div');
+      statusDiv.style.cssText = 'position:fixed; top:20px; right:20px; background:#007bff; color:white; padding:15px 20px; border-radius:8px; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.3);';
+      statusDiv.innerHTML = '🌐 Uploading...';
+      document.body.appendChild(statusDiv);
       
-      // Initialize upload functionality
-      initializeImageUpload();
-      
-      loadPosts();
-      loadHardcodedPosts();
-    }
-
-    function initializeImageUpload() {
-      const fileUpload = document.getElementById('fileUpload');
-      const fileInput = document.getElementById('postImages');
-      
-      if (fileUpload && fileInput) {
-        // Remove existing listeners
-        fileUpload.replaceWith(fileUpload.cloneNode(true));
-        
-        // Re-get references after cloning
-        const newFileUpload = document.getElementById('fileUpload');
-        const newFileInput = document.getElementById('postImages');
-        
-        newFileUpload.addEventListener('click', () => newFileInput.click());
-        newFileUpload.addEventListener('dragover', handleDragOver);
-        newFileUpload.addEventListener('drop', handleDrop);
-        
-        // Add file input change handler
-        newFileInput.addEventListener('change', function(e) {
-          const files = Array.from(e.target.files);
-          handleMultipleFiles(files);
-        });
-        
-        console.log('Image upload initialized');
-      }
-    }
-
-    function logout() {
-      localStorage.removeItem('adminLoggedIn');
-      document.getElementById('loginContainer').style.display = 'block';
-      document.getElementById('adminContainer').style.display = 'none';
-      document.getElementById('passwordInput').value = '';
-      document.getElementById('errorMessage').style.display = 'none';
-    }
-
-    // Multi-image upload handling
-    let selectedImages = [];
-    let editingImages = [];
-    let currentEditingPost = null;
-
-    function handleDragOver(e) {
-      e.preventDefault();
-      const fileUpload = document.getElementById('fileUpload');
-      if (fileUpload) {
-        fileUpload.classList.add('dragover');
-      }
-    }
-
-    function handleDrop(e) {
-      e.preventDefault();
-      const fileUpload = document.getElementById('fileUpload');
-      if (fileUpload) {
-        fileUpload.classList.remove('dragover');
-      }
-      const files = Array.from(e.dataTransfer.files);
-      handleMultipleFiles(files);
-    }
-
-    fileInput.addEventListener('change', function(e) {
-      const files = Array.from(e.target.files);
-      handleMultipleFiles(files);
-    });
-
-    function handleMultipleFiles(files) {
-      console.log('Handling files:', files);
-      files.forEach(file => {
-        if (file.type.startsWith('image/')) {
-          console.log('Processing image file:', file.name);
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            const imageData = {
-              file: file,
-              dataUrl: e.target.result,
-              name: file.name
-            };
-            selectedImages.push(imageData);
-            console.log('Image added, total images:', selectedImages.length);
-            displaySelectedImages();
-            updateFileUploadText(selectedImages.length);
-          };
-          reader.readAsDataURL(file);
-        } else {
-          console.log('Skipping non-image file:', file.name);
-        }
-      });
-    }
-
-    function displaySelectedImages() {
-      const imageGallery = document.getElementById('imageGallery');
-      if (!imageGallery) return;
-      
-      imageGallery.innerHTML = '';
-      selectedImages.forEach((image, index) => {
-        const imagePreview = document.createElement('div');
-        imagePreview.className = 'image-preview';
-        imagePreview.innerHTML = `
-          <img src="${image.dataUrl}" alt="${image.name}">
-          <button type="button" class="remove-btn" onclick="removeImage(${index})">×</button>
-          <span class="image-name">${image.name}</span>
-        `;
-        imageGallery.appendChild(imagePreview);
-      });
-      
-      console.log('Displayed images:', selectedImages.length);
-    }
-
-    function removeImage(index) {
-      selectedImages.splice(index, 1);
-      displaySelectedImages();
-      if (selectedImages.length === 0) {
-        updateFileUploadText(0);
-      }
-    }
-
-    function updateFileUploadText(count) {
-      const fileUpload = document.getElementById('fileUpload');
-      if (!fileUpload) return;
-      
-      if (count === 0) {
-        fileUpload.innerHTML = '<p>📁 Sleep afbeeldingen hierheen of klik om te selecteren</p>';
-      } else {
-        fileUpload.innerHTML = `<p>✅ ${count} afbeelding(en) geselecteerd</p>`;
-      }
-    }
-
-    // Add post form handler
-    document.getElementById('addPostForm').addEventListener('submit', function(e) {
-      e.preventDefault(); // CRUCIALE REGEL - voorkomt page refresh
-      e.stopPropagation(); // Extra voorzorgsmaatregel
-      
-      console.log('🚀 Form submission started...');
-      
-      try {
-        console.log('📝 Collecting form data...');
-        
-        const title = document.getElementById('postTitle').value.trim();
-        const description = document.getElementById('postDescription').value.trim();
-        const category = document.getElementById('postCategory').value;
-        const type = document.getElementById('postType').value;
-        const client = document.getElementById('postClient').value.trim();
-        const projectDoel = document.getElementById('postProjectDoel').value.trim();
-        const tools = document.getElementById('postTools').value.trim();
-        const projectDate = document.getElementById('postProjectDate').value;
-        const status = document.getElementById('postStatus').value;
-        const featured = document.getElementById('postFeatured').checked;
-
-        console.log('✅ Form data collected successfully');
-        console.log('🖼️ Selected images count:', selectedImages.length);
-
-        // Validation
-        if (!title) {
-          alert('⚠️ Project titel is verplicht!');
-          return false;
-        }
-        
-        if (!description) {
-          alert('⚠️ Project beschrijving is verplicht!');
-          return false;
-        }
-
-        if (selectedImages.length === 0) {
-          alert('⚠️ Selecteer minimaal één afbeelding voor je project!');
-          return false;
-        }
-
-        console.log('✅ Validation passed - creating post object...');
-
-        // Create comprehensive post object
-        const post = {
-          id: Date.now(),
-          title: title,
-          description: description,
-          category: category,
-          type: type,
-          client: client,
-          purpose: projectDoel,
-          tools: tools,
-          date: new Date().toISOString().split('T')[0],
-          projectDate: projectDate,
-          status: status,
-          featured: featured,
-          images: selectedImages.map(img => img.dataUrl),
-          image: selectedImages[0].dataUrl,
-          mainImage: selectedImages[0].dataUrl
-        };
-
-        console.log('💾 Post object created, saving...');
-        
-        // Save the post
-        const saveResult = savePost(post);
-        
-        if (saveResult !== false) {
-          console.log('✅ Post saved successfully!');
-          
-          // Success feedback
-          const isNetlify = window.location.hostname.includes('netlify');
-          const successMessage = '✅ Project succesvol toegevoegd!\n\n' +
-                                '📋 Titel: ' + title + '\n' +
-                                '🖼️ Afbeeldingen: ' + selectedImages.length + '\n' +
-                                '🌐 Platform: ' + (isNetlify ? 'Netlify' : 'Lokaal') + '\n\n' +
-                                'Het project zou nu zichtbaar moeten zijn op de homepage!';
-          
-          alert(successMessage);
-          
-          console.log('� Reloading posts list...');
-          loadPosts();
-          
-          console.log('🧹 Resetting form...');
-          this.reset(); // Reset the form
-          selectedImages = [];
-          displaySelectedImages();
-          updateFileUploadText(0);
-          
-          console.log('🎉 Form submission completed successfully!');
-        } else {
-          throw new Error('Save operation failed');
-        }
-        
-      } catch (error) {
-        console.error('❌ Critical error during form submission:', error);
-        alert('❌ Er is een fout opgetreden bij het opslaan:\n\n' + error.message + '\n\nProbeer het opnieuw of check de debug panel.');
-      }
-      
-      // Ensure we never navigate away
-      return false;
-    });
-        loadPosts();
-        
-        console.log('🎉 Post saved successfully!');
-        
-        // Show success message with Netlify info
-        const isNetlify = window.location.hostname.includes('netlify');
-        alert('✅ Project succesvol toegevoegd! Het project is nu zichtbaar op de homepagina.' + 
-              (isNetlify ? '\n\n🌐 Netlify sync actief - ga naar homepage tab om te bekijken!' : ''));
-        
-        console.log('🌐 Netlify environment:', isNetlify);
-        
-        // Reset form
-        console.log('🧹 Resetting form...');
-        document.getElementById('addPostForm').reset();
-        selectedImages = [];
-        displaySelectedImages();
-        updateFileUploadText(0);
-        
-        console.log('✨ Form reset complete!');
-        
-      } catch (error) {
-        console.error('❌ Error during form submission:', error);
-        alert('❌ Er is een fout opgetreden bij het opslaan: ' + error.message);
-      }
-    });
-
-    function savePost(post) {
-      try {
-        console.log('💾 Starting savePost for:', post.title);
-        
-        let posts = JSON.parse(onlineStorage.getItem('portfolioPosts') || '[]');
-        posts.unshift(post); // Add to beginning
-        onlineStorage.setItem('portfolioPosts', JSON.stringify(posts));
-        
-        console.log('✅ Post saved to storage');
-        console.log('📊 Total posts now:', posts.length);
-        
-        // Also sync with main portfolio
-        updateMainPortfolio();
-        
-        // Trigger ALL sync methods for maximum compatibility
-        if (window.universalSync) {
-          window.universalSync.signalUpdate();
-          console.log('🌍 Universal sync triggered immediately');
-        }
-        
-        if (window.netlifySync) {
-          window.netlifySync.signalUpdate();
-          console.log('🌐 Netlify sync triggered immediately');
-        }
-        
-        console.log('🎯 savePost completed successfully');
-        return true; // Indicate success
-        
-      } catch (error) {
-        console.error('❌ Error in savePost:', error);
-        return false; // Indicate failure
-      }
-    }
-
-    function loadPosts() {
-      const posts = JSON.parse(localStorage.getItem('portfolioPosts') || '[]');
-      const postsList = document.getElementById('postsList');
-      
-      if (posts.length === 0) {
-        postsList.innerHTML = '<p style="text-align: center; color: #666;">Geen projecten gevonden. Voeg je eerste project toe!</p>';
-        return;
-      }
-
-      postsList.innerHTML = posts.map(post => {
-        const images = post.images || [post.image || post.mainImage]; // Backward compatibility
-        const mainImage = images[0];
-        
-        return `
-          <div class="post-item">
-            <div class="post-images-container">
-              ${images.length > 1 ? `
-                <div class="post-images-slider">
-                  <div class="slider-container">
-                    ${images.map((img, index) => `
-                      <div class="slide ${index === 0 ? 'active' : ''}" data-slide="${index}">
-                        <img src="${img}" alt="${post.title} - Image ${index + 1}">
-                      </div>
-                    `).join('')}
-                  </div>
-                  
-                  ${images.length > 1 ? `
-                    <div class="slider-nav">
-                      <button class="nav-btn prev" onclick="changeSlide(${post.id}, -1)">❮</button>
-                      <button class="nav-btn next" onclick="changeSlide(${post.id}, 1)">❯</button>
-                    </div>
-                    
-                    <div class="slider-dots">
-                      ${images.map((_, index) => `
-                        <span class="dot ${index === 0 ? 'active' : ''}" onclick="currentSlide(${post.id}, ${index})"></span>
-                      `).join('')}
-                    </div>
-                  ` : ''}
-                </div>
-              ` : `
-                <img src="${mainImage}" alt="${post.title}" class="single-image">
-              `}
-            </div>
-            
-            <div class="post-content">
-              <div class="post-header">
-                <h3>${post.title}</h3>
-                <span class="post-category ${post.category ? post.category.toLowerCase() : 'design'}">${post.category || post.type}</span>
-              </div>
-              
-              <div class="post-details">
-                <p><strong>Beschrijving:</strong> ${post.description}</p>
-                ${post.client ? `<p><strong>Client:</strong> ${post.client}</p>` : ''}
-                ${post.purpose ? `<p><strong>Doel:</strong> ${post.purpose}</p>` : ''}
-                ${post.tools ? `<p><strong>Tools:</strong> ${post.tools}</p>` : ''}
-                ${post.status ? `<p><strong>Status:</strong> ${post.status}</p>` : ''}
-              </div>
-              
-              <div class="post-meta">
-                <span>${post.type} • ${post.date} • ${images.length} foto${images.length !== 1 ? "'s" : ''}${post.featured ? ' • ⭐ Featured' : ''}</span>
-                <div class="post-actions">
-                  <button class="btn" onclick="editPost(${post.id})">✏️ Bewerken</button>
-                  <button class="btn btn-danger" onclick="deletePost(${post.id})">🗑️ Verwijderen</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-      }).join('');
-    }
-
-    // Instagram-style slider functionality
-    let currentSlides = {}; // Track current slide for each post
-
-    function changeSlide(postId, direction) {
-      const postElement = document.querySelector(`[data-post-id="${postId}"]`) || 
-                         Array.from(document.querySelectorAll('.post-item')).find(el => 
-                           el.innerHTML.includes(`onclick="editPost(${postId})"`));
-      
-      if (!postElement) return;
-
-      const slides = postElement.querySelectorAll('.slide');
-      const dots = postElement.querySelectorAll('.dot');
-      
-      if (!currentSlides[postId]) currentSlides[postId] = 0;
-      
-      // Remove active class from current slide and dot
-      slides[currentSlides[postId]].classList.remove('active');
-      dots[currentSlides[postId]].classList.remove('active');
-      
-      // Calculate next slide
-      currentSlides[postId] += direction;
-      
-      if (currentSlides[postId] >= slides.length) {
-        currentSlides[postId] = 0;
-      } else if (currentSlides[postId] < 0) {
-        currentSlides[postId] = slides.length - 1;
-      }
-      
-      // Add active class to new slide and dot
-      slides[currentSlides[postId]].classList.add('active');
-      dots[currentSlides[postId]].classList.add('active');
-    }
-
-    function currentSlide(postId, slideIndex) {
-      const postElement = document.querySelector(`[data-post-id="${postId}"]`) || 
-                         Array.from(document.querySelectorAll('.post-item')).find(el => 
-                           el.innerHTML.includes(`onclick="editPost(${postId})"`));
-      
-      if (!postElement) return;
-
-      const slides = postElement.querySelectorAll('.slide');
-      const dots = postElement.querySelectorAll('.dot');
-      
-      // Remove active from all
-      slides.forEach(slide => slide.classList.remove('active'));
-      dots.forEach(dot => dot.classList.remove('active'));
-      
-      // Add active to selected
-      slides[slideIndex].classList.add('active');
-      dots[slideIndex].classList.add('active');
-      
-      currentSlides[postId] = slideIndex;
-    }
-
-    function deletePost(id) {
-      if (confirm('Weet je zeker dat je dit project wilt verwijderen?')) {
-        let posts = JSON.parse(localStorage.getItem('portfolioPosts') || '[]');
-        posts = posts.filter(post => post.id !== id);
-        localStorage.setItem('portfolioPosts', JSON.stringify(posts));
-        loadPosts();
-        updateMainPortfolio();
-      }
-    }
-
-    // Edit modal functionality
-    const editModal = document.getElementById('editModal');
-    const closeModal = document.getElementById('closeModal');
-
-    closeModal.addEventListener('click', () => {
-      editModal.style.display = 'none';
-      currentEditingPost = null;
-      editingImages = [];
-    });
-
-    window.addEventListener('click', (e) => {
-      if (e.target === editModal) {
-        editModal.style.display = 'none';
-        currentEditingPost = null;
-        editingImages = [];
-      }
-    });
-
-    function editPost(id) {
-      const posts = JSON.parse(localStorage.getItem('portfolioPosts') || '[]');
-      const post = posts.find(p => p.id === id);
-      
-      if (post) {
-        currentEditingPost = post;
-        
-        // Fill form with current data
-        document.getElementById('editTitle').value = post.title;
-        document.getElementById('editDescription').value = post.description;
-        document.getElementById('editCategory').value = post.category || 'DESIGN';
-        document.getElementById('editType').value = post.type;
-        document.getElementById('editClient').value = post.client || '';
-        document.getElementById('editProjectDoel').value = post.purpose || '';
-        document.getElementById('editTools').value = post.tools || '';
-        document.getElementById('editProjectDate').value = post.projectDate || '';
-        document.getElementById('editStatus').value = post.status || 'Standaard Project';
-        document.getElementById('editFeatured').checked = post.featured || false;
-        
-        // Display current images
-        const currentImagesContainer = document.getElementById('currentImages');
-        const images = post.images || [post.image || post.mainImage];
-        
-        currentImagesContainer.innerHTML = images.map((img, index) => `
-          <div class="image-preview">
-            <img src="${img}" alt="Current image ${index + 1}">
-            <button type="button" class="remove-image" onclick="removeCurrentImage(${index})">❌</button>
-          </div>
-        `).join('');
-        
-        // Reset new images
-        editingImages = [];
-        document.getElementById('editImageGallery').innerHTML = '';
-        
-        // Show modal
-        editModal.style.display = 'block';
-      }
-    }
-
-    function removeCurrentImage(index) {
-      if (currentEditingPost && currentEditingPost.images) {
-        currentEditingPost.images.splice(index, 1);
-        
-        // Update display
-        const currentImagesContainer = document.getElementById('currentImages');
-        currentImagesContainer.innerHTML = currentEditingPost.images.map((img, i) => `
-          <div class="image-preview">
-            <img src="${img}" alt="Current image ${i + 1}">
-            <button type="button" class="remove-image" onclick="removeCurrentImage(${i})">❌</button>
-          </div>
-        `).join('');
-      }
-    }
-
-    // Edit form new image upload handling
-    const editFileUpload = document.getElementById('editFileUpload');
-    const editNewImages = document.getElementById('editNewImages');
-    const editImageGallery = document.getElementById('editImageGallery');
-
-    editFileUpload.addEventListener('click', () => editNewImages.click());
-    editFileUpload.addEventListener('dragover', handleEditDragOver);
-    editFileUpload.addEventListener('drop', handleEditDrop);
-
-    function handleEditDragOver(e) {
-      e.preventDefault();
-      editFileUpload.classList.add('dragover');
-    }
-
-    function handleEditDrop(e) {
-      e.preventDefault();
-      editFileUpload.classList.remove('dragover');
-      const files = Array.from(e.dataTransfer.files);
-      handleEditFiles(files);
-    }
-
-    editNewImages.addEventListener('change', function(e) {
-      const files = Array.from(e.target.files);
-      handleEditFiles(files);
-    });
-
-    function handleEditFiles(files) {
-      files.forEach(file => {
-        if (file.type.startsWith('image/')) {
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            const imageData = {
-              file: file,
-              dataUrl: e.target.result,
-              name: file.name
-            };
-            editingImages.push(imageData);
-            displayEditImages();
-          };
-          reader.readAsDataURL(file);
-        }
-      });
-    }
-
-    function displayEditImages() {
-      editImageGallery.innerHTML = '';
-      editingImages.forEach((image, index) => {
-        const imagePreview = document.createElement('div');
-        imagePreview.className = 'image-preview';
-        imagePreview.innerHTML = `
-          <img src="${image.dataUrl}" alt="${image.name}">
-          <button type="button" class="remove-image" onclick="removeEditImage(${index})">❌</button>
-          <span class="image-name">${image.name}</span>
-        `;
-        editImageGallery.appendChild(imagePreview);
-      });
-    }
-
-    function removeEditImage(index) {
-      editingImages.splice(index, 1);
-      displayEditImages();
-    }
-
-    // Edit form submit handler
-    document.getElementById('editPostForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      if (!currentEditingPost) return;
-      
-      // Update post data with all fields
-      currentEditingPost.title = document.getElementById('editTitle').value;
-      currentEditingPost.description = document.getElementById('editDescription').value;
-      currentEditingPost.category = document.getElementById('editCategory').value;
-      currentEditingPost.type = document.getElementById('editType').value;
-      currentEditingPost.client = document.getElementById('editClient').value;
-      currentEditingPost.purpose = document.getElementById('editProjectDoel').value;
-      currentEditingPost.tools = document.getElementById('editTools').value;
-      currentEditingPost.projectDate = document.getElementById('editProjectDate').value;
-      currentEditingPost.status = document.getElementById('editStatus').value;
-      currentEditingPost.featured = document.getElementById('editFeatured').checked;
-      
-      if (currentEditingPost.isHardcoded) {
-        // Handle hardcoded post editing
-        let overriddenPosts = JSON.parse(localStorage.getItem('overriddenHardcodedPosts') || '{}');
-        
-        // Create override object
-        const override = {
-          id: currentEditingPost.originalId,
-          title: currentEditingPost.title,
-          description: currentEditingPost.description,
-          category: currentEditingPost.category,
-          type: currentEditingPost.type,
-          client: currentEditingPost.client,
-          purpose: currentEditingPost.purpose,
-          tools: currentEditingPost.tools,
-          projectDate: currentEditingPost.projectDate,
-          status: currentEditingPost.status,
-          featured: currentEditingPost.featured,
-          image: currentEditingPost.image, // Keep original image unless new ones are added
-          date: currentEditingPost.date
-        };
-        
-        // Add new images if any
-        if (editingImages.length > 0) {
-          override.images = [override.image, ...editingImages.map(img => img.dataUrl)];
-          override.mainImage = override.image;
-        }
-        
-        overriddenPosts[currentEditingPost.originalId] = override;
-        localStorage.setItem('overriddenHardcodedPosts', JSON.stringify(overriddenPosts));
-        loadHardcodedPosts();
-      } else {
-        // Handle regular post editing
-        // Combine current images with new images
-        const currentImages = currentEditingPost.images || [currentEditingPost.image || currentEditingPost.mainImage];
-        const allImages = [...currentImages, ...editingImages.map(img => img.dataUrl)];
-        
-        currentEditingPost.images = allImages;
-        currentEditingPost.mainImage = allImages[0]; // Update main image for backward compatibility
-        
-        // Save updated post
-        let posts = JSON.parse(localStorage.getItem('portfolioPosts') || '[]');
-        const postIndex = posts.findIndex(p => p.id === currentEditingPost.id);
-        if (postIndex !== -1) {
-          posts[postIndex] = currentEditingPost;
-          localStorage.setItem('portfolioPosts', JSON.stringify(posts));
-          loadPosts();
-        }
-      }
-      
-      updateMainPortfolio();
-      
-      // Close modal
-      editModal.style.display = 'none';
-      currentEditingPost = null;
-      editingImages = [];
-      
-      alert('Project succesvol bijgewerkt!');
-    });
-
-    // Delete post from edit modal
-    document.getElementById('deletePost').addEventListener('click', function() {
-      if (currentEditingPost && confirm('Weet je zeker dat je dit project wilt verwijderen?')) {
-        deletePost(currentEditingPost.id);
-        editModal.style.display = 'none';
-        currentEditingPost = null;
-        editingImages = [];
-      }
-    });
-
-    function updateMainPortfolio() {
-      // Signal main portfolio to reload using safe storage
-      const timestamp = Date.now().toString();
-      
-      try {
-        onlineStorage.setItem('portfolioUpdated', timestamp);
-        onlineStorage.setItem('newPostAdded', 'true');
-        onlineStorage.setItem('lastPortfolioUpdate', timestamp);
-        
-        // For file:// protocol, also use sessionStorage if available
-        if (typeof sessionStorage !== 'undefined') {
-          sessionStorage.setItem('portfolioNeedsUpdate', timestamp);
-        }
-        
-        console.log('✅ Portfolio update signals sent successfully');
-      } catch (e) {
-        console.error('❌ Error sending portfolio update signals:', e);
-      }
-      
-      // Trigger all sync methods
-      if (window.universalSync) {
-        window.universalSync.signalUpdate();
-        console.log('🌍 Universal sync triggered');
-      }
-      
-      if (window.netlifySync) {
-        window.netlifySync.signalUpdate();
-        console.log('🌐 Netlify sync triggered');
-      }
-      
-      // NEW: Trigger direct sync as backup
-      if (window.directSync) {
+      // Simulate upload process (in real implementation, this would call a server endpoint)
+      setTimeout(() => {
+        statusDiv.innerHTML = '📝 Preparing files...';
         setTimeout(() => {
-          console.log('🎯 Triggering direct sync in other tabs...');
-        }, 100);
-      }
-      
-      // If main portfolio is open in another tab, trigger immediate refresh
-      try {
-        window.postMessage({
-          type: 'PORTFOLIO_UPDATED',
-          timestamp: Date.now()
-        }, '*');
-        
-        // Also try to communicate via localStorage event simulation
-        onlineStorage.setItem('forcePortfolioReload', timestamp);
-        setTimeout(() => {
-          onlineStorage.removeItem('forcePortfolioReload');
+          statusDiv.innerHTML = '🚀 Pushing to GitHub...';
+          setTimeout(() => {
+            statusDiv.innerHTML = '✅ Upload complete!';
+            statusDiv.style.background = '#28a745';
+            setTimeout(() => {
+              document.body.removeChild(statusDiv);
+              
+              // Show instructions
+              const instructions = `
+🎉 Upload gesimuleerd!
+
+Voor echte upload:
+1. Open PowerShell/Terminal in je portfolio folder
+2. Run: git add .
+3. Run: git commit -m "Portfolio update"
+4. Run: git push origin main
+
+Of dubbelklik op 'upload.bat' bestand.
+
+Je portfolio is dan online beschikbaar via:
+• GitHub Pages: https://jesshielema.github.io/portfolio
+• Netlify: Je custom domain
+• Vercel: Je deployment URL
+              `;
+              
+              alert(instructions);
+            }, 2000);
+          }, 1500);
         }, 1000);
-        
-      } catch (error) {
-        console.log('Cross-tab communication limited (possible file:// protocol)');
-      }
-      
-      console.log('📡 Portfolio bijgewerkt - signalen verstuurd naar hoofdpagina');
-      console.log('💡 Tip: Voor beste werking gebruik Live Server extensie in VS Code');
-      
-      // Special Netlify sync signal
-      if (window.netlifySync) {
-        window.netlifySync.signalUpdate();
-        console.log('🌐 Netlify sync signal sent');
-      }
-    }
-    
-    // Enhanced manual refresh function for Netlify
-    function forceHomepageRefresh() {
-      const timestamp = Date.now().toString();
-      
-      // Set multiple flags to trigger refresh
-      onlineStorage.setItem('forceRefresh', timestamp);
-      onlineStorage.setItem('portfolioUpdated', timestamp);
-      onlineStorage.setItem('newPostAdded', 'true');
-      onlineStorage.setItem('lastPortfolioUpdate', timestamp);
-      onlineStorage.setItem('netlifyForceUpdate', timestamp);
-      
-      if (typeof sessionStorage !== 'undefined') {
-        sessionStorage.setItem('portfolioNeedsUpdate', timestamp);
-      }
-      
-      // Trigger Netlify sync if available
-      if (window.netlifySync) {
-        window.netlifySync.signalUpdate();
-        console.log('🌐 Netlify force update triggered');
-      }
-      
-      alert('🔄 Homepage refresh signaal verstuurd!\n\nGa nu naar je homepage tab en kijk of je nieuwe project er staat.\n\n🌐 Netlify sync: ' + (window.netlifySync ? 'Actief' : 'Niet beschikbaar'));
-      
-      console.log('🚨 Force refresh signals sent to homepage (including Netlify)');
+      }, 500);
     }
 
-    // Hardcoded portfolio items (same as in script.js)
-    const hardcodedPosts = [
-      {
-        id: 1,
-        title: "Character Design Project",
-        image: "images/characters.jpg",
-        type: "Design",
-        category: "DESIGN",
-        date: "2024-01-15",
-        featured: true,
-        description: "Een uitgebreide character design studie voor een nieuwe animatieserie.",
-        client: "Animation Studio XYZ",
-        purpose: "Character ontwikkeling voor nieuwe serie",
-        tools: "Photoshop, Illustrator, Procreate"
-      },
-      {
-        id: 2,
-        title: "Brand Identity",
-        image: "images/project2.jpg",
-        type: "Branding",
-        category: "BRANDING",
-        date: "2024-01-10",
-        featured: false,
-        description: "Complete merkidentiteit voor een tech startup.",
-        client: "TechStart BV",
-        purpose: "Volledige rebranding voor marktlancering",
-        tools: "Illustrator, InDesign, Figma"
-      },
-      {
-        id: 3,
-        title: "Mobile App Design",
-        image: "images/project3.jpg",
-        type: "UI/UX",
-        category: "UI/UX",
-        date: "2024-01-08",
-        featured: false,
-        description: "Gebruiksvriendelijke mobile app voor fitness tracking.",
-        client: "FitLife App",
-        purpose: "Intuïtieve fitness tracking experience",
-        tools: "Figma, Principle, After Effects"
-      },
-      {
-        id: 4,
-        title: "Logo Animation",
-        image: "images/project4.jpg",
-        type: "Motion",
-        category: "MOTION",
-        date: "2024-01-05",
-        featured: true,
-        description: "Dynamische logo animatie voor branding purposes.",
-        client: "Dynamic Brands",
-        purpose: "Levendige merkidentiteit voor video content",
-        tools: "After Effects, Cinema 4D, Illustrator"
-      },
-      {
-        id: 5,
-        title: "Website Redesign",
-        image: "images/project5.png",
-        type: "Web",
-        category: "WEB",
-        date: "2024-01-03",
-        featured: false,
-        description: "Moderne website redesign met focus op UX.",
-        client: "E-commerce Plus",
-        purpose: "Verbetering van conversie en gebruikerservaring",
-        tools: "Figma, HTML/CSS, JavaScript"
-      },
-      {
-        id: 6,
-        title: "Packaging Design",
-        image: "images/project6.png",
-        type: "Design",
-        category: "DESIGN",
-        date: "2024-01-01",
-        featured: false,
-        description: "Duurzame packaging oplossing voor cosmetica merk.",
-        client: "Natural Beauty Co",
-        purpose: "Eco-vriendelijke verpakking met premium uitstraling",
-        tools: "Illustrator, Photoshop, KeyShot"
-      }
-      // Add more if needed, but keeping it manageable
-    ];
-
-    // Load hardcoded posts management
-    function loadHardcodedPosts() {
-      console.log('Loading hardcoded posts...');
-      const hardcodedPostsList = document.getElementById('hardcodedPostsList');
-      
-      if (!hardcodedPostsList) {
-        console.error('hardcodedPostsList element not found');
-        return;
-      }
-      
-      console.log('Found hardcodedPostsList element');
-      console.log('Hardcoded posts array:', hardcodedPosts);
-      
-      const hiddenPosts = JSON.parse(localStorage.getItem('hiddenHardcodedPosts') || '[]');
-      const overriddenPosts = JSON.parse(localStorage.getItem('overriddenHardcodedPosts') || '{}');
-      
-      console.log('Hidden posts:', hiddenPosts);
-      console.log('Overridden posts:', overriddenPosts);
-      
-      if (hardcodedPosts.length === 0) {
-        hardcodedPostsList.innerHTML = '<p>Geen hardcoded posts gevonden.</p>';
-        return;
-      }
-      
-      hardcodedPostsList.innerHTML = hardcodedPosts.map(post => {
-        const isHidden = hiddenPosts.includes(post.id);
-        const isOverridden = overriddenPosts[post.id];
-        const currentPost = isOverridden ? overriddenPosts[post.id] : post;
-        
-        return `
-          <div class="hardcoded-post-item ${isHidden ? 'hidden' : ''}">
-            <div class="hardcoded-post-header">
-              <h4>${currentPost.title}</h4>
-              <span class="hardcoded-post-status ${isHidden ? 'hidden' : 'visible'}">
-                ${isHidden ? 'Verborgen' : 'Zichtbaar'}
-              </span>
-            </div>
-            
-            <div class="post-details">
-              <p><strong>Type:</strong> ${currentPost.type} | <strong>Categorie:</strong> ${currentPost.category || 'DESIGN'}</p>
-              <p><strong>Beschrijving:</strong> ${currentPost.description}</p>
-              <p><strong>Client:</strong> ${currentPost.client || 'Niet ingesteld'}</p>
-              <p><strong>Tools:</strong> ${currentPost.tools || 'Niet ingesteld'}</p>
-            </div>
-            
-            <div class="hardcoded-post-actions">
-              <button class="btn" onclick="editHardcodedPost(${post.id})">✏️ Bewerken</button>
-              <button class="btn ${isHidden ? '' : 'btn-danger'}" onclick="toggleHardcodedPost(${post.id})">
-                ${isHidden ? '👁️ Tonen' : '🙈 Verbergen'}
-              </button>
-              ${isOverridden ? `<button class="btn btn-secondary" onclick="resetHardcodedPost(${post.id})">🔄 Reset</button>` : ''}
-            </div>
-          </div>
-        `;
-      }).join('');
-      
-      console.log('Hardcoded posts HTML generated');
-    }
-
-    // Toggle visibility of hardcoded post
-    function toggleHardcodedPost(id) {
-      let hiddenPosts = JSON.parse(localStorage.getItem('hiddenHardcodedPosts') || '[]');
-      
-      if (hiddenPosts.includes(id)) {
-        hiddenPosts = hiddenPosts.filter(postId => postId !== id);
-      } else {
-        hiddenPosts.push(id);
-      }
-      
-      localStorage.setItem('hiddenHardcodedPosts', JSON.stringify(hiddenPosts));
-      loadHardcodedPosts();
-      updateMainPortfolio();
-    }
-
-    // Edit hardcoded post
-    function editHardcodedPost(id) {
-      console.log('🔧 Editing hardcoded post with ID:', id);
-      const overriddenPosts = JSON.parse(localStorage.getItem('overriddenHardcodedPosts') || '{}');
-      const originalPost = hardcodedPosts.find(p => p.id === id);
-      const currentPost = overriddenPosts[id] || originalPost;
-      
-      console.log('📝 Found post:', currentPost);
-      
-      if (currentPost) {
-        // Set as current editing post
-        currentEditingPost = {...currentPost, isHardcoded: true, originalId: id};
-        
-        console.log('💾 Setting form values...');
-        
-        // Fill form with current data
-        document.getElementById('editTitle').value = currentPost.title;
-        document.getElementById('editDescription').value = currentPost.description;
-        document.getElementById('editCategory').value = currentPost.category || 'DESIGN';
-        document.getElementById('editType').value = currentPost.type;
-        document.getElementById('editClient').value = currentPost.client || '';
-        document.getElementById('editProjectDoel').value = currentPost.purpose || '';
-        document.getElementById('editTools').value = currentPost.tools || '';
-        document.getElementById('editProjectDate').value = currentPost.projectDate || '';
-        document.getElementById('editStatus').value = currentPost.status || 'Standaard Project';
-        document.getElementById('editFeatured').checked = currentPost.featured || false;
-        
-        // Display current images (single image for hardcoded posts)
-        const currentImagesContainer = document.getElementById('currentImages');
-        if (currentImagesContainer) {
-          currentImagesContainer.innerHTML = `
-            <div class="image-preview">
-              <img src="${currentPost.image || currentPost.images?.[0] || currentPost.mainImage}" alt="${currentPost.title}">
-              <span class="image-name">Hardcoded afbeelding</span>
-            </div>
-          `;
-        }
-        
-        // Reset new images
-        editingImages = [];
-        const editImageGallery = document.getElementById('editImageGallery');
-        if (editImageGallery) {
-          editImageGallery.innerHTML = '';
-        }
-        
-        // Show modal
-        const editModal = document.getElementById('editModal');
-        if (editModal) {
-          editModal.style.display = 'block';
-          console.log('✅ Edit modal opened for hardcoded post');
-        } else {
-          console.error('❌ Edit modal not found');
-          alert('Edit modal niet gevonden in de HTML!');
-        }
-      } else {
-        console.error('❌ Post not found with ID:', id);
-        alert('Hardcoded post niet gevonden!');
-      }
-    }
-
-    // Reset hardcoded post to original
-    function resetHardcodedPost(id) {
-      if (confirm('Weet je zeker dat je dit project wilt resetten naar de originele waarden?')) {
-        let overriddenPosts = JSON.parse(localStorage.getItem('overriddenHardcodedPosts') || '{}');
-        delete overriddenPosts[id];
-        localStorage.setItem('overriddenHardcodedPosts', JSON.stringify(overriddenPosts));
-        loadHardcodedPosts();
-        updateMainPortfolio();
-      }
-    }
-
-    // Auto-logout after 30 minutes of inactivity
-    let logoutTimer;
-    function resetLogoutTimer() {
-      clearTimeout(logoutTimer);
-      logoutTimer = setTimeout(() => {
-        if (localStorage.getItem('adminLoggedIn') === 'true') {
-          logout();
-          alert('Sessie verlopen. Log opnieuw in.');
-        }
-      }, 30 * 60 * 1000); // 30 minutes
-    }
-
-    // Reset timer on any activity
-    document.addEventListener('click', resetLogoutTimer);
-    document.addEventListener('keypress', resetLogoutTimer);
-    resetLogoutTimer();
+    // Make upload function global
+    window.uploadToGitHub = uploadToGitHub;
   </script>
 </body>
 </html>

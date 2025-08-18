@@ -1868,3 +1868,34 @@ function handleContactForm(event) {
     button.style.background = '';
   }, 3000);
 }
+
+// ===== NETLIFY CMS INTEGRATION SUPPORT =====
+
+// Wait for Netlify CMS integration to be ready
+document.addEventListener('DOMContentLoaded', () => {
+  // Small delay to ensure all scripts are loaded
+  setTimeout(() => {
+    if (window.portfolioLoader) {
+      console.log('✅ Netlify CMS integration detected and active');
+      
+      // Disable old portfolio loading if it exists
+      const oldPortfolioInit = document.querySelector('[data-old-portfolio]');
+      if (oldPortfolioInit) {
+        oldPortfolioInit.remove();
+        console.log('🗑️ Removed old portfolio initialization');
+      }
+    } else {
+      console.log('⚠️ Netlify CMS integration not found, using fallback');
+      // Fallback to existing portfolio display logic
+      initializeFallbackPortfolio();
+    }
+  }, 1000);
+});
+
+// Fallback portfolio initialization 
+function initializeFallbackPortfolio() {
+  console.log('🔄 Initializing fallback portfolio display...');
+  
+  // Your existing portfolio logic can go here as fallback
+  // This ensures the site still works even if CMS integration fails
+}

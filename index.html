@@ -39,6 +39,9 @@
   <script src="direct-sync.js"></script>
   <script src="visual-debug.js"></script>
   
+  <!-- Netlify CMS Integration -->
+  <script src="netlify-cms-integration.js"></script>
+  
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -116,9 +119,21 @@
             <button class="mobile-filter-option" data-filter="Illustration">Illustration</button>
           </div>
         </div>
+        
+        <!-- Source Filters (Hidden from public) -->
+        <div class="source-filters" style="display: none;">
+          <button class="source-filter-btn active" data-source="all">🌐 All Sources</button>
+          <button class="source-filter-btn netlify-cms" data-source="netlify-cms">🌐 Netlify CMS</button>
+          <button class="source-filter-btn admin" data-source="admin">👨‍💼 Admin Panel</button>
+          <button class="source-filter-btn hardcoded" data-source="hardcoded">📦 Hardcoded</button>
+        </div>
       </div>
+      
       <div id="postsContainer" class="feed-grid">
         <!-- Posts worden hier geladen via JavaScript -->
+        <div class="cms-loading" id="cmsLoading" style="display: none;">
+          🌐 Loading posts from all sources...
+        </div>
       </div>
       <div class="see-more-container" id="seeMoreContainer">
         <button class="see-more-btn" id="seeMoreBtn">
