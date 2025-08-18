@@ -67,6 +67,7 @@
     <div id="syncStatus"></div>
     <button class="test-button" onclick="testSync()">Test Sync</button>
     <button class="test-button" onclick="simulateAdminUpdate()">Simulate Admin Update</button>
+    <button class="test-button" onclick="testNetlifySync()">Test Netlify Sync</button>
   </div>
   
   <div class="test-card">
@@ -78,6 +79,7 @@
   <script src="safe-storage.js"></script>
   <script src="debug-online.js"></script>
   <script src="online-sync.js"></script>
+  <script src="netlify-sync.js"></script>
   
   <script>
     let consoleMessages = [];
@@ -125,10 +127,16 @@
       const protocol = window.location.protocol;
       const isOnline = protocol === 'http:' || protocol === 'https:';
       const hostname = window.location.hostname;
+      const isNetlify = hostname.includes('netlify.app') || hostname.includes('netlify.com');
       
       let message = `Protocol: ${protocol}<br>`;
       message += `Hostname: ${hostname}<br>`;
-      message += `Environment: ${isOnline ? 'Online (HTTP/HTTPS)' : 'Local (File)'}`;
+      message += `Environment: ${isOnline ? 'Online (HTTP/HTTPS)' : 'Local (File)'}<br>`;
+      message += `Netlify: ${isNetlify ? '✅ Yes' : '❌ No'}`;
+      
+      if (isNetlify) {
+        message += '<br><strong>🌐 Netlify sync should be active!</strong>';
+      }
       
       showStatus('environmentStatus', message, isOnline ? 'success' : 'warning');
     }
@@ -200,6 +208,15 @@
         results.push('❌ onlineSync: Not available');
       }
       
+      // Test Netlify sync
+      if (window.netlifySync) {
+        results.push('✅ netlifySync: Available (Netlify detected)');
+        window.netlifySync.forceUpdate();
+        results.push('🌐 Netlify sync test triggered');
+      } else {
+        results.push('ℹ️ netlifySync: Not active (not on Netlify)');
+      }
+      
       showStatus('syncStatus', results.join('<br>'), 'success');
     }
     
@@ -210,10 +227,26 @@
         window.safeStorage.setItem('portfolioUpdated', timestamp);
         window.safeStorage.setItem('newPostAdded', 'true');
         window.safeStorage.setItem('lastPortfolioUpdate', timestamp);
+        window.safeStorage.setItem('netlifyForceUpdate', timestamp);
         
-        showStatus('syncStatus', '📡 Admin update simulated with timestamp: ' + timestamp, 'success');
+        // Also trigger netlify sync if available
+        if (window.netlifySync) {
+          window.netlifySync.signalUpdate();
+        }
+        
+        showStatus('syncStatus', '📡 Admin update simulated with timestamp: ' + timestamp + 
+                   (window.netlifySync ? '<br>🌐 Netlify sync triggered' : ''), 'success');
       } else {
         showStatus('syncStatus', '❌ Cannot simulate - safeStorage not available', 'error');
+      }
+    }
+    
+    function testNetlifySync() {
+      if (window.netlifySync) {
+        window.netlifySync.forceUpdate();
+        showStatus('syncStatus', '🌐 Netlify force update triggered!', 'success');
+      } else {
+        showStatus('syncStatus', 'ℹ️ Netlify sync not available (not on netlify.app domain)', 'warning');
       }
     }
     

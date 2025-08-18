@@ -934,6 +934,7 @@
   <script src="safe-storage.js"></script>
   <script src="debug-online.js"></script>
   <script src="online-sync.js"></script>
+  <script src="netlify-sync.js"></script>
 
   <script>
     // Online Compatibility Layer - Wrapper for localStorage with fallback
@@ -1199,8 +1200,12 @@
         
         console.log('🎉 Post saved successfully!');
         
-        // Show success message
-        alert('✅ Project succesvol toegevoegd! Het project is nu zichtbaar op de homepagina.');
+        // Show success message with Netlify info
+        const isNetlify = window.location.hostname.includes('netlify');
+        alert('✅ Project succesvol toegevoegd! Het project is nu zichtbaar op de homepagina.' + 
+              (isNetlify ? '\n\n🌐 Netlify sync actief - ga naar homepage tab om te bekijken!' : ''));
+        
+        console.log('🌐 Netlify environment:', isNetlify);
         
         // Reset form
         console.log('🧹 Resetting form...');
@@ -1218,12 +1223,31 @@
     });
 
     function savePost(post) {
-      let posts = JSON.parse(localStorage.getItem('portfolioPosts') || '[]');
-      posts.unshift(post); // Add to beginning
-      localStorage.setItem('portfolioPosts', JSON.stringify(posts));
-      
-      // Also sync with main portfolio
-      updateMainPortfolio();
+      try {
+        console.log('💾 Starting savePost for:', post.title);
+        
+        let posts = JSON.parse(onlineStorage.getItem('portfolioPosts') || '[]');
+        posts.unshift(post); // Add to beginning
+        onlineStorage.setItem('portfolioPosts', JSON.stringify(posts));
+        
+        console.log('✅ Post saved to storage');
+        console.log('📊 Total posts now:', posts.length);
+        
+        // Also sync with main portfolio
+        updateMainPortfolio();
+        
+        // Immediate Netlify sync trigger
+        if (window.netlifySync) {
+          window.netlifySync.signalUpdate();
+          console.log('🌐 Netlify sync triggered immediately');
+        }
+        
+        console.log('🎯 savePost completed successfully');
+        
+      } catch (error) {
+        console.error('❌ Error in savePost:', error);
+        throw error;
+      }
     }
 
     function loadPosts() {
@@ -1621,22 +1645,38 @@
       
       console.log('📡 Portfolio bijgewerkt - signalen verstuurd naar hoofdpagina');
       console.log('💡 Tip: Voor beste werking gebruik Live Server extensie in VS Code');
+      
+      // Special Netlify sync signal
+      if (window.netlifySync) {
+        window.netlifySync.signalUpdate();
+        console.log('🌐 Netlify sync signal sent');
+      }
     }
     
-    // Manual refresh function for troubleshooting
+    // Enhanced manual refresh function for Netlify
     function forceHomepageRefresh() {
       const timestamp = Date.now().toString();
       
       // Set multiple flags to trigger refresh
-      localStorage.setItem('forceRefresh', timestamp);
-      localStorage.setItem('portfolioUpdated', timestamp);
-      localStorage.setItem('newPostAdded', 'true');
-      localStorage.setItem('lastPortfolioUpdate', timestamp);
-      sessionStorage.setItem('portfolioNeedsUpdate', timestamp);
+      onlineStorage.setItem('forceRefresh', timestamp);
+      onlineStorage.setItem('portfolioUpdated', timestamp);
+      onlineStorage.setItem('newPostAdded', 'true');
+      onlineStorage.setItem('lastPortfolioUpdate', timestamp);
+      onlineStorage.setItem('netlifyForceUpdate', timestamp);
       
-      alert('🔄 Homepage refresh signaal verstuurd!\n\nGa nu naar je homepage tab en kijk of je nieuwe project er staat.\n\nTip: Voor automatische sync, gebruik Live Server in VS Code.');
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.setItem('portfolioNeedsUpdate', timestamp);
+      }
       
-      console.log('🚨 Force refresh signals sent to homepage');
+      // Trigger Netlify sync if available
+      if (window.netlifySync) {
+        window.netlifySync.signalUpdate();
+        console.log('🌐 Netlify force update triggered');
+      }
+      
+      alert('🔄 Homepage refresh signaal verstuurd!\n\nGa nu naar je homepage tab en kijk of je nieuwe project er staat.\n\n🌐 Netlify sync: ' + (window.netlifySync ? 'Actief' : 'Niet beschikbaar'));
+      
+      console.log('🚨 Force refresh signals sent to homepage (including Netlify)');
     }
 
     // Hardcoded portfolio items (same as in script.js)
