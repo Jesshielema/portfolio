@@ -2087,7 +2087,7 @@ body.touch-scrolling *:hover {
   .post-card:nth-child(n) { grid-row-end: span 40; }
 }
 
-/* Post Detail Modal - Fixed positioning for perfect centering */
+/* Post Detail Modal - CORRECT implementation */
 .post-modal {
   position: fixed;
   top: 0;
@@ -2097,27 +2097,19 @@ body.touch-scrolling *:hover {
   background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(10px);
   z-index: 2000;
-  display: none; /* Start hidden */
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease-in-out;
-  /* Ensure modal always appears in viewport center */
+  transition: opacity 0.3s ease, visibility 0.3s ease;
   transform: translateZ(0);
-  backface-visibility: hidden;
-  /* Force layer creation for perfect positioning */
-  will-change: opacity, visibility;
 }
 
 .post-modal.active {
   opacity: 1;
   visibility: visible;
-  /* Force rendering on top layer to prevent scroll issues */
-  transform: translateZ(0);
-  /* Alternative centering method for better browser compatibility */
-  display: flex !important;
 }
 
 .modal-content {

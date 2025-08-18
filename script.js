@@ -34,20 +34,6 @@ function optimizeScrollPerformance() {
 // Initialize performance optimizations
 optimizeScrollPerformance();
 
-// Emergency modal reset on page load
-document.addEventListener('DOMContentLoaded', () => {
-  // Force close any open modals on page load
-  const modal = document.getElementById('postModal');
-  if (modal) {
-    modal.classList.remove('active');
-    modal.style.display = 'none';
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    document.body.style.overflow = '';
-  }
-});
-
 // ===== ANALYTICS & TRACKING =====
 
 // Track contact form submissions
@@ -1144,26 +1130,15 @@ function openPostDetail(post) {
     }
   }
 
-  // Show modal with proper centering and scroll lock
-  modal.classList.add('active');
-  modal.style.display = 'flex'; // Use flex for perfect centering
-  
-  // Prevent body scroll but maintain scroll position
+  // Show modal CORRECTLY
   const scrollY = window.scrollY;
-  document.body.style.overflow = 'hidden';
   document.body.style.position = 'fixed';
   document.body.style.top = `-${scrollY}px`;
   document.body.style.width = '100%';
+  document.body.style.overflow = 'hidden';
   
-  // Store scroll position for restore on close
   modal.setAttribute('data-scroll-y', scrollY.toString());
-  
-  // Force modal to appear in current viewport (additional safeguard)
-  requestAnimationFrame(() => {
-    modal.style.top = '0';
-    modal.style.left = '0';
-    modal.style.position = 'fixed';
-  });
+  modal.classList.add('active');
   
   // Add CTA button if not already present
   let ctaButton = modal.querySelector('.modal-cta-btn');
@@ -1380,13 +1355,13 @@ function changeModalImage(direction) {
   }
 }
 
-// Close modal functionality
+// Close modal CORRECTLY
 function closePostModal() {
   const modal = document.getElementById('postModal');
+  const scrollY = modal.getAttribute('data-scroll-y');
+  
   modal.classList.remove('active');
   
-  // Restore scroll position
-  const scrollY = modal.getAttribute('data-scroll-y');
   document.body.style.position = '';
   document.body.style.top = '';
   document.body.style.width = '';
@@ -1396,12 +1371,6 @@ function closePostModal() {
     window.scrollTo(0, parseInt(scrollY));
     modal.removeAttribute('data-scroll-y');
   }
-  
-  // Hide modal completely
-  setTimeout(() => {
-    modal.style.display = 'none';
-  }, 300);
-}
 }
 
 // Modal event listeners
