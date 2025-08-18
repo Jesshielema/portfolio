@@ -935,6 +935,7 @@
   <script src="debug-online.js"></script>
   <script src="online-sync.js"></script>
   <script src="netlify-sync.js"></script>
+  <script src="universal-sync.js"></script>
 
   <script>
     // Online Compatibility Layer - Wrapper for localStorage with fallback
@@ -1236,7 +1237,12 @@
         // Also sync with main portfolio
         updateMainPortfolio();
         
-        // Immediate Netlify sync trigger
+        // Trigger ALL sync methods for maximum compatibility
+        if (window.universalSync) {
+          window.universalSync.signalUpdate();
+          console.log('🌍 Universal sync triggered immediately');
+        }
+        
         if (window.netlifySync) {
           window.netlifySync.signalUpdate();
           console.log('🌐 Netlify sync triggered immediately');
@@ -1624,6 +1630,17 @@
         console.log('✅ Portfolio update signals sent successfully');
       } catch (e) {
         console.error('❌ Error sending portfolio update signals:', e);
+      }
+      
+      // Trigger all sync methods
+      if (window.universalSync) {
+        window.universalSync.signalUpdate();
+        console.log('🌍 Universal sync triggered');
+      }
+      
+      if (window.netlifySync) {
+        window.netlifySync.signalUpdate();
+        console.log('🌐 Netlify sync triggered');
       }
       
       // If main portfolio is open in another tab, trigger immediate refresh

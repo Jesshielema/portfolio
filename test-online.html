@@ -65,8 +65,9 @@
   <div class="test-card">
     <h2>Sync Tests</h2>
     <div id="syncStatus"></div>
-    <button class="test-button" onclick="testSync()">Test Sync</button>
+    <button class="test-button" onclick="testSync()">Test All Sync</button>
     <button class="test-button" onclick="simulateAdminUpdate()">Simulate Admin Update</button>
+    <button class="test-button" onclick="testUniversalSync()">Test Universal Sync</button>
     <button class="test-button" onclick="testNetlifySync()">Test Netlify Sync</button>
   </div>
   
@@ -80,6 +81,7 @@
   <script src="debug-online.js"></script>
   <script src="online-sync.js"></script>
   <script src="netlify-sync.js"></script>
+  <script src="universal-sync.js"></script>
   
   <script>
     let consoleMessages = [];
@@ -129,13 +131,17 @@
       const hostname = window.location.hostname;
       const isNetlify = hostname.includes('netlify.app') || hostname.includes('netlify.com');
       
+      // Get universal sync platform detection
+      const platform = window.universalSync ? window.universalSync.platform : 'unknown';
+      
       let message = `Protocol: ${protocol}<br>`;
       message += `Hostname: ${hostname}<br>`;
       message += `Environment: ${isOnline ? 'Online (HTTP/HTTPS)' : 'Local (File)'}<br>`;
-      message += `Netlify: ${isNetlify ? '✅ Yes' : '❌ No'}`;
+      message += `Netlify: ${isNetlify ? '✅ Yes' : '❌ No'}<br>`;
+      message += `Platform: ${platform}<br>`;
       
-      if (isNetlify) {
-        message += '<br><strong>🌐 Netlify sync should be active!</strong>';
+      if (window.universalSync) {
+        message += '<br><strong>� Universal sync active!</strong>';
       }
       
       showStatus('environmentStatus', message, isOnline ? 'success' : 'warning');
@@ -197,24 +203,35 @@
     function testSync() {
       let results = [];
       
-      if (window.onlineSync) {
-        results.push('✅ onlineSync: Available');
-        results.push(`📡 Environment: ${window.onlineSync.isOnline ? 'Online' : 'File Protocol'}`);
+      // Test Universal Sync
+      if (window.universalSync) {
+        const status = window.universalSync.getStatus();
+        results.push('✅ universalSync: Available');
+        results.push(`🌍 Platform: ${status.platform}`);
+        results.push(`🔧 Active methods: ${status.activeMethods.join(', ')}`);
+        results.push(`⏱️ Last sync: ${status.lastSync}`);
         
         // Test manual trigger
+        window.universalSync.forceUpdate();
+        results.push('🔄 Universal sync triggered');
+      } else {
+        results.push('❌ universalSync: Not available');
+      }
+      
+      // Test other sync methods
+      if (window.onlineSync) {
+        results.push('✅ onlineSync: Available');
         window.onlineSync.triggerUpdate();
-        results.push('🔄 Manual sync triggered');
       } else {
         results.push('❌ onlineSync: Not available');
       }
       
       // Test Netlify sync
       if (window.netlifySync) {
-        results.push('✅ netlifySync: Available (Netlify detected)');
+        results.push('✅ netlifySync: Available');
         window.netlifySync.forceUpdate();
-        results.push('🌐 Netlify sync test triggered');
       } else {
-        results.push('ℹ️ netlifySync: Not active (not on Netlify)');
+        results.push('ℹ️ netlifySync: Not active');
       }
       
       showStatus('syncStatus', results.join('<br>'), 'success');
@@ -228,16 +245,34 @@
         window.safeStorage.setItem('newPostAdded', 'true');
         window.safeStorage.setItem('lastPortfolioUpdate', timestamp);
         window.safeStorage.setItem('netlifyForceUpdate', timestamp);
+        window.safeStorage.setItem('universalSyncTrigger', timestamp);
         
-        // Also trigger netlify sync if available
+        // Trigger all sync methods
+        if (window.universalSync) {
+          window.universalSync.signalUpdate();
+        }
+        
         if (window.netlifySync) {
           window.netlifySync.signalUpdate();
         }
         
         showStatus('syncStatus', '📡 Admin update simulated with timestamp: ' + timestamp + 
-                   (window.netlifySync ? '<br>🌐 Netlify sync triggered' : ''), 'success');
+                   '<br>🌍 Universal sync: ' + (window.universalSync ? 'Triggered' : 'Not available') +
+                   '<br>🌐 Netlify sync: ' + (window.netlifySync ? 'Triggered' : 'Not available'), 'success');
       } else {
         showStatus('syncStatus', '❌ Cannot simulate - safeStorage not available', 'error');
+      }
+    }
+    
+    function testUniversalSync() {
+      if (window.universalSync) {
+        const status = window.universalSync.getStatus();
+        window.universalSync.forceUpdate();
+        showStatus('syncStatus', 
+          `🌍 Universal sync test:<br>Platform: ${status.platform}<br>Methods: ${status.activeMethods.join(', ')}<br>Force update triggered!`, 
+          'success');
+      } else {
+        showStatus('syncStatus', '❌ Universal sync not available', 'error');
       }
     }
     
