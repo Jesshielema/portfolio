@@ -937,6 +937,7 @@
   <script src="netlify-sync.js"></script>
   <script src="universal-sync.js"></script>
   <script src="direct-sync.js"></script>
+  <script src="visual-debug.js"></script>
 
   <script>
     // Online Compatibility Layer - Wrapper for localStorage with fallback
@@ -1147,31 +1148,45 @@
 
     // Add post form handler
     document.getElementById('addPostForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+      e.preventDefault(); // CRUCIALE REGEL - voorkomt page refresh
+      e.stopPropagation(); // Extra voorzorgsmaatregel
+      
+      console.log('🚀 Form submission started...');
       
       try {
-        console.log('🚀 Starting form submission...');
+        console.log('📝 Collecting form data...');
         
-        const title = document.getElementById('postTitle').value;
-        const description = document.getElementById('postDescription').value;
+        const title = document.getElementById('postTitle').value.trim();
+        const description = document.getElementById('postDescription').value.trim();
         const category = document.getElementById('postCategory').value;
         const type = document.getElementById('postType').value;
-        const client = document.getElementById('postClient').value;
-        const projectDoel = document.getElementById('postProjectDoel').value;
-        const tools = document.getElementById('postTools').value;
+        const client = document.getElementById('postClient').value.trim();
+        const projectDoel = document.getElementById('postProjectDoel').value.trim();
+        const tools = document.getElementById('postTools').value.trim();
         const projectDate = document.getElementById('postProjectDate').value;
         const status = document.getElementById('postStatus').value;
         const featured = document.getElementById('postFeatured').checked;
 
-        console.log('📝 Form data collected:', { title, description, category, type });
-        console.log('🖼️ Selected images:', selectedImages.length);
+        console.log('✅ Form data collected successfully');
+        console.log('🖼️ Selected images count:', selectedImages.length);
+
+        // Validation
+        if (!title) {
+          alert('⚠️ Project titel is verplicht!');
+          return false;
+        }
+        
+        if (!description) {
+          alert('⚠️ Project beschrijving is verplicht!');
+          return false;
+        }
 
         if (selectedImages.length === 0) {
           alert('⚠️ Selecteer minimaal één afbeelding voor je project!');
-          return;
+          return false;
         }
 
-        console.log('✅ Creating post with images:', selectedImages);
+        console.log('✅ Validation passed - creating post object...');
 
         // Create comprehensive post object
         const post = {
@@ -1181,23 +1196,57 @@
           category: category,
           type: type,
           client: client,
-          purpose: projectDoel, // Keep 'purpose' for compatibility
+          purpose: projectDoel,
           tools: tools,
-          date: new Date().toISOString().split('T')[0], // Use same format as hardcoded posts (YYYY-MM-DD)
+          date: new Date().toISOString().split('T')[0],
           projectDate: projectDate,
           status: status,
           featured: featured,
           images: selectedImages.map(img => img.dataUrl),
-          image: selectedImages[0].dataUrl, // For backward compatibility
-          mainImage: selectedImages[0].dataUrl // First image as main image for backward compatibility
+          image: selectedImages[0].dataUrl,
+          mainImage: selectedImages[0].dataUrl
         };
 
-        console.log('💾 Saving post:', post);
+        console.log('💾 Post object created, saving...');
         
         // Save the post
-        savePost(post);
+        const saveResult = savePost(post);
         
-        console.log('🔄 Reloading posts...');
+        if (saveResult !== false) {
+          console.log('✅ Post saved successfully!');
+          
+          // Success feedback
+          const isNetlify = window.location.hostname.includes('netlify');
+          const successMessage = '✅ Project succesvol toegevoegd!\n\n' +
+                                '📋 Titel: ' + title + '\n' +
+                                '🖼️ Afbeeldingen: ' + selectedImages.length + '\n' +
+                                '🌐 Platform: ' + (isNetlify ? 'Netlify' : 'Lokaal') + '\n\n' +
+                                'Het project zou nu zichtbaar moeten zijn op de homepage!';
+          
+          alert(successMessage);
+          
+          console.log('� Reloading posts list...');
+          loadPosts();
+          
+          console.log('🧹 Resetting form...');
+          this.reset(); // Reset the form
+          selectedImages = [];
+          displaySelectedImages();
+          updateFileUploadText(0);
+          
+          console.log('🎉 Form submission completed successfully!');
+        } else {
+          throw new Error('Save operation failed');
+        }
+        
+      } catch (error) {
+        console.error('❌ Critical error during form submission:', error);
+        alert('❌ Er is een fout opgetreden bij het opslaan:\n\n' + error.message + '\n\nProbeer het opnieuw of check de debug panel.');
+      }
+      
+      // Ensure we never navigate away
+      return false;
+    });
         loadPosts();
         
         console.log('🎉 Post saved successfully!');
@@ -1250,10 +1299,11 @@
         }
         
         console.log('🎯 savePost completed successfully');
+        return true; // Indicate success
         
       } catch (error) {
         console.error('❌ Error in savePost:', error);
-        throw error;
+        return false; // Indicate failure
       }
     }
 
