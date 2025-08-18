@@ -1,3 +1,39 @@
+// ===== PERFORMANCE OPTIMIZATIONS FOR SMOOTH SCROLLING =====
+
+// Debounce scroll events for better performance
+let scrollTimer;
+let isScrolling = false;
+
+function optimizeScrollPerformance() {
+  // Mark body as scrolling to disable hover effects during scroll
+  document.addEventListener('scroll', function() {
+    if (!isScrolling) {
+      document.body.classList.add('scrolling');
+      isScrolling = true;
+    }
+    
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function() {
+      document.body.classList.remove('scrolling');
+      isScrolling = false;
+    }, 150); // 150ms delay after scroll ends
+  }, { passive: true });
+  
+  // Optimize touch events for mobile
+  document.addEventListener('touchstart', function() {
+    document.body.classList.add('touch-scrolling');
+  }, { passive: true });
+  
+  document.addEventListener('touchend', function() {
+    setTimeout(() => {
+      document.body.classList.remove('touch-scrolling');
+    }, 300);
+  }, { passive: true });
+}
+
+// Initialize performance optimizations
+optimizeScrollPerformance();
+
 // ===== ANALYTICS & TRACKING =====
 
 // Track contact form submissions
