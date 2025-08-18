@@ -1427,19 +1427,34 @@ window.resetPortfolioData = resetPortfolioData;
 window.addEventListener('storage', (e) => {
   if (e.key === 'newPostAdded' || 
       e.key === 'portfolioPosts' || 
+      e.key === 'portfolioUpdated' ||
       e.key === 'deletedDefaultPosts' || 
       e.key === 'overriddenDefaultPosts') {
     // Reload posts and update hero when posts are modified
+    console.log('Storage change detected, reloading posts...');
     loadPosts();
     renderFeed();
+    updateHeroSection();
   }
 });
 
 // Also listen for storage changes in the same tab
 window.addEventListener('focus', () => {
   // Check if there are new posts when returning to the tab
+  console.log('Window focus detected, checking for updates...');
   loadPosts();
+  renderFeed();
   updateHeroSection();
+});
+
+// Check for updates when page becomes visible
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) {
+    console.log('Page became visible, checking for updates...');
+    loadPosts();
+    renderFeed();
+    updateHeroSection();
+  }
 });
 
 // Initialize filter functionality
