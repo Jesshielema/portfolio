@@ -936,6 +936,7 @@
   <script src="online-sync.js"></script>
   <script src="netlify-sync.js"></script>
   <script src="universal-sync.js"></script>
+  <script src="direct-sync.js"></script>
 
   <script>
     // Online Compatibility Layer - Wrapper for localStorage with fallback
@@ -1641,6 +1642,13 @@
       if (window.netlifySync) {
         window.netlifySync.signalUpdate();
         console.log('🌐 Netlify sync triggered');
+      }
+      
+      // NEW: Trigger direct sync as backup
+      if (window.directSync) {
+        setTimeout(() => {
+          console.log('🎯 Triggering direct sync in other tabs...');
+        }, 100);
       }
       
       // If main portfolio is open in another tab, trigger immediate refresh
