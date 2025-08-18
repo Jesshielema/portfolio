@@ -106,7 +106,7 @@ function initializeInteractiveElements() {
 
 // Enhanced lightbox functionality with zoom and multiple images
 function openModal(imageSrc, title, type, date, description, images = []) {
-  const modal = document.getElementById('imageModal');
+  const modal = document.getElementById('postModal');
   const modalImage = document.getElementById('modalImage');
   const modalTitle = document.getElementById('modalTitle');
   const modalType = document.getElementById('modalType');
@@ -132,8 +132,19 @@ function openModal(imageSrc, title, type, date, description, images = []) {
     addImageGalleryNavigation(images, imageSrc);
   }
   
-  modal.style.display = 'block';
+  // Show modal with proper centering
+  modal.classList.add('active');
+  modal.style.display = 'flex'; // Use flex for perfect centering
+  
+  // Prevent body scroll but maintain scroll position
+  const scrollY = window.scrollY;
   document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${scrollY}px`;
+  document.body.style.width = '100%';
+  
+  // Store scroll position for restore on close
+  modal.setAttribute('data-scroll-y', scrollY.toString());
   
   // Track modal opens
   if (typeof gtag !== 'undefined') {
@@ -1342,7 +1353,23 @@ function changeModalImage(direction) {
 function closePostModal() {
   const modal = document.getElementById('postModal');
   modal.classList.remove('active');
+  
+  // Restore scroll position
+  const scrollY = modal.getAttribute('data-scroll-y');
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
   document.body.style.overflow = '';
+  
+  if (scrollY) {
+    window.scrollTo(0, parseInt(scrollY));
+    modal.removeAttribute('data-scroll-y');
+  }
+  
+  // Use timeout to allow CSS transition to complete before hiding
+  setTimeout(() => {
+    modal.style.display = 'none';
+  }, 300);
 }
 
 // Modal event listeners
