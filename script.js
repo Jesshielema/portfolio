@@ -788,11 +788,22 @@ function loadPosts() {
   const savedPosts = JSON.parse(localStorage.getItem('portfolioPosts') || '[]');
   const deletedPosts = JSON.parse(localStorage.getItem('deletedDefaultPosts') || '[]');
   const overriddenPosts = JSON.parse(localStorage.getItem('overriddenDefaultPosts') || '{}');
+  const hiddenHardcodedPosts = JSON.parse(localStorage.getItem('hiddenHardcodedPosts') || '[]');
+  const overriddenHardcodedPosts = JSON.parse(localStorage.getItem('overriddenHardcodedPosts') || '{}');
   
   // Filter out deleted default posts and apply overrides
   const visibleDefaultPosts = posts
     .filter(post => !deletedPosts.includes(post.id))
-    .map(post => overriddenPosts[post.id] ? overriddenPosts[post.id] : post);
+    .filter(post => !hiddenHardcodedPosts.includes(post.id)) // Also filter hidden hardcoded posts
+    .map(post => {
+      // Check for hardcoded post overrides first, then regular overrides
+      if (overriddenHardcodedPosts[post.id]) {
+        return overriddenHardcodedPosts[post.id];
+      } else if (overriddenPosts[post.id]) {
+        return overriddenPosts[post.id];
+      }
+      return post;
+    });
   
   // Merge saved posts with visible default posts
   const allPosts = [...visibleDefaultPosts, ...savedPosts];
@@ -838,19 +849,56 @@ function renderFeed() {
   feedGrid.appendChild(fragment);
 }
 
-// Post element maken
+// Post element maken met Instagram-style multi-image ondersteuning
 function createPostElement(post) {
   const postDiv = document.createElement('div');
   postDiv.className = `post-card ${post.featured ? 'featured' : ''}`;
   
-  postDiv.innerHTML = `
-    <div class="post-image">
-      <img src="${post.image}" alt="${post.title}" loading="lazy" 
-           onerror="this.src='images/placeholder.svg'">
+  // Handle multiple images or single image
+  const images = post.images || [post.image || post.mainImage];
+  const mainImage = images[0];
+  
+  const imageHTML = images.length > 1 ? `
+    <div class="post-image-slider">
+      <div class="slider-wrapper">
+        ${images.map((img, index) => `
+          <div class="slide ${index === 0 ? 'active' : ''}" data-slide="${index}">
+            <img src="${img}" alt="${post.title} - Image ${index + 1}" loading="lazy" 
+                 onerror="this.src='images/placeholder.svg'">
+          </div>
+        `).join('')}
+      </div>
+      
+      ${images.length > 1 ? `
+        <div class="slider-controls">
+          <button class="slider-btn prev" onclick="changePostSlide(this, -1)">❮</button>
+          <button class="slider-btn next" onclick="changePostSlide(this, 1)">❯</button>
+        </div>
+        
+        <div class="slider-indicators">
+          ${images.map((_, index) => `
+            <span class="indicator ${index === 0 ? 'active' : ''}" onclick="goToPostSlide(this, ${index})"></span>
+          `).join('')}
+        </div>
+      ` : ''}
+      
       <div class="post-overlay">
-        <div class="post-type">${post.type}</div>
+        <div class="post-type">${post.type || post.category || 'Design'}</div>
+        ${images.length > 1 ? `<div class="image-count">📷 ${images.length}</div>` : ''}
       </div>
     </div>
+  ` : `
+    <div class="post-image">
+      <img src="${mainImage}" alt="${post.title}" loading="lazy" 
+           onerror="this.src='images/placeholder.svg'">
+      <div class="post-overlay">
+        <div class="post-type">${post.type || post.category || 'Design'}</div>
+      </div>
+    </div>
+  `;
+  
+  postDiv.innerHTML = `
+    ${imageHTML}
     <div class="post-content">
       <h3 class="post-title">${post.title}</h3>
       <p class="post-date">${formatDate(post.date)}</p>
@@ -858,12 +906,65 @@ function createPostElement(post) {
     </div>
   `;
   
+  // Add click handlers for images to open lightbox
+  const postImages = postDiv.querySelectorAll('.slide img, .single-image');
+  postImages.forEach((img, index) => {
+    img.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openImageLightbox(images, index, post.title);
+    });
+    img.style.cursor = 'pointer';
+  });
+  
   // Use event delegation instead of individual listeners for better performance
-  postDiv.addEventListener('click', () => {
-    openPostDetail(post);
+  postDiv.addEventListener('click', (e) => {
+    // Don't trigger modal if clicking on slider controls or images
+    if (!e.target.closest('.slider-btn') && !e.target.closest('.indicator') && !e.target.closest('img')) {
+      openPostDetail(post);
+    }
   }, { passive: true });
   
   return postDiv;
+}
+
+// Instagram-style slider functionaliteit voor posts
+function changePostSlide(button, direction) {
+  const slider = button.closest('.post-image-slider');
+  const slides = slider.querySelectorAll('.slide');
+  const indicators = slider.querySelectorAll('.indicator');
+  
+  let currentIndex = Array.from(slides).findIndex(slide => slide.classList.contains('active'));
+  
+  // Remove active class from current slide and indicator
+  slides[currentIndex].classList.remove('active');
+  indicators[currentIndex].classList.remove('active');
+  
+  // Calculate next index
+  currentIndex += direction;
+  
+  if (currentIndex >= slides.length) {
+    currentIndex = 0;
+  } else if (currentIndex < 0) {
+    currentIndex = slides.length - 1;
+  }
+  
+  // Add active class to new slide and indicator
+  slides[currentIndex].classList.add('active');
+  indicators[currentIndex].classList.add('active');
+}
+
+function goToPostSlide(indicator, slideIndex) {
+  const slider = indicator.closest('.post-image-slider');
+  const slides = slider.querySelectorAll('.slide');
+  const indicators = slider.querySelectorAll('.indicator');
+  
+  // Remove active from all
+  slides.forEach(slide => slide.classList.remove('active'));
+  indicators.forEach(ind => ind.classList.remove('active'));
+  
+  // Add active to selected
+  slides[slideIndex].classList.add('active');
+  indicators[slideIndex].classList.add('active');
 }
 
 // Datum formatteren
@@ -877,7 +978,7 @@ function formatDate(dateString) {
   return date.toLocaleDateString('nl-NL', options);
 }
 
-// Post detail openen (placeholder)
+// Post detail openen met Instagram-style multi-image ondersteuning
 function openPostDetail(post) {
   const modal = document.getElementById('postModal');
   const modalImage = document.getElementById('modalImage');
@@ -897,24 +998,273 @@ function openPostDetail(post) {
     return;
   }
 
+  // Handle multiple images or single image
+  const images = post.images || [post.image || post.mainImage];
+  const mainImage = images[0];
+
   // Fill modal with post data
-  modalImage.src = post.image;
+  modalImage.src = mainImage;
   modalImage.alt = post.title;
   modalTitle.textContent = post.title;
   
-  if (modalType) modalType.textContent = post.type || '';
-  if (modalDate) modalDate.textContent = formatDate(post.date);
+  if (modalType) modalType.textContent = `${post.category || post.type}${images.length > 1 ? ` • ${images.length} foto's` : ''}`;
+  if (modalDate) modalDate.textContent = formatDate(post.projectDate || post.date);
   if (modalDescription) modalDescription.textContent = post.description || 'Geen beschrijving beschikbaar.';
   if (modalClient) modalClient.textContent = post.client || '-';
   if (modalPurpose) modalPurpose.textContent = post.purpose || '-';
   if (modalTools) modalTools.textContent = post.tools || '-';
   if (modalProjectType) modalProjectType.textContent = post.type || '-';
-  if (modalProjectDate) modalProjectDate.textContent = formatDate(post.date);
-  if (modalFeatured) modalFeatured.textContent = post.featured ? 'Featured Project' : 'Standaard Project';
+  if (modalProjectDate) modalProjectDate.textContent = formatDate(post.projectDate || post.date);
+  if (modalFeatured) modalFeatured.textContent = post.status || (post.featured ? 'Featured Project' : 'Standaard Project');
+
+  // Add image navigation if multiple images
+  if (images.length > 1) {
+    // Store images for navigation
+    modal.dataset.images = JSON.stringify(images);
+    modal.dataset.currentImage = '0';
+    
+    // Add navigation indicators if not already present
+    const modalImageContainer = modalImage.parentNode;
+    let navContainer = modalImageContainer.querySelector('.modal-image-nav');
+    if (!navContainer) {
+      navContainer = document.createElement('div');
+      navContainer.className = 'modal-image-nav';
+      navContainer.innerHTML = `
+        <button class="modal-nav-btn prev" onclick="changeModalImage(-1)">❮</button>
+        <button class="modal-nav-btn next" onclick="changeModalImage(1)">❯</button>
+      `;
+      modalImageContainer.appendChild(navContainer);
+    }
+    
+    // Add counter if not already present
+    let counterElement = modalImageContainer.querySelector('.modal-image-counter');
+    if (!counterElement) {
+      counterElement = document.createElement('div');
+      counterElement.className = 'modal-image-counter';
+      modalImageContainer.appendChild(counterElement);
+    }
+    
+    counterElement.textContent = `1 / ${images.length}`;
+    navContainer.style.display = 'flex';
+    counterElement.style.display = 'block';
+  } else {
+    // Hide navigation for single images
+    const modalImageContainer = modalImage.parentNode;
+    const navContainer = modalImageContainer.querySelector('.modal-image-nav');
+    const counterElement = modalImageContainer.querySelector('.modal-image-counter');
+    
+    if (navContainer) {
+      navContainer.style.display = 'none';
+    }
+    if (counterElement) {
+      counterElement.style.display = 'none';
+    }
+  }
 
   // Show modal
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
+  
+  // Add CTA button if not already present
+  let ctaButton = modal.querySelector('.modal-cta-btn');
+  if (!ctaButton) {
+    ctaButton = document.createElement('button');
+    ctaButton.className = 'modal-cta-btn';
+    ctaButton.innerHTML = 'Dit wil ik ook';
+    ctaButton.addEventListener('click', () => {
+      // Track CTA click
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'cta_click', {
+          event_category: 'Contact',
+          event_label: post.title
+        });
+      }
+      
+      closePostModal();
+      // Redirect to contact
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.location.href = 'contact.html';
+      }
+    });
+    
+    // Add button to modal content
+    const modalContent = modal.querySelector('.modal-content');
+    if (modalContent) {
+      modalContent.appendChild(ctaButton);
+    }
+  }
+  
+  // Track project view
+  trackProjectView(post.title);
+}
+
+// Image lightbox functionality
+function openImageLightbox(images, startIndex = 0, projectTitle = '') {
+  // Create lightbox if it doesn't exist
+  let lightbox = document.getElementById('imageLightbox');
+  if (!lightbox) {
+    lightbox = document.createElement('div');
+    lightbox.id = 'imageLightbox';
+    lightbox.className = 'image-lightbox';
+    lightbox.innerHTML = `
+      <div class="lightbox-backdrop"></div>
+      <div class="lightbox-container">
+        <button class="lightbox-close">&times;</button>
+        <button class="lightbox-nav prev">❮</button>
+        <button class="lightbox-nav next">❯</button>
+        <img class="lightbox-image" alt="">
+        <div class="lightbox-info">
+          <span class="lightbox-counter"></span>
+          <span class="lightbox-title"></span>
+        </div>
+        <div class="lightbox-cta">
+          <button class="cta-like-btn">❤️ Vind je dit mooi?</button>
+          <p>Wil je ook zoiets? Laten we praten!</p>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(lightbox);
+    
+    // Add event listeners
+    lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+    lightbox.querySelector('.lightbox-backdrop').addEventListener('click', closeLightbox);
+    lightbox.querySelector('.lightbox-nav.prev').addEventListener('click', () => changeLightboxImage(-1));
+    lightbox.querySelector('.lightbox-nav.next').addEventListener('click', () => changeLightboxImage(1));
+    lightbox.querySelector('.cta-like-btn').addEventListener('click', handleLikeAction);
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', handleLightboxKeydown);
+  }
+  
+  // Set up lightbox data
+  lightbox.dataset.images = JSON.stringify(images);
+  lightbox.dataset.currentIndex = startIndex;
+  lightbox.dataset.projectTitle = projectTitle;
+  
+  // Update display
+  updateLightboxDisplay();
+  
+  // Show lightbox
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function updateLightboxDisplay() {
+  const lightbox = document.getElementById('imageLightbox');
+  const images = JSON.parse(lightbox.dataset.images);
+  const currentIndex = parseInt(lightbox.dataset.currentIndex);
+  const projectTitle = lightbox.dataset.projectTitle;
+  
+  const lightboxImage = lightbox.querySelector('.lightbox-image');
+  const counter = lightbox.querySelector('.lightbox-counter');
+  const title = lightbox.querySelector('.lightbox-title');
+  const prevBtn = lightbox.querySelector('.lightbox-nav.prev');
+  const nextBtn = lightbox.querySelector('.lightbox-nav.next');
+  
+  lightboxImage.src = images[currentIndex];
+  lightboxImage.alt = `${projectTitle} - Afbeelding ${currentIndex + 1}`;
+  counter.textContent = `${currentIndex + 1} / ${images.length}`;
+  title.textContent = projectTitle;
+  
+  // Show/hide navigation buttons
+  prevBtn.style.display = images.length > 1 ? 'block' : 'none';
+  nextBtn.style.display = images.length > 1 ? 'block' : 'none';
+}
+
+function changeLightboxImage(direction) {
+  const lightbox = document.getElementById('imageLightbox');
+  const images = JSON.parse(lightbox.dataset.images);
+  let currentIndex = parseInt(lightbox.dataset.currentIndex);
+  
+  currentIndex += direction;
+  
+  if (currentIndex >= images.length) {
+    currentIndex = 0;
+  } else if (currentIndex < 0) {
+    currentIndex = images.length - 1;
+  }
+  
+  lightbox.dataset.currentIndex = currentIndex;
+  updateLightboxDisplay();
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('imageLightbox');
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
+  document.removeEventListener('keydown', handleLightboxKeydown);
+}
+
+function handleLightboxKeydown(e) {
+  if (e.key === 'Escape') {
+    closeLightbox();
+  } else if (e.key === 'ArrowLeft') {
+    changeLightboxImage(-1);
+  } else if (e.key === 'ArrowRight') {
+    changeLightboxImage(1);
+  }
+}
+
+function handleLikeAction() {
+  const lightbox = document.getElementById('imageLightbox');
+  const projectTitle = lightbox.dataset.projectTitle;
+  
+  // Track the like action
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'like_project', {
+      event_category: 'Engagement',
+      event_label: projectTitle
+    });
+  }
+  
+  // Show contact CTA
+  const ctaBtn = lightbox.querySelector('.cta-like-btn');
+  ctaBtn.innerHTML = '✅ Geliked!';
+  ctaBtn.style.background = '#27ae60';
+  
+  // Redirect to contact after short delay
+  setTimeout(() => {
+    closeLightbox();
+    // Scroll to contact section or open contact page
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.href = 'contact.html';
+    }
+  }, 1500);
+}
+
+// Modal image navigation
+function changeModalImage(direction) {
+  const modal = document.getElementById('postModal');
+  const modalImage = document.getElementById('modalImage');
+  
+  if (!modal.dataset.images) return;
+  
+  const images = JSON.parse(modal.dataset.images);
+  let currentIndex = parseInt(modal.dataset.currentImage);
+  
+  currentIndex += direction;
+  
+  if (currentIndex >= images.length) {
+    currentIndex = 0;
+  } else if (currentIndex < 0) {
+    currentIndex = images.length - 1;
+  }
+  
+  modalImage.src = images[currentIndex];
+  modal.dataset.currentImage = currentIndex;
+  
+  // Update counter
+  const modalImageContainer = modalImage.parentNode;
+  const counter = modalImageContainer.querySelector('.modal-image-counter');
+  if (counter) {
+    counter.textContent = `${currentIndex + 1} / ${images.length}`;
+  }
 }
 
 // Close modal functionality
@@ -1001,7 +1351,6 @@ function addNewPost(postData) {
   // Re-render de feed met nieuwe post animation
   const feedGrid = document.getElementById('postsContainer');
   const newPostElement = createPostElement(newPost);
-  newPostElement.classList.add('new-post');
   
   // Insert at the beginning of the grid
   feedGrid.insertBefore(newPostElement, feedGrid.firstChild);

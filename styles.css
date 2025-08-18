@@ -1288,7 +1288,7 @@ img {
   }
 }
 
-/* Loading animation for new posts - simplified */
+/* Unified post styling - all posts look identical */
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -1298,10 +1298,6 @@ img {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.post-card.new-post {
-  animation: slideInUp 0.3s ease-out;
 }
 
 /* Hover effects for better interactivity */
@@ -1965,14 +1961,18 @@ img {
   background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(10px);
   z-index: 2000;
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 40px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease-in-out;
 }
 
 .post-modal.active {
-  display: flex;
+  opacity: 1;
+  visibility: visible;
 }
 
 .modal-content {
@@ -1984,7 +1984,12 @@ img {
   overflow: hidden;
   position: relative;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  animation: modalSlideIn 0.4s ease-out;
+  transform: translateY(30px) scale(0.95);
+  transition: all 0.3s ease-out;
+}
+
+.post-modal.active .modal-content {
+  transform: translateY(0) scale(1);
 }
 
 @keyframes modalSlideIn {
@@ -4390,6 +4395,518 @@ html {
   
   html {
     scroll-behavior: auto;
+  }
+}
+
+/* ===== INSTAGRAM-STYLE MULTI-IMAGE POSTS ===== */
+
+/* Post image slider container */
+.post-image-slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #000;
+}
+
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.post-image-slider .slide {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.post-image-slider .slide.active {
+  display: block;
+}
+
+.post-image-slider .slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+/* Slider controls */
+.slider-controls {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  padding: 0 15px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.post-image-slider:hover .slider-controls {
+  opacity: 1;
+}
+
+.slider-btn {
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  pointer-events: all;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.slider-btn:hover {
+  background: rgba(0,0,0,0.8);
+  transform: scale(1.1);
+}
+
+.slider-btn:active {
+  transform: scale(0.95);
+}
+
+/* Slider indicators (dots) */
+.slider-indicators {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicator.active {
+  background: white;
+  transform: scale(1.2);
+}
+
+.indicator:hover {
+  background: rgba(255,255,255,0.8);
+}
+
+/* Image count indicator */
+.post-overlay .image-count {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Enhanced post overlay for multi-image posts */
+.post-image-slider .post-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(25, 55, 191, 0.9);
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+/* Remove the overlay hover effect and use shadow instead */
+.post-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.post-card:hover .post-image-slider .post-overlay {
+  opacity: 0;
+}
+
+/* Mobile optimizations for sliders */
+@media (max-width: 768px) {
+  .slider-controls {
+    opacity: 1; /* Always show controls on mobile */
+    padding: 0 10px;
+  }
+  
+  .slider-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+  
+  .slider-indicators {
+    bottom: 10px;
+    gap: 6px;
+  }
+  
+  .indicator {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .post-overlay .image-count {
+    top: 8px;
+    right: 8px;
+    padding: 3px 6px;
+    font-size: 11px;
+  }
+}
+
+/* Touch gestures for mobile slider */
+@media (hover: none) and (pointer: coarse) {
+  .post-image-slider {
+    touch-action: pan-x;
+  }
+  
+  .slider-controls {
+    opacity: 0.8;
+  }
+}
+
+/* ===== MODAL IMAGE NAVIGATION ===== */
+
+.modal-image-nav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+.modal-nav-btn {
+  background: rgba(25, 55, 191, 0.8);
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 15px 20px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  pointer-events: all;
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  height: 50px;
+}
+
+.modal-nav-btn:hover {
+  background: rgba(25, 55, 191, 1);
+  transform: scale(1.1);
+}
+
+.modal-image-counter {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  backdrop-filter: blur(10px);
+  z-index: 1002;
+}
+
+/* Mobile modal navigation */
+@media (max-width: 768px) {
+  .modal-image-nav {
+    padding: 0 15px;
+  }
+  
+  .modal-nav-btn {
+    min-width: 40px;
+    height: 40px;
+    font-size: 20px;
+    padding: 10px 15px;
+  }
+  
+  .modal-image-counter {
+    bottom: 15px;
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+}
+
+/* ===== IMAGE LIGHTBOX ===== */
+
+.image-lightbox {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-lightbox.active {
+  display: flex;
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  cursor: pointer;
+}
+
+.lightbox-container {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2001;
+}
+
+.lightbox-image {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: -50px;
+  right: -20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 40px;
+  cursor: pointer;
+  z-index: 2002;
+  transition: all 0.3s ease;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.lightbox-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(25, 55, 191, 0.8);
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+  padding: 15px 20px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  z-index: 2002;
+  backdrop-filter: blur(10px);
+}
+
+.lightbox-nav:hover {
+  background: rgba(25, 55, 191, 1);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-nav.prev {
+  left: -80px;
+}
+
+.lightbox-nav.next {
+  right: -80px;
+}
+
+.lightbox-info {
+  margin-top: 20px;
+  text-align: center;
+  color: white;
+}
+
+.lightbox-counter {
+  background: rgba(25, 55, 191, 0.8);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  margin-right: 15px;
+  backdrop-filter: blur(10px);
+}
+
+.lightbox-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.lightbox-cta {
+  margin-top: 20px;
+  text-align: center;
+  color: white;
+}
+
+.cta-like-btn {
+  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-like-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(238, 90, 36, 0.3);
+}
+
+.lightbox-cta p {
+  margin: 10px 0 0 0;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Mobile lightbox adjustments */
+@media (max-width: 768px) {
+  .lightbox-container {
+    max-width: 95vw;
+    max-height: 95vh;
+  }
+  
+  .lightbox-image {
+    max-height: 60vh;
+  }
+  
+  .lightbox-nav {
+    font-size: 24px;
+    padding: 12px 16px;
+  }
+  
+  .lightbox-nav.prev {
+    left: -60px;
+  }
+  
+  .lightbox-nav.next {
+    right: -60px;
+  }
+  
+  .lightbox-close {
+    top: -40px;
+    right: -10px;
+    font-size: 30px;
+    width: 40px;
+    height: 40px;
+  }
+  
+  .lightbox-title {
+    font-size: 16px;
+  }
+  
+  .cta-like-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Very small mobile screens */
+@media (max-width: 480px) {
+  .lightbox-nav.prev {
+    left: 10px;
+  }
+  
+  .lightbox-nav.next {
+    right: 10px;
+  }
+  
+  .lightbox-nav {
+    padding: 8px 12px;
+    font-size: 20px;
+  }
+}
+
+/* ===== MODAL CTA BUTTON ===== */
+
+.modal-cta-btn {
+  background: #1937BF;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 30px auto 20px;
+  display: block;
+  text-transform: none;
+  letter-spacing: normal;
+  box-shadow: 0 4px 15px rgba(25, 55, 191, 0.3);
+}
+
+.modal-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(25, 55, 191, 0.4);
+  background: #0f2a9f;
+}
+
+.modal-cta-btn:active {
+  transform: translateY(0px);
+}
+
+@media (max-width: 768px) {
+  .modal-cta-btn {
+    padding: 12px 24px;
+    font-size: 14px;
+    margin: 20px auto 15px;
   }
 }
 
