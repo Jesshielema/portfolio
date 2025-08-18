@@ -598,16 +598,17 @@ img[data-src] {
 /* Hero Responsive */
 @media screen and (max-width: 768px) {
   .content {
-    padding: 0 30px;
+    padding: 0; /* Geen padding zodat feed edge-to-edge kan */
   }
   
   .hero {
     padding: 60px 30px;
-    margin-left: -30px;
+    margin-left: 0; /* Reset margin */
   }
   
   .hero-text h1 {
     font-size: 4rem;
+    letter-spacing: -1px; /* Meer ruimte tussen letters op tablet */
   }
   
   .cta-container {
@@ -615,8 +616,9 @@ img[data-src] {
   }
   
   .cta-button {
-    padding: 10px 20px;
+    padding: 12px 24px; /* Grotere touch targets */
     font-size: 0.9rem;
+    min-height: 48px; /* Minimale touch target size */
   }
   
   .cta-arrow {
@@ -627,16 +629,18 @@ img[data-src] {
 
 @media screen and (max-width: 480px) {
   .content {
-    padding: 0 20px;
+    padding: 0; /* Geen padding zodat feed edge-to-edge kan */
   }
   
   .hero {
     padding: 40px 20px;
-    margin-left: -20px;
+    margin-left: 0; /* Reset margin */
   }
   
   .hero-text h1 {
     font-size: 2.8rem;
+    letter-spacing: 0px; /* Normale letter-spacing op mobile */
+    line-height: 0.9; /* Betere line-height voor mobile */
   }
   
   .cta-container {
@@ -644,9 +648,10 @@ img[data-src] {
   }
   
   .cta-button {
-    padding: 8px 18px;
-    font-size: 0.8rem;
-    gap: 6px;
+    padding: 14px 20px; /* Grotere touch targets voor kleine schermen */
+    font-size: 0.85rem;
+    gap: 8px;
+    min-height: 48px; /* Minimale touch target size */
   }
   
   .cta-arrow {
@@ -661,6 +666,7 @@ img[data-src] {
   background: white;
   width: 100%;
   border-radius: 40px 40px 40px 40px;
+  margin-top: 0; /* Geen extra ruimte bovenaan */
 }
 
 .feed-header {
@@ -924,9 +930,10 @@ img[data-src] {
   
   /* Touch-friendly button sizing */
   .nav-right button {
-    min-height: 44px;
-    min-width: 44px;
-    padding: 8px;
+    min-height: 48px; /* Grotere touch target */
+    min-width: 48px;
+    padding: 12px;
+    font-size: 1.4rem; /* Iets kleiner voor betere balans */
   }
   
   #sideMenu {
@@ -984,21 +991,29 @@ img[data-src] {
   
   /* Mobile Feed Section - Full Width */
   .feed {
-    padding: 40px 0;
-    margin-left: -40px;
+    padding: 50px 0; /* Alleen top/bottom padding */
+    margin: 0;
     width: 100vw;
+    border-radius: 0;
+    position: relative;
+    left: 0;
+    right: 0;
+    /* Simpele edge-to-edge met viewport positioning */
+    transform: translateX(0);
   }
   
   .feed-header {
     padding: 0 20px;
-    margin-bottom: 30px;
+    margin-bottom: 40px; /* Meer ruimte tussen header en content */
+    text-align: center;
   }
   
   .feed-header h2 {
-    font-size: 3rem;
-    letter-spacing: -2px;
+    font-size: 3.5rem; /* Iets groter voor betere leesbaarheid */
+    letter-spacing: -1px; /* Meer ruimte tussen letters */
     color: #1937BF;
     margin-bottom: 30px;
+    line-height: 0.9; /* Betere line-height */
   }
   
   /* Show mobile dropdown, hide desktop filters */
@@ -1013,22 +1028,22 @@ img[data-src] {
   .feed-grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 15px;
-    grid-auto-rows: 8px;
-    padding: 0 20px;
+    grid-auto-rows: 6px; /* Kleinere units voor meer controle */
+    padding: 0 20px; /* Padding terug voor content centering */
     margin: 0;
     max-width: none;
   }
   
-  /* Simplified card heights for mobile performance */
-  .post-card:nth-child(6n+1) { grid-row-end: span 40; }
-  .post-card:nth-child(6n+2) { grid-row-end: span 35; }
-  .post-card:nth-child(6n+3) { grid-row-end: span 38; }
-  .post-card:nth-child(6n+4) { grid-row-end: span 36; }
-  .post-card:nth-child(6n+5) { grid-row-end: span 32; }
-  .post-card:nth-child(6n+6) { grid-row-end: span 42; }
+  /* Kleiner geoptimaliseerde card heights voor makkelijker scrollen */
+  .post-card:nth-child(6n+1) { grid-row-end: span 30; } /* Kleiner dan 40 */
+  .post-card:nth-child(6n+2) { grid-row-end: span 28; } /* Kleiner dan 35 */
+  .post-card:nth-child(6n+3) { grid-row-end: span 32; } /* Kleiner dan 38 */
+  .post-card:nth-child(6n+4) { grid-row-end: span 29; } /* Kleiner dan 36 */
+  .post-card:nth-child(6n+5) { grid-row-end: span 26; } /* Kleiner dan 32 */
+  .post-card:nth-child(6n+6) { grid-row-end: span 34; } /* Kleiner dan 42 */
   
   .post-image {
-    min-height: 180px;
+    min-height: 140px; /* Kleiner dan 180px */
   }
   
   .post-content {
@@ -1071,9 +1086,9 @@ img[data-src] {
   
   .nav-right button {
     font-size: 14px;
-    min-height: 44px;
-    min-width: 44px;
-    padding: 10px;
+    min-height: 48px; /* Grotere touch targets */
+    min-width: 48px;
+    padding: 12px;
   }
   
   #sideMenu {
@@ -1122,21 +1137,31 @@ img[data-src] {
   
   /* Content areas - Full width on mobile */
   .feed {
-    padding: 30px 0;
-    margin-left: -20px;
+    padding: 35px 0; /* Alleen top/bottom padding */
+    margin: 0;
     width: 100vw;
+    border-radius: 0;
+    position: relative;
+    left: 0;
+    right: 0;
+    /* Simpele edge-to-edge met viewport positioning */
+    transform: translateX(0);
   }
   
   .feed-header {
     margin-bottom: 25px;
-    padding: 0 15px;
+    padding: 0 15px; /* Padding terug voor content centering */
+    text-align: center;
+    width: 100%; /* Volledige breedte */
   }
   
   .feed-header h2 {
-    font-size: 2.2rem;
-    letter-spacing: -1px;
+    font-size: 2.6rem;
+    letter-spacing: 0px;
     color: #1937BF;
-    margin-bottom: 25px;
+    margin-bottom: 20px; /* Iets minder ruimte onder header */
+    line-height: 1;
+    padding: 0 15px; /* Alleen padding voor de tekst zelf */
   }
   
   /* Mobile dropdown adjustments for small screens */
@@ -1187,23 +1212,39 @@ img[data-src] {
   
   .feed-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
-    grid-auto-rows: 6px;
-    padding: 0 15px;
+    gap: 10px; /* Kleinere gap tussen items */
+    grid-auto-rows: 4px; /* Nog kleinere units */
+    padding: 0 15px; /* Padding terug voor content centering */
     margin: 0;
     max-width: none;
   }
   
-  /* Single column heights for small mobile */
-  .post-card:nth-child(6n+1) { grid-row-end: span 55; }
-  .post-card:nth-child(6n+2) { grid-row-end: span 50; }
-  .post-card:nth-child(6n+3) { grid-row-end: span 52; }
-  .post-card:nth-child(6n+4) { grid-row-end: span 48; }
-  .post-card:nth-child(6n+5) { grid-row-end: span 46; }
-  .post-card:nth-child(6n+6) { grid-row-end: span 58; }
+  /* Compacte card heights voor kleine telefoons - makkelijker scrollen */
+  .post-card:nth-child(6n+1) { grid-row-end: span 40; } /* Kleiner dan 55 */
+  .post-card:nth-child(6n+2) { grid-row-end: span 36; } /* Kleiner dan 50 */
+  .post-card:nth-child(6n+3) { grid-row-end: span 38; } /* Kleiner dan 52 */
+  .post-card:nth-child(6n+4) { grid-row-end: span 34; } /* Kleiner dan 48 */
+  .post-card:nth-child(6n+5) { grid-row-end: span 32; } /* Kleiner dan 46 */
+  .post-card:nth-child(6n+6) { grid-row-end: span 42; } /* Kleiner dan 58 */
   
   .post-image {
-    min-height: 160px;
+    min-height: 120px; /* Nog kleiner dan 160px voor compact scrollen */
+    max-height: 150px; /* Maximum hoogte om grote afbeeldingen te beperken */
+  }
+  
+  /* Post overlay ook compacter maken */
+  .post-overlay {
+    padding: 12px 15px; /* Iets minder padding */
+  }
+  
+  .post-overlay h3 {
+    font-size: 1rem; /* Iets kleinere titel voor compacter design */
+    margin-bottom: 4px;
+  }
+  
+  .post-category {
+    font-size: 0.75rem; /* Kleinere categorie tekst */
+  }
   }
   
   .post-content {
@@ -1300,7 +1341,7 @@ img[data-src] {
   }
 }
 
-/* Unified post styling - all posts look identical */
+/* Keyframe animations */
 @keyframes slideInUp {
   from {
     opacity: 0;
