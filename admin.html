@@ -932,8 +932,38 @@
     function showAdmin() {
       document.getElementById('loginContainer').style.display = 'none';
       document.getElementById('adminContainer').style.display = 'block';
+      
+      // Initialize upload functionality
+      initializeImageUpload();
+      
       loadPosts();
       loadHardcodedPosts();
+    }
+
+    function initializeImageUpload() {
+      const fileUpload = document.getElementById('fileUpload');
+      const fileInput = document.getElementById('postImages');
+      
+      if (fileUpload && fileInput) {
+        // Remove existing listeners
+        fileUpload.replaceWith(fileUpload.cloneNode(true));
+        
+        // Re-get references after cloning
+        const newFileUpload = document.getElementById('fileUpload');
+        const newFileInput = document.getElementById('postImages');
+        
+        newFileUpload.addEventListener('click', () => newFileInput.click());
+        newFileUpload.addEventListener('dragover', handleDragOver);
+        newFileUpload.addEventListener('drop', handleDrop);
+        
+        // Add file input change handler
+        newFileInput.addEventListener('change', function(e) {
+          const files = Array.from(e.target.files);
+          handleMultipleFiles(files);
+        });
+        
+        console.log('Image upload initialized');
+      }
     }
 
     function logout() {
@@ -949,22 +979,20 @@
     let editingImages = [];
     let currentEditingPost = null;
 
-    const fileUpload = document.getElementById('fileUpload');
-    const fileInput = document.getElementById('postImages');
-    const imageGallery = document.getElementById('imageGallery');
-
-    fileUpload.addEventListener('click', () => fileInput.click());
-    fileUpload.addEventListener('dragover', handleDragOver);
-    fileUpload.addEventListener('drop', handleDrop);
-
     function handleDragOver(e) {
       e.preventDefault();
-      fileUpload.classList.add('dragover');
+      const fileUpload = document.getElementById('fileUpload');
+      if (fileUpload) {
+        fileUpload.classList.add('dragover');
+      }
     }
 
     function handleDrop(e) {
       e.preventDefault();
-      fileUpload.classList.remove('dragover');
+      const fileUpload = document.getElementById('fileUpload');
+      if (fileUpload) {
+        fileUpload.classList.remove('dragover');
+      }
       const files = Array.from(e.dataTransfer.files);
       handleMultipleFiles(files);
     }
@@ -975,8 +1003,10 @@
     });
 
     function handleMultipleFiles(files) {
+      console.log('Handling files:', files);
       files.forEach(file => {
         if (file.type.startsWith('image/')) {
+          console.log('Processing image file:', file.name);
           const reader = new FileReader();
           reader.onload = function(e) {
             const imageData = {
@@ -985,16 +1015,21 @@
               name: file.name
             };
             selectedImages.push(imageData);
+            console.log('Image added, total images:', selectedImages.length);
             displaySelectedImages();
+            updateFileUploadText(selectedImages.length);
           };
           reader.readAsDataURL(file);
+        } else {
+          console.log('Skipping non-image file:', file.name);
         }
       });
-      
-      updateFileUploadText(files.length);
     }
 
     function displaySelectedImages() {
+      const imageGallery = document.getElementById('imageGallery');
+      if (!imageGallery) return;
+      
       imageGallery.innerHTML = '';
       selectedImages.forEach((image, index) => {
         const imagePreview = document.createElement('div');
@@ -1017,6 +1052,9 @@
     }
 
     function updateFileUploadText(count) {
+      const fileUpload = document.getElementById('fileUpload');
+      if (!fileUpload) return;
+      
       if (count === 0) {
         fileUpload.innerHTML = '<p>📁 Sleep afbeeldingen hierheen of klik om te selecteren</p>';
       } else {
@@ -1531,9 +1569,27 @@
 
     // Load hardcoded posts management
     function loadHardcodedPosts() {
+      console.log('Loading hardcoded posts...');
       const hardcodedPostsList = document.getElementById('hardcodedPostsList');
+      
+      if (!hardcodedPostsList) {
+        console.error('hardcodedPostsList element not found');
+        return;
+      }
+      
+      console.log('Found hardcodedPostsList element');
+      console.log('Hardcoded posts array:', hardcodedPosts);
+      
       const hiddenPosts = JSON.parse(localStorage.getItem('hiddenHardcodedPosts') || '[]');
       const overriddenPosts = JSON.parse(localStorage.getItem('overriddenHardcodedPosts') || '{}');
+      
+      console.log('Hidden posts:', hiddenPosts);
+      console.log('Overridden posts:', overriddenPosts);
+      
+      if (hardcodedPosts.length === 0) {
+        hardcodedPostsList.innerHTML = '<p>Geen hardcoded posts gevonden.</p>';
+        return;
+      }
       
       hardcodedPostsList.innerHTML = hardcodedPosts.map(post => {
         const isHidden = hiddenPosts.includes(post.id);
@@ -1550,7 +1606,7 @@
             </div>
             
             <div class="post-details">
-              <p><strong>Type:</strong> ${currentPost.type} | <strong>Categorie:</strong> ${currentPost.category}</p>
+              <p><strong>Type:</strong> ${currentPost.type} | <strong>Categorie:</strong> ${currentPost.category || 'DESIGN'}</p>
               <p><strong>Beschrijving:</strong> ${currentPost.description}</p>
               <p><strong>Client:</strong> ${currentPost.client || 'Niet ingesteld'}</p>
               <p><strong>Tools:</strong> ${currentPost.tools || 'Niet ingesteld'}</p>
@@ -1566,6 +1622,8 @@
           </div>
         `;
       }).join('');
+      
+      console.log('Hardcoded posts HTML generated');
     }
 
     // Toggle visibility of hardcoded post
