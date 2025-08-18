@@ -103,48 +103,24 @@ body {
 /* Ultra-smooth transition timing for all hover effects */
 .post-card {
   transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-              box-shadow 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+              box-shadow 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .post-image img {
-  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .post-overlay {
-  transition: opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  transition: opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .nav-left {
   transition: color 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-              transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+              transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .logo-container {
-  transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-}
-
-/* Additional performance optimizations for ultra-smooth experience */
-.feed,
-.feed-content,
-.posts-grid {
-  contain: layout style paint;
-  will-change: auto;
-}
-
-/* Optimize images for better performance */
-img {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-}
-
-/* Debounce scroll events for better performance */
-body.scrolling * {
-  pointer-events: none;
-}
-
-/* Disable hover effects during touch scrolling on mobile */
-body.touch-scrolling *:hover {
-  transition-duration: 0.01ms !important;
+  transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* Optimize heavy animations */
