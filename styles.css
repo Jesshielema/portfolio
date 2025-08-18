@@ -25,12 +25,9 @@
   box-sizing: border-box;
 }
 
-/* Enhanced smooth scrolling with performance optimizations */
+/* Smooth scrolling */
 html {
-  scroll-behavior: auto; /* Better performance than smooth */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeSpeed;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -67,84 +64,6 @@ img[data-src] {
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
-}
-
-/* Enhanced performance optimizations for ultra-smooth interactions */
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeSpeed;
-  scroll-behavior: smooth;
-}
-
-body {
-  overflow-x: hidden;
-  transform: translateZ(0);
-  contain: layout style paint;
-  will-change: scroll-position;
-}
-
-/* Optimize all interactive elements for smooth hover effects */
-.post-card,
-.nav-left,
-.logo-container,
-.cta-button,
-.filter-btn,
-.see-more-btn,
-.footer-link,
-.footer-social-link,
-#sideMenu ul li a {
-  contain: layout style paint;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  will-change: transform;
-}
-
-/* Ultra-smooth transition timing for all hover effects */
-.post-card {
-  transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-              box-shadow 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-}
-
-.post-image img {
-  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-}
-
-.post-overlay {
-  transition: opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-}
-
-.nav-left {
-  transition: color 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-              transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-}
-
-.logo-container {
-  transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
-}
-
-/* Additional performance optimizations for ultra-smooth experience */
-.feed,
-.feed-content,
-.posts-grid {
-  contain: layout style paint;
-  will-change: auto;
-}
-
-/* Optimize images for better performance */
-img {
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-}
-
-/* Debounce scroll events for better performance */
-body.scrolling * {
-  pointer-events: none;
-}
-
-/* Disable hover effects during touch scrolling on mobile */
-body.touch-scrolling *:hover {
-  transition-duration: 0.01ms !important;
 }
 
 /* Optimize heavy animations */
@@ -293,7 +212,7 @@ body.touch-scrolling *:hover {
 }
 
 .nav-left:hover {
-  transform: scale3d(1.1, 1.1, 1); /* Hardware accelerated scaling */
+  transform: scale(1.1);
 }
 
 .nav-about-link {
@@ -304,7 +223,7 @@ body.touch-scrolling *:hover {
 
 .nav-about-link:hover {
   opacity: 0.8;
-  transform: translate3d(0, -1px, 0) scale3d(1.05, 1.05, 1); /* Optimized transform */
+  transform: translateY(-1px) scale(1.05);
 }
 
 .navbar.scrolled .nav-left {
@@ -330,7 +249,7 @@ body.touch-scrolling *:hover {
 }
 
 .logo-container:hover {
-  transform: scale3d(1.1, 1.1, 1); /* Hardware accelerated scaling */
+  transform: scale(1.1);
 }
 
 .nav-center .logo {
@@ -495,7 +414,7 @@ body.touch-scrolling *:hover {
 }
 
 .cta-button:hover {
-  transform: translate3d(0, -4px, 0); /* Hardware accelerated */
+  transform: translateY(-4px);
   box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
   border-color: #ffff00;
 }
@@ -679,12 +598,12 @@ body.touch-scrolling *:hover {
 /* Hero Responsive */
 @media screen and (max-width: 768px) {
   .content {
-    padding: 0; /* Geen padding zodat feed edge-to-edge kan */
+    padding: 0 30px;
   }
   
   .hero {
     padding: 60px 30px;
-    margin-left: 0; /* Reset margin */
+    margin-left: -30px;
   }
   
   .hero-text h1 {
@@ -710,12 +629,12 @@ body.touch-scrolling *:hover {
 
 @media screen and (max-width: 480px) {
   .content {
-    padding: 0; /* Geen padding zodat feed edge-to-edge kan */
+    padding: 0 20px;
   }
   
   .hero {
     padding: 40px 20px;
-    margin-left: 0; /* Reset margin */
+    margin-left: -20px;
   }
   
   .hero-text h1 {
@@ -835,21 +754,21 @@ body.touch-scrolling *:hover {
 
 #sideMenu ul li a:hover {
   color: #ffff00;
-  transform: translate3d(10px, 0, 0); /* Hardware accelerated translation */
+  transform: translateX(10px);
   text-shadow: 0 0 15px rgba(255, 255, 0, 0.5);
 }
 
 .menu-arrow {
   font-size: 20px;
   color: #1937BF;
-  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Faster, smoother transition */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   opacity: 0;
-  transform: translate3d(-10px, 0, 0); /* Hardware accelerated initial position */
+  transform: translateX(-10px);
 }
 
 #sideMenu ul li a:hover .menu-arrow {
   opacity: 1;
-  transform: translate3d(0, 0, 0); /* Hardware accelerated reset */
+  transform: translateX(0);
   color: #ffff00;
   text-shadow: 0 0 10px rgba(255, 255, 0, 0.7);
 }
@@ -878,7 +797,7 @@ body.touch-scrolling *:hover {
   background: #1937BF;
   border-color: #1937BF;
   color: white;
-  transform: rotate3d(0, 0, 1, 90deg); /* Hardware accelerated rotation */
+  transform: rotate(90deg);
   box-shadow: 0 4px 15px rgba(25,55,191, 0.4);
 }
 
@@ -1072,15 +991,9 @@ body.touch-scrolling *:hover {
   
   /* Mobile Feed Section - Full Width */
   .feed {
-    padding: 50px 0; /* Alleen top/bottom padding */
-    margin: 0;
-    width: 100vw;
-    border-radius: 0;
-    position: relative;
-    left: 0;
-    right: 0;
-    /* Simpele edge-to-edge met viewport positioning */
-    transform: translateX(0);
+    padding: 50px 0; /* Minder padding op tablet */
+    border-radius: 30px 30px 0 0;
+    margin-top: -10px; /* Iets overlappen met hero */
   }
   
   .feed-header {
@@ -1109,22 +1022,22 @@ body.touch-scrolling *:hover {
   .feed-grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 15px;
-    grid-auto-rows: 6px; /* Kleinere units voor meer controle */
-    padding: 0 20px; /* Padding terug voor content centering */
+    grid-auto-rows: 8px;
+    padding: 0 20px;
     margin: 0;
     max-width: none;
   }
   
-  /* Kleiner geoptimaliseerde card heights voor makkelijker scrollen */
-  .post-card:nth-child(6n+1) { grid-row-end: span 30; } /* Kleiner dan 40 */
-  .post-card:nth-child(6n+2) { grid-row-end: span 28; } /* Kleiner dan 35 */
-  .post-card:nth-child(6n+3) { grid-row-end: span 32; } /* Kleiner dan 38 */
-  .post-card:nth-child(6n+4) { grid-row-end: span 29; } /* Kleiner dan 36 */
-  .post-card:nth-child(6n+5) { grid-row-end: span 26; } /* Kleiner dan 32 */
-  .post-card:nth-child(6n+6) { grid-row-end: span 34; } /* Kleiner dan 42 */
+  /* Simplified card heights for mobile performance */
+  .post-card:nth-child(6n+1) { grid-row-end: span 40; }
+  .post-card:nth-child(6n+2) { grid-row-end: span 35; }
+  .post-card:nth-child(6n+3) { grid-row-end: span 38; }
+  .post-card:nth-child(6n+4) { grid-row-end: span 36; }
+  .post-card:nth-child(6n+5) { grid-row-end: span 32; }
+  .post-card:nth-child(6n+6) { grid-row-end: span 42; }
   
   .post-image {
-    min-height: 140px; /* Kleiner dan 180px */
+    min-height: 180px;
   }
   
   .post-content {
@@ -1218,31 +1131,25 @@ body.touch-scrolling *:hover {
   
   /* Content areas - Full width on mobile */
   .feed {
-    padding: 35px 0; /* Alleen top/bottom padding */
-    margin: 0;
+    padding: 35px 0; /* Iets meer padding */
+    margin-left: -20px;
     width: 100vw;
-    border-radius: 0;
-    position: relative;
-    left: 0;
-    right: 0;
-    /* Simpele edge-to-edge met viewport positioning */
-    transform: translateX(0);
+    border-radius: 20px 20px 0 0;
+    margin-top: -5px; /* Kleine overlap met hero */
   }
   
   .feed-header {
-    margin-bottom: 25px;
-    padding: 0 15px; /* Padding terug voor content centering */
+    margin-bottom: 30px;
+    padding: 0 15px;
     text-align: center;
-    width: 100%; /* Volledige breedte */
   }
   
   .feed-header h2 {
-    font-size: 2.6rem;
-    letter-spacing: 0px;
+    font-size: 2.6rem; /* Iets groter dan voorheen */
+    letter-spacing: 0px; /* Normale letter-spacing voor kleine schermen */
     color: #1937BF;
-    margin-bottom: 20px; /* Iets minder ruimte onder header */
-    line-height: 1;
-    padding: 0 15px; /* Alleen padding voor de tekst zelf */
+    margin-bottom: 25px;
+    line-height: 1; /* Betere line-height */
   }
   
   /* Mobile dropdown adjustments for small screens */
@@ -1293,38 +1200,23 @@ body.touch-scrolling *:hover {
   
   .feed-grid {
     grid-template-columns: 1fr;
-    gap: 10px; /* Kleinere gap tussen items */
-    grid-auto-rows: 4px; /* Nog kleinere units */
-    padding: 0 15px; /* Padding terug voor content centering */
+    gap: 12px;
+    grid-auto-rows: 6px;
+    padding: 0 15px;
     margin: 0;
     max-width: none;
   }
   
-  /* Compacte card heights voor kleine telefoons - makkelijker scrollen */
-  .post-card:nth-child(6n+1) { grid-row-end: span 40; } /* Kleiner dan 55 */
-  .post-card:nth-child(6n+2) { grid-row-end: span 36; } /* Kleiner dan 50 */
-  .post-card:nth-child(6n+3) { grid-row-end: span 38; } /* Kleiner dan 52 */
-  .post-card:nth-child(6n+4) { grid-row-end: span 34; } /* Kleiner dan 48 */
-  .post-card:nth-child(6n+5) { grid-row-end: span 32; } /* Kleiner dan 46 */
-  .post-card:nth-child(6n+6) { grid-row-end: span 42; } /* Kleiner dan 58 */
+  /* Single column heights for small mobile */
+  .post-card:nth-child(6n+1) { grid-row-end: span 55; }
+  .post-card:nth-child(6n+2) { grid-row-end: span 50; }
+  .post-card:nth-child(6n+3) { grid-row-end: span 52; }
+  .post-card:nth-child(6n+4) { grid-row-end: span 48; }
+  .post-card:nth-child(6n+5) { grid-row-end: span 46; }
+  .post-card:nth-child(6n+6) { grid-row-end: span 58; }
   
   .post-image {
-    min-height: 120px; /* Nog kleiner dan 160px voor compact scrollen */
-    max-height: 150px; /* Maximum hoogte om grote afbeeldingen te beperken */
-  }
-  
-  /* Post overlay ook compacter maken */
-  .post-overlay {
-    padding: 12px 15px; /* Iets minder padding */
-  }
-  
-  .post-overlay h3 {
-    font-size: 1rem; /* Iets kleinere titel voor compacter design */
-    margin-bottom: 4px;
-  }
-  
-  .post-category {
-    font-size: 0.75rem; /* Kleinere categorie tekst */
+    min-height: 160px;
   }
   
   .post-content {
@@ -1421,16 +1313,13 @@ body.touch-scrolling *:hover {
   }
 }
 
-/* ===== END MOBILE RESPONSIVE ===== */
-
-/* ===== KEYFRAME ANIMATIONS ===== */
-
+/* Unified post styling - all posts look identical */
 @keyframes slideInUp {
-  0% {
+  from {
     opacity: 0;
     transform: translateY(20px);
   }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
@@ -1711,7 +1600,7 @@ body.touch-scrolling *:hover {
 }
 
 .post-card:hover {
-  transform: translate3d(0, -4px, 0); /* Use translate3d for hardware acceleration */
+  transform: translateY(-4px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
@@ -1735,7 +1624,7 @@ body.touch-scrolling *:hover {
 }
 
 .post-card:hover .post-image img {
-  transform: scale3d(1.03, 1.03, 1); /* Use scale3d for hardware acceleration */
+  transform: scale(1.03);
 }
 
 .post-overlay {
@@ -1867,7 +1756,7 @@ body.touch-scrolling *:hover {
 }
 
 .see-more-btn:hover {
-  transform: translate3d(0, -4px, 0); /* Hardware accelerated */
+  transform: translateY(-4px);
   box-shadow: 0 12px 35px rgba(25, 55, 191, 0.5);
   background: linear-gradient(45deg, #ffff00, #ffd700);
   color: #1937BF;
@@ -1880,7 +1769,7 @@ body.touch-scrolling *:hover {
 }
 
 .see-more-btn:hover .see-more-arrow {
-  transform: translate3d(0, 2px, 0); /* Hardware accelerated */
+  transform: translateY(2px);
 }
 
 .see-more-btn.expanded .see-more-arrow {
@@ -2031,48 +1920,6 @@ body.touch-scrolling *:hover {
   margin: 0;
 }
 
-/* Experiences CTA Button */
-.experiences-cta {
-  text-align: center;
-  margin-top: 60px;
-}
-
-.experiences-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 18px 35px;
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-  text-decoration: none;
-  border-radius: 50px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 0, 0.3);
-  transition: all 0.3s ease;
-  font-family: 'Bebas Neue', sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.experiences-btn:hover {
-  background: rgba(255, 255, 0, 0.15);
-  border-color: #ffff00;
-  transform: translateY(-3px);
-  box-shadow: 0 15px 35px rgba(255, 255, 0, 0.2);
-}
-
-.experiences-btn .btn-arrow {
-  width: 20px;
-  height: 20px;
-  transition: transform 0.3s ease;
-}
-
-.experiences-btn:hover .btn-arrow {
-  transform: translateX(5px);
-}
-
 .post-card.featured::before {
   content: "★ FEATURED";
   position: absolute;
@@ -2129,7 +1976,7 @@ body.touch-scrolling *:hover {
   .post-card:nth-child(n) { grid-row-end: span 40; }
 }
 
-/* Post Detail Modal - Fixed positioning for perfect centering */
+/* Post Detail Modal */
 .post-modal {
   position: fixed;
   top: 0;
@@ -2142,42 +1989,28 @@ body.touch-scrolling *:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 40px;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s ease-in-out;
-  /* Ensure modal always appears in viewport center */
-  transform: translateZ(0);
-  backface-visibility: hidden;
 }
 
 .post-modal.active {
   opacity: 1;
   visibility: visible;
-  /* Force rendering on top layer to prevent scroll issues */
-  transform: translateZ(0);
 }
 
 .modal-content {
   background: white;
   border-radius: 20px;
-  max-width: 95vw;
+  max-width: 1200px;
+  max-height: 90vh;
   width: 100%;
-  max-height: calc(100vh - 40px);
   overflow: hidden;
   position: relative;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   transform: translateY(30px) scale(0.95);
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  /* Ensure content stays centered in viewport */
-  margin: auto;
-}
-
-/* Larger screens get max-width constraint */
-@media (min-width: 1300px) {
-  .modal-content {
-    max-width: 1200px;
-  }
+  transition: all 0.3s ease-out;
 }
 
 .post-modal.active .modal-content {
@@ -2712,15 +2545,6 @@ body.touch-scrolling *:hover {
   
   .timeline-date {
     font-size: 1rem;
-  }
-  
-  .experiences-cta {
-    margin-top: 40px;
-  }
-  
-  .experiences-btn {
-    font-size: 1rem;
-    padding: 15px 30px;
   }
 }
 
