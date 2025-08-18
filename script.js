@@ -1094,15 +1094,9 @@ function openPostDetail(post) {
     }
   }
 
-  // Show modal CORRECTLY
-  const scrollY = window.scrollY;
-  document.body.style.position = 'fixed';
-  document.body.style.top = `-${scrollY}px`;
-  document.body.style.width = '100%';
-  document.body.style.overflow = 'hidden';
-  
-  modal.setAttribute('data-scroll-y', scrollY.toString());
+  // Show modal
   modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
   
   // Add CTA button if not already present
   let ctaButton = modal.querySelector('.modal-cta-btn');
@@ -1319,22 +1313,10 @@ function changeModalImage(direction) {
   }
 }
 
-// Close modal CORRECTLY
 function closePostModal() {
   const modal = document.getElementById('postModal');
-  const scrollY = modal.getAttribute('data-scroll-y');
-  
   modal.classList.remove('active');
-  
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.width = '';
   document.body.style.overflow = '';
-  
-  if (scrollY) {
-    window.scrollTo(0, parseInt(scrollY));
-    modal.removeAttribute('data-scroll-y');
-  }
 }
 
 // Modal event listeners

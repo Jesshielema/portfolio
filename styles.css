@@ -25,12 +25,9 @@
   box-sizing: border-box;
 }
 
-/* Enhanced smooth scrolling with performance optimizations */
+/* Smooth scrolling */
 html {
-  scroll-behavior: auto; /* Better performance than smooth */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeSpeed;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -67,60 +64,6 @@ img[data-src] {
   transform: translateZ(0);
   backface-visibility: hidden;
   perspective: 1000px;
-}
-
-/* Enhanced performance optimizations for ultra-smooth interactions */
-html {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeSpeed;
-  scroll-behavior: smooth;
-}
-
-body {
-  overflow-x: hidden;
-  transform: translateZ(0);
-  contain: layout style paint;
-  will-change: scroll-position;
-}
-
-/* Optimize all interactive elements for smooth hover effects */
-.post-card,
-.nav-left,
-.logo-container,
-.cta-button,
-.filter-btn,
-.see-more-btn,
-.footer-link,
-.footer-social-link,
-#sideMenu ul li a {
-  contain: layout style paint;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  will-change: transform;
-}
-
-/* Ultra-smooth transition timing for all hover effects */
-.post-card {
-  transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-              box-shadow 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.post-image img {
-  transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.post-overlay {
-  transition: opacity 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.nav-left {
-  transition: color 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-              transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.logo-container {
-  transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* Optimize heavy animations */
@@ -2063,7 +2006,7 @@ body {
   .post-card:nth-child(n) { grid-row-end: span 40; }
 }
 
-/* Post Detail Modal - CORRECT implementation */
+/* Post Detail Modal */
 .post-modal {
   position: fixed;
   top: 0;
@@ -2076,11 +2019,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 40px;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  transform: translateZ(0);
+  transition: all 0.3s ease-in-out;
 }
 
 .post-modal.active {
@@ -2091,26 +2033,14 @@ body {
 .modal-content {
   background: white;
   border-radius: 20px;
-  max-width: 95vw;
+  max-width: 1200px;
+  max-height: 90vh;
   width: 100%;
-  max-height: calc(100vh - 40px);
   overflow: hidden;
   position: relative;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   transform: translateY(30px) scale(0.95);
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  /* Ensure content stays centered in viewport */
-  margin: auto;
-  /* Force center positioning */
-  align-self: center;
-  justify-self: center;
-}
-
-/* Larger screens get max-width constraint */
-@media (min-width: 1300px) {
-  .modal-content {
-    max-width: 1200px;
-  }
+  transition: all 0.3s ease-out;
 }
 
 .post-modal.active .modal-content {
