@@ -1130,9 +1130,26 @@ function openPostDetail(post) {
     }
   }
 
-  // Show modal
+  // Show modal with proper centering and scroll lock
   modal.classList.add('active');
+  modal.style.display = 'flex'; // Use flex for perfect centering
+  
+  // Prevent body scroll but maintain scroll position
+  const scrollY = window.scrollY;
   document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${scrollY}px`;
+  document.body.style.width = '100%';
+  
+  // Store scroll position for restore on close
+  modal.setAttribute('data-scroll-y', scrollY.toString());
+  
+  // Force modal to appear in current viewport (additional safeguard)
+  requestAnimationFrame(() => {
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.position = 'fixed';
+  });
   
   // Add CTA button if not already present
   let ctaButton = modal.querySelector('.modal-cta-btn');

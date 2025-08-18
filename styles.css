@@ -2107,6 +2107,8 @@ body.touch-scrolling *:hover {
   /* Ensure modal always appears in viewport center */
   transform: translateZ(0);
   backface-visibility: hidden;
+  /* Force layer creation for perfect positioning */
+  will-change: opacity, visibility;
 }
 
 .post-modal.active {
@@ -2114,6 +2116,8 @@ body.touch-scrolling *:hover {
   visibility: visible;
   /* Force rendering on top layer to prevent scroll issues */
   transform: translateZ(0);
+  /* Alternative centering method for better browser compatibility */
+  display: flex !important;
 }
 
 .modal-content {
@@ -2129,6 +2133,9 @@ body.touch-scrolling *:hover {
   transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   /* Ensure content stays centered in viewport */
   margin: auto;
+  /* Force center positioning */
+  align-self: center;
+  justify-self: center;
 }
 
 /* Larger screens get max-width constraint */
