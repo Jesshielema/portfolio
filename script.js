@@ -34,6 +34,20 @@ function optimizeScrollPerformance() {
 // Initialize performance optimizations
 optimizeScrollPerformance();
 
+// Emergency modal reset on page load
+document.addEventListener('DOMContentLoaded', () => {
+  // Force close any open modals on page load
+  const modal = document.getElementById('postModal');
+  if (modal) {
+    modal.classList.remove('active');
+    modal.style.display = 'none';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.overflow = '';
+  }
+});
+
 // ===== ANALYTICS & TRACKING =====
 
 // Track contact form submissions
@@ -1383,10 +1397,11 @@ function closePostModal() {
     modal.removeAttribute('data-scroll-y');
   }
   
-  // Use timeout to allow CSS transition to complete before hiding
+  // Hide modal completely
   setTimeout(() => {
     modal.style.display = 'none';
   }, 300);
+}
 }
 
 // Modal event listeners
