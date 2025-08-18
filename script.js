@@ -785,11 +785,28 @@ let posts = [
 
 // Load posts from localStorage and merge with default posts
 function loadPosts() {
-  const savedPosts = JSON.parse(localStorage.getItem('portfolioPosts') || '[]');
-  const deletedPosts = JSON.parse(localStorage.getItem('deletedDefaultPosts') || '[]');
-  const overriddenPosts = JSON.parse(localStorage.getItem('overriddenDefaultPosts') || '{}');
-  const hiddenHardcodedPosts = JSON.parse(localStorage.getItem('hiddenHardcodedPosts') || '[]');
-  const overriddenHardcodedPosts = JSON.parse(localStorage.getItem('overriddenHardcodedPosts') || '{}');
+  // Use safeStorage if available, fallback to regular localStorage
+  const storage = window.safeStorage || localStorage;
+  
+  let savedPosts, deletedPosts, overriddenPosts, hiddenHardcodedPosts, overriddenHardcodedPosts;
+  
+  try {
+    savedPosts = JSON.parse(storage.getItem('portfolioPosts') || '[]');
+    deletedPosts = JSON.parse(storage.getItem('deletedDefaultPosts') || '[]');
+    overriddenPosts = JSON.parse(storage.getItem('overriddenDefaultPosts') || '{}');
+    hiddenHardcodedPosts = JSON.parse(storage.getItem('hiddenHardcodedPosts') || '[]');
+    overriddenHardcodedPosts = JSON.parse(storage.getItem('overriddenHardcodedPosts') || '{}');
+    
+    console.log('✅ Successfully loaded portfolio data from storage');
+  } catch (e) {
+    console.error('❌ Error loading portfolio data:', e);
+    // Fallback to empty data
+    savedPosts = [];
+    deletedPosts = [];
+    overriddenPosts = {};
+    hiddenHardcodedPosts = [];
+    overriddenHardcodedPosts = {};
+  }
   
   // Filter out deleted default posts and apply overrides
   const visibleDefaultPosts = posts
@@ -1360,10 +1377,17 @@ function addNewPost(postData) {
   // Insert at the beginning of the grid
   feedGrid.insertBefore(newPostElement, feedGrid.firstChild);
   
-  // Update localStorage
-  const savedPosts = JSON.parse(localStorage.getItem('portfolioPosts') || '[]');
-  savedPosts.unshift(newPost);
-  localStorage.setItem('portfolioPosts', JSON.stringify(savedPosts));
+  // Update localStorage with safe storage
+  const storage = window.safeStorage || localStorage;
+  
+  try {
+    const savedPosts = JSON.parse(storage.getItem('portfolioPosts') || '[]');
+    savedPosts.unshift(newPost);
+    storage.setItem('portfolioPosts', JSON.stringify(savedPosts));
+    console.log('✅ Successfully saved new post to storage');
+  } catch (e) {
+    console.error('❌ Error saving new post:', e);
+  }
 }
 
 // Filter posts functie (voor toekomstige filtering)
@@ -1454,21 +1478,30 @@ window.addEventListener('focus', () => {
   // Check if there are new posts when returning to the tab
   console.log('🔍 Window focus detected, checking for updates...');
   
-  // Check multiple storage keys for updates
-  const portfolioUpdated = localStorage.getItem('portfolioUpdated');
-  const newPostAdded = localStorage.getItem('newPostAdded');
-  const lastUpdate = localStorage.getItem('lastPortfolioUpdate');
-  const sessionUpdate = sessionStorage.getItem('portfolioNeedsUpdate');
+  // Use safe storage
+  const storage = window.safeStorage || localStorage;
   
-  if (portfolioUpdated || newPostAdded || lastUpdate || sessionUpdate) {
-    console.log('📥 Updates found, reloading...');
-    loadPosts();
-    renderFeed();
-    updateHeroSection();
+  try {
+    // Check multiple storage keys for updates
+    const portfolioUpdated = storage.getItem('portfolioUpdated');
+    const newPostAdded = storage.getItem('newPostAdded');
+    const lastUpdate = storage.getItem('lastPortfolioUpdate');
+    const sessionUpdate = (typeof sessionStorage !== 'undefined') ? sessionStorage.getItem('portfolioNeedsUpdate') : null;
     
-    // Clear the flags
-    localStorage.removeItem('newPostAdded');
-    sessionStorage.removeItem('portfolioNeedsUpdate');
+    if (portfolioUpdated || newPostAdded || lastUpdate || sessionUpdate) {
+      console.log('📥 Updates found, reloading...');
+      loadPosts();
+      renderFeed();
+      updateHeroSection();
+      
+      // Clear the flags
+      storage.removeItem('newPostAdded');
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.removeItem('portfolioNeedsUpdate');
+      }
+    }
+  } catch (e) {
+    console.error('❌ Error checking for updates:', e);
   }
 });
 
