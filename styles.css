@@ -45,6 +45,18 @@ img {
   height: auto;
 }
 
+/* Simpele Image Optimization - Lazy Loading */
+img[data-src] {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: imageLoading 1.5s infinite;
+}
+
+@keyframes imageLoading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* Hardware acceleration for smooth animations */
 .post-card,
 .logo-container,
@@ -4875,38 +4887,94 @@ html {
 
 /* ===== MODAL CTA BUTTON ===== */
 
+/* Modal CTA container */
+.modal-cta-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 10px;
+  padding: 15px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Modal header voor knop positionering */
+.modal-header {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 1001;
+}
+
 .modal-cta-btn {
-  background: #1937BF;
+  background: linear-gradient(135deg, #1937BF 0%, #0f2a9f 100%);
   color: white;
   border: none;
-  padding: 15px 30px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
+  padding: 14px 24px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin: 30px auto 20px;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   text-transform: none;
-  letter-spacing: normal;
-  box-shadow: 0 4px 15px rgba(25, 55, 191, 0.3);
+  letter-spacing: 0.5px;
+  box-shadow: 0 6px 20px rgba(25, 55, 191, 0.3);
+  position: relative;
+  z-index: 1002;
+  min-width: 160px;
+  justify-content: center;
+}
+
+.modal-cta-btn .cta-icon {
+  font-size: 16px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
 }
 
 .modal-cta-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(25, 55, 191, 0.4);
-  background: #0f2a9f;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 30px rgba(25, 55, 191, 0.4);
+  background: linear-gradient(135deg, #0f2a9f 0%, #1937BF 100%);
 }
 
 .modal-cta-btn:active {
-  transform: translateY(0px);
+  transform: translateY(-1px) scale(1.02);
+}
+
+/* Speciaal voor lightbox info sectie */
+.lightbox-info .modal-cta-container {
+  background: rgba(0,0,0,0.7);
+  border-radius: 15px;
+  margin: 15px 0;
+  border: none;
 }
 
 @media (max-width: 768px) {
+  .modal-header {
+    padding: 15px;
+  }
+  
+  .modal-cta-container {
+    margin: 15px 0 8px;
+    padding: 12px;
+  }
+  
   .modal-cta-btn {
-    padding: 12px 24px;
+    padding: 12px 20px;
     font-size: 14px;
-    margin: 20px auto 15px;
+    border-radius: 25px;
+    min-width: 140px;
+  }
+  
+  .modal-cta-btn .cta-icon {
+    font-size: 14px;
   }
 }
 

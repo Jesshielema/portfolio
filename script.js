@@ -1092,7 +1092,7 @@ function openPostDetail(post) {
   if (!ctaButton) {
     ctaButton = document.createElement('button');
     ctaButton.className = 'modal-cta-btn';
-    ctaButton.innerHTML = 'Dit wil ik ook';
+    ctaButton.innerHTML = 'Dit wil ik ook!';
     ctaButton.addEventListener('click', () => {
       // Track CTA click
       if (typeof gtag !== 'undefined') {
@@ -1112,10 +1112,23 @@ function openPostDetail(post) {
       }
     });
     
-    // Add button to modal content
-    const modalContent = modal.querySelector('.modal-content');
-    if (modalContent) {
-      modalContent.appendChild(ctaButton);
+    // Add button to modal header area (next to close button)
+    const modalInfo = modal.querySelector('.modal-info, .work-info, .lightbox-info');
+    if (modalInfo) {
+      // Add to existing info section
+      const ctaContainer = document.createElement('div');
+      ctaContainer.className = 'modal-cta-container';
+      ctaContainer.appendChild(ctaButton);
+      modalInfo.appendChild(ctaContainer);
+    } else {
+      // Fallback: create header with both close and CTA button
+      const modalContent = modal.querySelector('.modal-content');
+      if (modalContent) {
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'modal-header';
+        headerDiv.appendChild(ctaButton);
+        modalContent.insertBefore(headerDiv, modalContent.firstChild);
+      }
     }
   }
   
