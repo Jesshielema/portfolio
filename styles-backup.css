@@ -1,4 +1,4 @@
-﻿/* 
+/* 
  * BELANGRIJK: Dit bestand is opgesplitst om CSS conflicten te voorkomen
  * ------------------------------------------------------------------
  * 
@@ -457,7 +457,7 @@ body.touch-scrolling *:hover {
   align-items: center;
   justify-content: center;
   text-align: center;
-  width: 100%;
+  wi 10h: 100%;
 }
 
 .hero-text h1 {
@@ -544,8 +544,8 @@ body.touch-scrolling *:hover {
 }
 
 .cta-arrow {
-  width: 32px;
-  height: 32px;
+  width: 16px;
+  height: 16px;
   transition: transform 0.3s ease;
   animation: arrowBounce 2s ease-in-out infinite;
 }
@@ -722,8 +722,8 @@ body.touch-scrolling *:hover {
   }
   
   .cta-arrow {
-    width: 32px;
-    height: 32px;
+    width: 14px;
+    height: 14px;
   }
 }
 
@@ -755,8 +755,8 @@ body.touch-scrolling *:hover {
   }
   
   .cta-arrow {
-    width: 32px;
-    height: 32px;
+    width: 12px;
+    height: 12px;
   }
 }
 
@@ -817,7 +817,7 @@ body.touch-scrolling *:hover {
   background: white;
   box-shadow: 0 8px 30px rgba(25, 55, 191, 0.4);
   z-index: 999;
-  transition: top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Langzamer en zachter */
+  transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   padding: 50px 200px 80px 200px;
   border-bottom: 3px solid #1937BF;
 }
@@ -847,7 +847,7 @@ body.touch-scrolling *:hover {
   font-family: 'Bebas Neue', 'Anton', 'Arial Black', sans-serif;
   text-transform: uppercase;
   letter-spacing: 1px;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Rustiger menu item animatie */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   text-align: left;
   display: flex;
   justify-content: space-between;
@@ -893,7 +893,7 @@ body.touch-scrolling *:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   backdrop-filter: blur(10px);
 }
 
@@ -5445,7 +5445,7 @@ html {
 
 .sou6ce-filter-btn.netlify-cms.active {
   background: rgba(72, 187, 120, 0.3);
-  border-color: #48bb78;
+  bord40-color: #48bb78;
 }
 
 .source-filter-btn.admin.active {

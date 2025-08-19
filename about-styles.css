@@ -28,7 +28,7 @@
   align-items: center;
 }
 
-.hero-text h1 {
+.about-hero .hero-text h1 {
   font-family: 'Bebas Neue', 'Anton', 'Arial Black', sans-serif;
   font-size: 4rem;
   font-weight: 900;
@@ -44,7 +44,7 @@
   filter: drop-shadow(0 4px 15px rgba(255, 255, 0, 0.4));
 }
 
-.hero-text p {
+.about-hero .hero-text p {
   font-size: 1.3rem;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.9);
@@ -547,12 +547,12 @@
     padding: 0 20px;
   }
   
-  .hero-text h1 {
+  .about-hero .hero-text h1 {
     font-size: 2.5rem;
     text-align: center;
   }
   
-  .hero-text p {
+  .about-hero .hero-text p {
     text-align: center;
     margin: 0 auto 30px auto;
   }

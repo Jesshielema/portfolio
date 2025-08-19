@@ -45,7 +45,8 @@
   <!-- Simpele Image Optimization -->
   <script src="simple-image-optimization.js"></script>
   
-  <link rel="stylesheet" href="styles.css">
+  <!-- Split CSS structure to prevent conflicts -->
+  <link rel="stylesheet" href="index.css">
   
   <!-- SEO Meta Tags -->
   <meta name="description" content="Jesse Hielema - Creative Designer & Developer. Bold designs that win. Portfolio met branding, UI/UX, motion graphics en web development.">
@@ -86,7 +87,7 @@
   <!-- Hoofdinhoud -->
   <main class="content">
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="index-hero">
       <div class="hero-text">
         <h1>
           WHERE <span class="bold-word" data-text="BOLD">BOLD</span> DESIGN WINS,<br>
@@ -108,7 +109,7 @@
     <section class="feed">
       <div class="feed-header">
         <h2>Recent Work</h2>
-        
+
         <!-- Desktop Filter Buttons -->
         <div class="filter-buttons desktop-filters">
           <button class="filter-btn active" data-filter="all">All</button>

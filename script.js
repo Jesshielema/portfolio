@@ -1086,6 +1086,7 @@ function openPostDetail(post) {
   // Show modal
   modal.classList.add('active');
   document.body.style.overflow = 'hidden';
+  document.body.classList.add('modal-open');
   
   // Add CTA button if not already present
   let ctaButton = modal.querySelector('.modal-cta-btn');
@@ -1307,6 +1308,7 @@ function closePostModal() {
   const modal = document.getElementById('postModal');
   modal.classList.remove('active');
   document.body.style.overflow = '';
+  document.body.classList.remove('modal-open');
 }
 
 // Modal event listeners
