@@ -862,6 +862,9 @@ function loadPosts() {
   
   posts = uniquePosts;
   
+  // Update global window reference
+  window.posts = posts;
+  
   console.log('Posts loaded:', posts.length);
   
   // Update hero section with latest post
@@ -1529,6 +1532,10 @@ function resetPortfolioData() {
 
 // Expose reset function to console for debugging
 window.resetPortfolioData = resetPortfolioData;
+
+// Expose posts array and renderFeed function for integration with other scripts
+window.posts = posts;
+window.renderFeed = renderFeed;
 
 // Listen for storage changes (new posts added from admin panel)
 window.addEventListener('storage', (e) => {

@@ -338,16 +338,38 @@ class IntegratedPortfolioLoader {
       loadingIndicator.style.display = 'none';
     }
 
-    // Clear existing content
-    postsContainer.innerHTML = '';
+    // Check if posts are already rendered by script.js
+    if (postsContainer.children.length > 0) {
+      console.log('📦 Posts already rendered by script.js, skipping...');
+      return;
+    }
 
     // Show status
     this.showStatus(`Loaded ${this.allPosts.length} posts from all sources`, 'success');
 
-    // Group posts by category for better organization
-    const postsByCategory = this.groupPostsByCategory();
+    // Use the global posts array if available (from script.js)
+    if (window.posts && window.posts.length > 0) {
+      console.log('🔄 Using posts from script.js instead of rebuilding...');
+      
+      // Update global posts array with any new CMS posts that aren't hardcoded
+      const cmsOnlyPosts = this.allPosts.filter(post => 
+        post.source === 'netlify-cms' && 
+        !window.posts.some(existing => existing.id === post.id)
+      );
+      
+      if (cmsOnlyPosts.length > 0) {
+        window.posts = [...window.posts, ...cmsOnlyPosts];
+        console.log(`➕ Added ${cmsOnlyPosts.length} new CMS posts to global array`);
+        
+        // Re-render using script.js renderFeed function
+        if (window.renderFeed) {
+          window.renderFeed();
+        }
+      }
+      return;
+    }
 
-    // Display posts
+    // Fallback: render our own posts if script.js hasn't loaded yet
     this.allPosts.forEach(post => {
       const postElement = this.createPostElement(post);
       postsContainer.appendChild(postElement);
