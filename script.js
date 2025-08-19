@@ -880,19 +880,28 @@ function renderFeed() {
     return;
   }
   
+  console.log('Rendering feed with', posts.length, 'posts');
+  
   // Sorteer posts op datum (nieuwste eerst)
   const sortedPosts = posts.sort((a, b) => new Date(b.date) - new Date(a.date));
   
   // Use DocumentFragment for better performance
   const fragment = document.createDocumentFragment();
   
-  sortedPosts.forEach(post => {
-    const postElement = createPostElement(post);
-    fragment.appendChild(postElement);
+  sortedPosts.forEach((post, index) => {
+    try {
+      console.log(`Rendering post ${index + 1}:`, post.title, post);
+      const postElement = createPostElement(post);
+      fragment.appendChild(postElement);
+    } catch (error) {
+      console.error('Error rendering post:', post, error);
+    }
   });
   
   feedGrid.innerHTML = '';
   feedGrid.appendChild(fragment);
+  
+  console.log('Feed rendered successfully');
 }
 
 // Post element maken met Instagram-style multi-image ondersteuning
@@ -900,8 +909,26 @@ function createPostElement(post) {
   const postDiv = document.createElement('div');
   postDiv.className = `post-card ${post.featured ? 'featured' : ''}`;
   
-  // Handle multiple images or single image
-  const images = post.images || [post.image || post.mainImage];
+  // Add data attributes for filtering
+  postDiv.setAttribute('data-category', post.category || post.type || 'DESIGN');
+  postDiv.setAttribute('data-type', post.type || 'Design');
+  postDiv.setAttribute('data-source', post.source || 'hardcoded');
+  
+  // Handle multiple images or single image with better error handling
+  let images = [];
+  if (post.images && Array.isArray(post.images) && post.images.length > 0) {
+    images = post.images.filter(img => img && img.trim() !== '');
+  } else if (post.image && post.image.trim() !== '') {
+    images = [post.image];
+  } else if (post.mainImage && post.mainImage.trim() !== '') {
+    images = [post.mainImage];
+  }
+  
+  // Fallback to placeholder if no valid images
+  if (images.length === 0) {
+    images = ['images/placeholder.svg'];
+  }
+  
   const mainImage = images[0];
   
   const imageHTML = images.length > 1 ? `
@@ -946,8 +973,8 @@ function createPostElement(post) {
   postDiv.innerHTML = `
     ${imageHTML}
     <div class="post-content">
-      <h3 class="post-title">${post.title}</h3>
-      <p class="post-date">${formatDate(post.date)}</p>
+      <h3 class="post-title">${post.title || 'Untitled Project'}</h3>
+      <p class="post-date">${formatDate(post.date || new Date().toISOString().split('T')[0])}</p>
       ${post.description ? `<p class="post-description">${post.description}</p>` : ''}
     </div>
   `;
@@ -1432,7 +1459,19 @@ function addNewPost(postData) {
 // Filter posts functie (voor toekomstige filtering)
 function filterPosts(type = 'all') {
   const feedGrid = document.getElementById('postsContainer');
-  const filteredPosts = type === 'all' ? posts : posts.filter(post => post.type === type);
+  
+  let filteredPosts;
+  if (type === 'all') {
+    filteredPosts = posts;
+  } else {
+    // Filter on both category and type for better compatibility
+    filteredPosts = posts.filter(post => {
+      const postCategory = (post.category || post.type || '').toUpperCase();
+      const filterType = type.toUpperCase();
+      return postCategory === filterType || 
+             (post.type && post.type.toUpperCase() === filterType);
+    });
+  }
   
   // Use DocumentFragment for better performance
   const fragment = document.createDocumentFragment();
