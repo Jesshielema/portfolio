@@ -112,9 +112,17 @@
         </div>
 
         <div class="contact-form-wrapper">
-          <form name="contact" method="POST" data-netlify="true" netlify action="/success.html" class="contact-form">
+          <form name="contact" method="POST" data-netlify="true" netlify action="/success.html" class="contact-form" data-netlify-recaptcha="true">
             <input type="hidden" name="form-name" value="contact">
-            <div data-netlify-recaptcha="true"></div>
+            
+            <!-- Email notification settings -->
+            <input type="hidden" name="subject" value="Nieuw Contact Formulier - Portfolio Website">
+            <input type="hidden" name="_replyto" value="jessehielema@gmail.com">
+            
+            <!-- FormSubmit backup (will also send email directly) -->
+            <input type="hidden" name="_next" value="https://jesshielema.github.io/portfolio/success.html">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
             
             <div class="form-group">
               <label for="name">Naam *</label>
@@ -240,11 +248,59 @@
       successMessage.style.display = 'block';
     }
     
-    // Form submission handling
-    form.addEventListener('submit', function(e) {
+    // Enhanced form submission with dual delivery
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
       const submitBtn = form.querySelector('.submit-btn');
+      const originalText = submitBtn.innerHTML;
+      
       submitBtn.innerHTML = 'SENDING... <div class="spinner"></div>';
       submitBtn.disabled = true;
+      
+      try {
+        // Get form data
+        const formData = new FormData(form);
+        
+        // 1. Submit to Netlify (primary)
+        console.log('📧 Sending via Netlify Forms...');
+        const netlifyResponse = await fetch('/', {
+          method: 'POST',
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams(formData).toString()
+        });
+        
+        // 2. Also send via FormSubmit as backup
+        console.log('📧 Sending backup via FormSubmit...');
+        const formSubmitData = new FormData();
+        formSubmitData.append('name', formData.get('name'));
+        formSubmitData.append('email', formData.get('email'));
+        formSubmitData.append('company', formData.get('company') || 'Niet opgegeven');
+        formSubmitData.append('phone', formData.get('phone') || 'Niet opgegeven');
+        formSubmitData.append('project-type', formData.get('project-type') || 'Niet opgegeven');
+        formSubmitData.append('message', formData.get('message'));
+        formSubmitData.append('_subject', 'Portfolio Contact Form - Nieuw Bericht');
+        
+        await fetch('https://formsubmit.co/jessehielema@gmail.com', {
+          method: 'POST',
+          body: formSubmitData
+        });
+        
+        console.log('✅ Form submitted successfully via both services!');
+        
+        // Redirect to success page
+        window.location.href = '/success.html?success=true';
+        
+      } catch (error) {
+        console.error('❌ Form submission error:', error);
+        
+        // Fallback: try original Netlify submission
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        
+        // Let the original form submission proceed
+        form.submit();
+      }
     });
   </script>
 </body>
