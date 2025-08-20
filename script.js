@@ -641,9 +641,7 @@ let posts = [
     id: 1,
     title: "Character Design Project",
     image: "images/characters.jpg",
-    images: ["images/characters.jpg"],
     type: "Design",
-    category: "DESIGN",
     date: "2024-01-15",
     featured: true,
     description: "Een uitgebreide character design studie voor een nieuwe animatieserie.",
@@ -655,9 +653,7 @@ let posts = [
     id: 2,
     title: "Brand Identity",
     image: "images/project2.jpg",
-    images: ["images/project2.jpg"],
     type: "Branding",
-    category: "BRANDING",
     date: "2024-01-10",
     featured: false,
     description: "Complete merkidentiteit voor een tech startup.",
@@ -669,9 +665,7 @@ let posts = [
     id: 3,
     title: "Mobile App Design",
     image: "images/project3.jpg",
-    images: ["images/project3.jpg"],
     type: "UI/UX",
-    category: "UI/UX",
     date: "2024-01-08",
     featured: false,
     description: "Gebruiksvriendelijke mobile app voor fitness tracking.",
@@ -683,9 +677,7 @@ let posts = [
     id: 4,
     title: "Logo Animation",
     image: "images/project4.jpg",
-    images: ["images/project4.jpg"],
     type: "Motion",
-    category: "MOTION",
     date: "2024-01-05",
     featured: true,
     description: "Dynamische logo animatie voor branding purposes.",
@@ -697,9 +689,7 @@ let posts = [
     id: 5,
     title: "Website Redesign",
     image: "images/project5.png",
-    images: ["images/project5.png"],
     type: "Web",
-    category: "WEB",
     date: "2024-01-03",
     featured: false,
     description: "Moderne website redesign met focus op UX.",
@@ -711,9 +701,7 @@ let posts = [
     id: 6,
     title: "Packaging Design",
     image: "images/project6.png",
-    images: ["images/project6.png"],
     type: "Design",
-    category: "DESIGN",
     date: "2024-01-01",
     featured: false,
     description: "Duurzame packaging oplossing voor cosmetica merk.",
@@ -725,9 +713,7 @@ let posts = [
     id: 7,
     title: "Streetwear Collection",
     image: "images/project7.png",
-    images: ["images/project7.png"],
     type: "Design",
-    category: "DESIGN",
     date: "2024-01-20",
     featured: false,
     description: "Urban streetwear collectie met focus op duurzaamheid.",
@@ -739,9 +725,7 @@ let posts = [
     id: 8,
     title: "Digital Campaign",
     image: "images/project8.png",
-    images: ["images/project8.png"],
     type: "Design",
-    category: "DESIGN",
     date: "2024-01-18",
     featured: false,
     description: "Digitale campagne voor nieuwe productlancering.",
@@ -753,9 +737,7 @@ let posts = [
     id: 9,
     title: "E-commerce Platform",
     image: "images/project9.png",
-    images: ["images/project9.png"],
     type: "Web",
-    category: "WEB",
     date: "2024-01-16",
     featured: false,
     description: "Moderne e-commerce platform met seamless UX.",
@@ -767,9 +749,7 @@ let posts = [
     id: 10,
     title: "Motion Graphics Reel",
     image: "images/project10.png",
-    images: ["images/project10.png"],
     type: "Motion",
-    category: "MOTION",
     date: "2024-01-14",
     featured: false,
     description: "Showcase van motion graphics projecten.",
@@ -781,9 +761,7 @@ let posts = [
     id: 11,
     title: "Corporate Identity",
     image: "images/project11.png",
-    images: ["images/project11.png"],
     type: "Branding",
-    category: "BRANDING",
     date: "2024-01-12",
     featured: false,
     description: "Complete corporate identity voor financiële instelling.",
@@ -795,9 +773,7 @@ let posts = [
     id: 12,
     title: "Product Photography",
     image: "images/project12.png",
-    images: ["images/project12.png"],
     type: "Photography",
-    category: "DESIGN",
     date: "2024-01-09",
     featured: false,
     description: "High-end product fotografie voor luxe merk.",
@@ -862,9 +838,6 @@ function loadPosts() {
   
   posts = uniquePosts;
   
-  // Update global window reference
-  window.posts = posts;
-  
   console.log('Posts loaded:', posts.length);
   
   // Update hero section with latest post
@@ -883,28 +856,19 @@ function renderFeed() {
     return;
   }
   
-  console.log('Rendering feed with', posts.length, 'posts');
-  
   // Sorteer posts op datum (nieuwste eerst)
   const sortedPosts = posts.sort((a, b) => new Date(b.date) - new Date(a.date));
   
   // Use DocumentFragment for better performance
   const fragment = document.createDocumentFragment();
   
-  sortedPosts.forEach((post, index) => {
-    try {
-      console.log(`Rendering post ${index + 1}:`, post.title, post);
-      const postElement = createPostElement(post);
-      fragment.appendChild(postElement);
-    } catch (error) {
-      console.error('Error rendering post:', post, error);
-    }
+  sortedPosts.forEach(post => {
+    const postElement = createPostElement(post);
+    fragment.appendChild(postElement);
   });
   
   feedGrid.innerHTML = '';
   feedGrid.appendChild(fragment);
-  
-  console.log('Feed rendered successfully');
 }
 
 // Post element maken met Instagram-style multi-image ondersteuning
@@ -912,26 +876,8 @@ function createPostElement(post) {
   const postDiv = document.createElement('div');
   postDiv.className = `post-card ${post.featured ? 'featured' : ''}`;
   
-  // Add data attributes for filtering
-  postDiv.setAttribute('data-category', post.category || post.type || 'DESIGN');
-  postDiv.setAttribute('data-type', post.type || 'Design');
-  postDiv.setAttribute('data-source', post.source || 'hardcoded');
-  
-  // Handle multiple images or single image with better error handling
-  let images = [];
-  if (post.images && Array.isArray(post.images) && post.images.length > 0) {
-    images = post.images.filter(img => img && img.trim() !== '');
-  } else if (post.image && post.image.trim() !== '') {
-    images = [post.image];
-  } else if (post.mainImage && post.mainImage.trim() !== '') {
-    images = [post.mainImage];
-  }
-  
-  // Fallback to placeholder if no valid images
-  if (images.length === 0) {
-    images = ['images/placeholder.svg'];
-  }
-  
+  // Handle multiple images or single image
+  const images = post.images || [post.image || post.mainImage];
   const mainImage = images[0];
   
   const imageHTML = images.length > 1 ? `
@@ -976,8 +922,8 @@ function createPostElement(post) {
   postDiv.innerHTML = `
     ${imageHTML}
     <div class="post-content">
-      <h3 class="post-title">${post.title || 'Untitled Project'}</h3>
-      <p class="post-date">${formatDate(post.date || new Date().toISOString().split('T')[0])}</p>
+      <h3 class="post-title">${post.title}</h3>
+      <p class="post-date">${formatDate(post.date)}</p>
       ${post.description ? `<p class="post-description">${post.description}</p>` : ''}
     </div>
   `;
@@ -1462,19 +1408,7 @@ function addNewPost(postData) {
 // Filter posts functie (voor toekomstige filtering)
 function filterPosts(type = 'all') {
   const feedGrid = document.getElementById('postsContainer');
-  
-  let filteredPosts;
-  if (type === 'all') {
-    filteredPosts = posts;
-  } else {
-    // Filter on both category and type for better compatibility
-    filteredPosts = posts.filter(post => {
-      const postCategory = (post.category || post.type || '').toUpperCase();
-      const filterType = type.toUpperCase();
-      return postCategory === filterType || 
-             (post.type && post.type.toUpperCase() === filterType);
-    });
-  }
+  const filteredPosts = type === 'all' ? posts : posts.filter(post => post.type === type);
   
   // Use DocumentFragment for better performance
   const fragment = document.createDocumentFragment();
@@ -1532,10 +1466,6 @@ function resetPortfolioData() {
 
 // Expose reset function to console for debugging
 window.resetPortfolioData = resetPortfolioData;
-
-// Expose posts array and renderFeed function for integration with other scripts
-window.posts = posts;
-window.renderFeed = renderFeed;
 
 // Listen for storage changes (new posts added from admin panel)
 window.addEventListener('storage', (e) => {
