@@ -6,12 +6,12 @@
   <title>Portfolio - Jesse Hielema</title>
   
   <!-- Google Analytics 4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'GA_MEASUREMENT_ID');
+    gtag('config', 'G-XXXXXXXXXX');
     
     // Track contact form submissions
     function trackFormSubmission() {
@@ -90,8 +90,8 @@
     <section class="index-hero">
       <div class="hero-text">
         <h1>
-          WHERE <span class="bold-word" data-text="BOLD">BOLD</span> DESIGN WINS,<br>
-          ORDINARY <span class="loses-word">LOSES</span>
+          WHERE <span class="bold-word" data-text="BOLD">BOLD</span> DESIGN<br>
+          MAKES THE <span class="difference-word">DIFFERENCE</span>
         </h1>
         <div class="cta-container">
           <button class="cta-button" id="ctaButton">
@@ -139,15 +139,6 @@
             <button class="mobile-filter-option" data-filter="Illustration">Illustration</button>
           </div>
         </div>
-        
-        <!-- Source Filters (Hidden from public) -->
-        <div class="source-filters" style="display: none;">
-          <button class="source-filter-btn active" data-source="all">🌐 All Sources</button>
-          <button class="source-filter-btn netlify-cms" data-source="netlify-cms">🌐 Netlify CMS</button>
-          <button class="source-filter-btn admin" data-source="admin">👨‍💼 Admin Panel</button>
-          <button class="source-filter-btn hardcoded" data-source="hardcoded">📦 Hardcoded</button>
-        </div>
-      </div>
       
       <div id="postsContainer" class="feed-grid">
         <!-- Posts worden hier geladen via JavaScript -->
@@ -210,58 +201,47 @@
   <!-- Footer -->
   <footer class="main-footer">
     <div class="footer-content">
-      <div class="footer-section">
-        <div class="footer-brand">
-          <img src="images/mono-rond.png" alt="Jesse Hielema Logo" class="footer-logo">
-          <h3>Jesse Hielema</h3>
-          <p>Creative Designer</p>
-        </div>
+      <!-- Links: Jesse Hielema + functie -->
+      <div class="footer-brand">
+        <h3>Jesse Hielema</h3>
+        <p>Creative Designer</p>
       </div>
-      
-      <div class="footer-section">
-        <h4>Contact</h4>
-        <div class="contact-info">
-          <a href="mailto:Jessehielema@gmail.com" class="footer-link">
-            <img src="images/icons8-mail-48.png" alt="Email" class="footer-icon">
-            Jessehielema@gmail.com
-          </a>
-          <p class="footer-text">Groningen, Nederland</p>
-        </div>
-      </div>
-      
-      <div class="footer-section">
-        <h4>Volg mij</h4>
+
+      <!-- Midden: Volg Mij -->
+      <div class="footer-social-section">
+        <h4>Volg Mij</h4>
         <div class="footer-social">
-          <a href="https://instagram.com/jesse_hielema" target="_blank" class="footer-social-link">
+          <a href="https://instagram.com/jesse_hielema" class="footer-social-link" target="_blank">
             <img src="images/icons8-instagram-48.png" alt="Instagram" class="footer-icon">
             Instagram
           </a>
-          <a href="https://linkedin.com/in/jesse-hielema" target="_blank" class="footer-social-link">
+          <a href="https://linkedin.com/in/jesse-hielema" class="footer-social-link" target="_blank">
             <img src="images/icons8-linkedin-48.png" alt="LinkedIn" class="footer-icon">
             LinkedIn
           </a>
         </div>
       </div>
-      
-      <div class="footer-section">
-        <h4>Services</h4>
-        <ul class="footer-list">
-          <li>Brand Identity Design</li>
-          <li>Digital Marketing</li>
-          <li>Web Design</li>
-          <li>Visual Storytelling</li>
-        </ul>
+
+      <!-- Rechts: Contact -->
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <div class="contact-info">
+          <a href="mailto:Jessehielema@gmail.com" class="footer-link">
+            <img src="images/icons8-mail-48.png" alt="E-mail" class="footer-icon">
+            Jessehielema@gmail.com
+          </a>
+          <a href="contact.html" class="footer-link">
+            <img src="images/icons8-mail-48.png" alt="Contact" class="footer-icon">
+            Contact pagina
+          </a>
+        </div>
       </div>
     </div>
-    
+
     <div class="footer-copyright">
-      <p>&copy; 2025 Jesse Hielema. Alle rechten voorbehouden.</p>
-      <p class="footer-tagline">Designed with <span class="heart">♥</span> in Groningen</p>
+      <p>&copy; 2025 Jesse Hielema. Gemaakt met <span class="heart">♥</span> in Nederland.</p>
     </div>
   </footer>
-
-  <!-- Overlay (blur effect) -->
-  <div id="overlay"></div>
 
   <!-- Slide-in Menu -->
   <aside id="sideMenu">
