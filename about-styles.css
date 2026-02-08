@@ -44,31 +44,6 @@ body {
   box-sizing: border-box;
 }
 
-/* ABOUT Page Title */
-.page-title {
-  position: fixed;
-  top: 50%;
-  right: 60px;
-  transform: translateY(-50%) rotate(90deg);
-  font-family: 'Bebas Neue', 'Anton', 'Arial Black', sans-serif;
-  font-size: 8rem;
-  font-weight: 900;
-  color: rgba(255, 255, 255, 0.2);
-  text-transform: uppercase;
-  letter-spacing: 8px;
-  z-index: 100;
-  pointer-events: none;
-  user-select: none;
-}
-
-.page-title.bold {
-  background: linear-gradient(45deg, rgba(255, 255, 0, 0.4), rgba(255, 215, 0, 0.4));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 0 30px rgba(255, 255, 0, 0.3);
-}
-
 img {
   display: block;
   max-width: 100%;
@@ -187,13 +162,6 @@ body.touch-scrolling *:hover {
 
 /* Mobile optimizations - Remove hovers and heavy animations on small screens (phones) */
 @media screen and (max-width: 768px) {
-  /* Mobile Page Title */
-  .page-title {
-    right: 20px;
-    font-size: 4rem;
-    letter-spacing: 4px;
-  }
-  
   .post-card:hover,
   .cta-button:hover,
   .filter-btn:hover,
@@ -498,11 +466,30 @@ body.touch-scrolling *:hover {
 }
 
 .about-hero .hero-text p {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 40px;
-  max-width: 500px;
+  max-width: 550px;
+  font-weight: 400;
+}
+
+.about-hero .hero-text p .highlight-text {
+  color: #ffff00;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(255, 255, 0, 0.3);
+}
+
+.about-hero .hero-text p strong {
+  color: white;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.about-hero .hero-text p em {
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+  font-weight: 300;
 }
 
 .hero-ctas {
@@ -1006,6 +993,8 @@ body.touch-scrolling *:hover {
   .about-hero .hero-text p {
     text-align: center;
     margin: 0 auto 30px auto;
+    font-size: 1.2rem;
+    max-width: 450px;
   }
   
   .hero-ctas { justify-content: center; }
@@ -1258,13 +1247,6 @@ body.touch-scrolling *:hover {
 }
 
 @media screen and (max-width: 480px) {
-  /* Small Mobile Page Title */
-  .page-title {
-    right: 15px;
-    font-size: 3rem;
-    letter-spacing: 2px;
-  }
-  
   .footer-content {
     padding: 0 20px;
   }

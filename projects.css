@@ -1,0 +1,318 @@
+/* ===================================
+   PROJECT PAGES STYLING
+   =================================== */
+
+/* Project Page Container */
+.project-page {
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+/* Project Hero Section */
+.project-hero {
+  padding: 100px 5%;
+  text-align: center;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.project-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(232, 106, 51, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.project-hero-content {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.project-title {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.project-subtitle {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  color: #cccccc;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Project Grid */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 40px;
+  padding: 80px 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 60px 5%;
+  }
+}
+
+/* Project Cards */
+.project-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #1a1a1a;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+}
+
+.project-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card:hover .project-image {
+  transform: scale(1.1);
+}
+
+/* Project Overlay */
+.project-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.7) 60%,
+    rgba(0, 0, 0, 0.95) 100%
+  );
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 30px;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.project-card:hover .project-overlay {
+  opacity: 1;
+}
+
+.project-name {
+  font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 10px;
+  transform: translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+}
+
+.project-card:hover .project-name {
+  transform: translateY(0);
+}
+
+.project-description {
+  font-size: 1rem;
+  color: #cccccc;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  transform: translateY(20px);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.15s;
+}
+
+.project-card:hover .project-description {
+  transform: translateY(0);
+}
+
+.project-btn {
+  background: #E86A33;
+  color: #ffffff;
+  border: none;
+  padding: 12px 28px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: all 0.3s ease;
+  transform: translateY(20px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+}
+
+.project-card:hover .project-btn {
+  transform: translateY(0);
+}
+
+.project-btn:hover {
+  background: #C44E29;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(232, 106, 51, 0.4);
+}
+
+/* Project CTA Section */
+.project-cta {
+  text-align: center;
+  padding: 100px 5%;
+  background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.project-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(122, 143, 111, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.project-cta h2 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.project-cta p {
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  color: #cccccc;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-button {
+  display: inline-block;
+  background: #E86A33;
+  color: #ffffff;
+  padding: 18px 40px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-button:hover {
+  background: #C44E29;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(232, 106, 51, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .project-grid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+  }
+}
+
+@media (max-width: 768px) {
+  .project-hero {
+    padding: 80px 5%;
+  }
+
+  .project-overlay {
+    padding: 20px;
+  }
+
+  .project-cta {
+    padding: 80px 5%;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-grid {
+    gap: 20px;
+    padding: 40px 5%;
+  }
+
+  .project-card {
+    aspect-ratio: 3/4;
+  }
+
+  .project-hero {
+    padding: 60px 5%;
+  }
+
+  .project-cta {
+    padding: 60px 5%;
+  }
+}
+
+/* Animation on Scroll */
+@media (prefers-reduced-motion: no-preference) {
+  .project-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
+  }
+
+  .project-card:nth-child(1) { animation-delay: 0.1s; }
+  .project-card:nth-child(2) { animation-delay: 0.2s; }
+  .project-card:nth-child(3) { animation-delay: 0.3s; }
+  .project-card:nth-child(4) { animation-delay: 0.4s; }
+  .project-card:nth-child(5) { animation-delay: 0.5s; }
+  .project-card:nth-child(6) { animation-delay: 0.6s; }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Accessibility */
+.project-btn:focus,
+.cta-button:focus {
+  outline: 2px solid #E86A33;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .project-image,
+  .project-overlay,
+  .project-name,
+  .project-description,
+  .project-btn,
+  .cta-button {
+    transition: none;
+    animation: none;
+  }
+}

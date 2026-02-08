@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio - Jesse Hielema</title>
   
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
@@ -30,21 +34,6 @@
     }
   </script>
   
-  <!-- Online Debug Scripts -->
-  <script src="safe-storage.js"></script>
-  <script src="debug-online.js"></script>
-  <script src="online-sync.js"></script>
-  <script src="netlify-sync.js"></script>
-  <script src="universal-sync.js"></script>
-  <script src="direct-sync.js"></script>
-  <script src="visual-debug.js"></script>
-  
-  <!-- Netlify CMS Integration -->
-  <script src="netlify-cms-integration.js"></script>
-  
-  <!-- Simpele Image Optimization -->
-  <script src="simple-image-optimization.js"></script>
-  
   <!-- Split CSS structure to prevent conflicts -->
   <link rel="stylesheet" href="index.css">
   
@@ -65,6 +54,29 @@
   <link rel="apple-touch-icon" href="images/mono-rond.png">
 </head>
 <body>
+  <!-- Preloader -->
+  <div id="preloader" class="preloader">
+    <div class="preloader-content">
+      <div class="preloader-circle-container">
+        <svg class="preloader-circle" viewBox="0 0 200 200">
+          <circle class="circle-bg" cx="100" cy="100" r="90" />
+          <circle class="circle-progress" cx="100" cy="100" r="90" id="progressCircle" />
+        </svg>
+        <div class="preloader-logo">
+          <img src="images/mono-wit-01-01.png" alt="Jesse Hielema Logo" class="preloader-logo-img">
+        </div>
+      </div>
+      <div class="preloader-percentage" id="preloaderPercentage">0%</div>
+    </div>
+    <div class="ripple-container" id="rippleContainer">
+      <div class="ripple"></div>
+      <div class="ripple"></div>
+    </div>
+  </div>
+
+  <!-- Custom Cursor -->
+  <div class="custom-cursor"></div>
+
   <!-- Navigatiebalk -->
   <header class="navbar">
     <div class="nav-left">
@@ -86,74 +98,77 @@
 
   <!-- Hoofdinhoud -->
   <main class="content">
-    <!-- Hero Section -->
-    <section class="index-hero">
-      <div class="hero-text">
-        <h1>
-          WHERE <span class="bold-word" data-text="BOLD">BOLD</span> DESIGN<br>
-          MAKES THE <span class="difference-word">DIFFERENCE</span>
-        </h1>
-        <div class="cta-container">
-          <button class="cta-button" id="ctaButton">
-            See the <span class="cta-bold">BOLD</span> work
-            <svg class="cta-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 16L8 12H16L12 16Z" fill="currentColor"/>
-              <path d="M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </button>
-        </div>
+    <!-- Hero Section with Jesse Hielema -->
+    <section class="hero-white-section" id="heroWhiteSection">
+      <div class="hero-white-content">
+        <h1 class="hero-title">JESSE<br>HIELEMA</h1>
       </div>
     </section>
 
-    <!-- Feed Section -->
-    <section class="feed">
-      <div class="feed-header">
-        <h2>Recent Work</h2>
-
-        <!-- Desktop Filter Buttons -->
-        <div class="filter-buttons desktop-filters">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="Design">Design</button>
-          <button class="filter-btn" data-filter="Branding">Branding</button>
-          <button class="filter-btn" data-filter="UI/UX">UI/UX</button>
-          <button class="filter-btn" data-filter="Motion">Motion</button>
-          <button class="filter-btn" data-filter="Web">Web</button>
-          <button class="filter-btn" data-filter="Illustration">Illustration</button>
+    <!-- Zoom Wrapper for Gallery -->
+    <section class="gallery-zoom-wrapper" id="galleryZoomWrapper">
+      <!-- Horizontal Scroll Gallery Hero -->
+      <section class="horizontal-scroll-section" id="horizontalScrollSection">
+      <div class="horizontal-scroll-container">
+        <div class="horizontal-scroll-track" id="horizontalTrack">
+          <a href="ui-ux.html" class="scroll-item" data-project="UI/UX Design" data-description="Gebruiksvriendelijke interfaces en digitale ervaringen" data-date="2024-2026">
+            <img src="images/project1.jpg" alt="UI/UX Design">
+          </a>
+          <a href="web-development.html" class="scroll-item" data-project="Web Development" data-description="Moderne websites en web applicaties" data-date="2023-2026">
+            <img src="images/project2.jpg" alt="Web Development">
+          </a>
+          <a href="branding.html" class="scroll-item" data-project="Branding" data-description="Sterke merkidentiteiten die blijven hangen" data-date="2022-2026">
+            <img src="images/project3.jpg" alt="Branding">
+          </a>
+          <a href="logos.html" class="scroll-item" data-project="Logo's" data-description="Unieke logo's met impact" data-date="2021-2026">
+            <img src="images/project4.jpg" alt="Logo's">
+          </a>
+          <a href="illustraties.html" class="scroll-item" data-project="Illustraties" data-description="Creatieve illustraties en visual storytelling" data-date="2022-2026">
+            <img src="images/project5.png" alt="Illustraties">
+          </a>
+          <a href="motion-graphics.html" class="scroll-item" data-project="Motion Graphics" data-description="Dynamische animaties en bewegend beeld" data-date="2023-2026">
+            <img src="images/project6.png" alt="Motion Graphics">
+          </a>
+          <a href="fotografie.html" class="scroll-item" data-project="Fotografie" data-description="Professionele fotografie voor verschillende doeleinden" data-date="2021-2026">
+            <img src="images/project7.png" alt="Fotografie">
+          </a>
+          <a href="print-design.html" class="scroll-item" data-project="Print Design" data-description="Gedrukte materialen en publicaties" data-date="2020-2026">
+            <img src="images/project8.png" alt="Print Design">
+          </a>
+          <a href="packaging.html" class="scroll-item" data-project="Packaging" data-description="Verpakkingsdesign met oog voor detail" data-date="2023-2026">
+            <img src="images/project9.png" alt="Packaging">
+          </a>
+          <a href="editorial-design.html" class="scroll-item" data-project="Editorial Design" data-description="Magazines, brochures en redactionele layouts" data-date="2022-2026">
+            <img src="images/project10.png" alt="Editorial Design">
+          </a>
         </div>
-        
-        <!-- Mobile Filter Dropdown -->
-        <div class="mobile-filter-dropdown">
-          <button class="mobile-filter-btn" id="mobileFilterBtn">
-            <span class="filter-text">All Categories</span>
-            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <div class="mobile-filter-menu" id="mobileFilterMenu">
-            <button class="mobile-filter-option active" data-filter="all">All Categories</button>
-            <button class="mobile-filter-option" data-filter="Design">Design</button>
-            <button class="mobile-filter-option" data-filter="Branding">Branding</button>
-            <button class="mobile-filter-option" data-filter="UI/UX">UI/UX</button>
-            <button class="mobile-filter-option" data-filter="Motion">Motion</button>
-            <button class="mobile-filter-option" data-filter="Web">Web</button>
-            <button class="mobile-filter-option" data-filter="Illustration">Illustration</button>
-          </div>
+        <div class="project-info" id="projectInfo">
+          <div class="project-info-title" id="projectInfoTitle"></div>
+          <div class="project-info-details" id="projectInfoDescription"></div>
+          <div class="project-info-meta" id="projectInfoDate"></div>
         </div>
+        <div class="project-labels" id="projectLabels">
+          <div class="label-item" data-index="0">UI/UX DESIGN</div>
+          <div class="label-item" data-index="1">WEB DEVELOPMENT</div>
+          <div class="label-item" data-index="2">BRANDING</div>
+          <div class="label-item" data-index="3">LOGO'S</div>
+          <div class="label-item" data-index="4">ILLUSTRATIES</div>
+          <div class="label-item" data-index="5">MOTION GRAPHICS</div>
+          <div class="label-item" data-index="6">FOTOGRAFIE</div>
+          <div class="label-item" data-index="7">PRINT DESIGN</div>
+          <div class="label-item" data-index="8">PACKAGING</div>
+          <div class="label-item" data-index="9">EDITORIAL DESIGN</div>
+        </div>
+      </div>
       
-      <div id="postsContainer" class="feed-grid">
-        <!-- Posts worden hier geladen via JavaScript -->
-        <div class="cms-loading" id="cmsLoading" style="display: none;">
-          🌐 Loading posts from all sources...
-        </div>
+      <!-- Scroll Indicator -->
+      <div class="scroll-indicator">
+        <span>See my Work</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
-      <div class="see-more-container" id="seeMoreContainer">
-        <button class="see-more-btn" id="seeMoreBtn">
-          <span class="see-more-text">See more</span>
-          <svg class="see-more-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
+    </section>
     </section>
 
     <!-- My Experiences Section -->
@@ -198,6 +213,7 @@
     </section>
   </main>
 
+ 
   <!-- Footer -->
   <footer class="main-footer">
     <div class="footer-content">
@@ -244,95 +260,44 @@
   </footer>
 
   <!-- Slide-in Menu -->
-  <aside id="sideMenu">
-    <button id="closeMenu">&times;</button>
-    <ul>
-      <li><a href="index.html">Home <span class="menu-arrow">→</span></a></li>
-      <li><a href="#" onclick="scrollToFeed()">Projecten <span class="menu-arrow">→</span></a></li>
-      <li><a href="about.html">Over mij <span class="menu-arrow">→</span></a></li>
-      <li><a href="contact.html">Contact <span class="menu-arrow">→</span></a></li>
-    </ul>
+  <aside id="sideMenu" class="side-menu">
+    <button id="closeMenu" class="close-menu">&times;</button>
+    <nav class="menu-content">
+      <ul class="menu-list">
+        <li><a href="index.html">Home <span class="menu-arrow">→</span></a></li>
+        <li><a href="about.html">Over mij <span class="menu-arrow">→</span></a></li>
+        <li><a href="contact.html">Contact <span class="menu-arrow">→</span></a></li>
+        <li class="menu-item-projects">
+          <span class="menu-projects-title">Projecten</span>
+          <ul class="menu-projects-list">
+            <li><a href="ui-ux.html" data-category="ui-ux">UI/UX Design <span class="menu-arrow">→</span></a></li>
+            <li><a href="web-development.html" data-category="web">Web Development <span class="menu-arrow">→</span></a></li>
+            <li><a href="branding.html" data-category="branding">Branding <span class="menu-arrow">→</span></a></li>
+            <li><a href="logos.html" data-category="logos">Logo's <span class="menu-arrow">→</span></a></li>
+            <li><a href="illustraties.html" data-category="illustrations">Illustraties <span class="menu-arrow">→</span></a></li>
+            <li><a href="motion-graphics.html" data-category="motion">Motion Graphics <span class="menu-arrow">→</span></a></li>
+            <li><a href="fotografie.html" data-category="photography">Fotografie <span class="menu-arrow">→</span></a></li>
+            <li><a href="print-design.html" data-category="print">Print Design <span class="menu-arrow">→</span></a></li>
+            <li><a href="packaging.html" data-category="packaging">Packaging <span class="menu-arrow">→</span></a></li>
+            <li><a href="editorial-design.html" data-category="editorial">Editorial Design <span class="menu-arrow">→</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
     
     <div class="menu-footer">
-      <div class="social-section">
-        <h3 class="section-title">Volg mij</h3>
-        <div class="social-icons">
-          <a href="https://instagram.com/jesse_hielema" target="_blank" class="social-icon">
-            <img src="images/icons8-instagram-48.png" alt="Instagram">
-          </a>
-          <a href="https://linkedin.com/in/jesse-hielema" target="_blank" class="social-icon">
-            <img src="images/icons8-linkedin-48.png" alt="LinkedIn">
-          </a>
-          <a href="mailto:Jessehielema@gmail.com" class="social-icon">
-            <img src="images/icons8-mail-48.png" alt="Email">
-          </a>
-        </div>
-      </div>
-      
-      <div class="contact-section">
-        <h3 class="section-title">Koffietje doen?</h3>
-        <a href="mailto:Jessehielema@gmail.com" class="email-link">
-          Jessehielema@gmail.com
+      <div class="menu-social">
+        <a href="https://instagram.com/jesse_hielema" target="_blank" class="menu-social-link">
+          <img src="images/icons8-instagram-48.png" alt="Instagram">
+        </a>
+        <a href="https://linkedin.com/in/jesse-hielema" target="_blank" class="menu-social-link">
+          <img src="images/icons8-linkedin-48.png" alt="LinkedIn">
         </a>
       </div>
     </div>
   </aside>
 
-  <!-- Post Detail Modal -->
-  <div class="post-modal" id="postModal">
-    <div class="modal-content">
-      <button class="modal-close" id="modalClose">&times;</button>
-      
-      <div class="modal-body">
-        <div class="modal-image">
-          <img id="modalImage" src="" alt="">
-        </div>
-        
-        <div class="modal-info">
-          <div class="modal-header">
-            <h2 id="modalTitle"></h2>
-            <span class="modal-type" id="modalType"></span>
-          </div>
-          
-          <div class="modal-meta">
-            <span class="modal-date" id="modalDate"></span>
-          </div>
-          
-          <div class="modal-description">
-            <h3>Project Beschrijving</h3>
-            <p id="modalDescription"></p>
-          </div>
-          
-          <div class="modal-details">
-            <div class="detail-item">
-              <strong>Client:</strong>
-              <span id="modalClient"></span>
-            </div>
-            <div class="detail-item">
-              <strong>Project Type:</strong>
-              <span id="modalProjectType"></span>
-            </div>
-            <div class="detail-item">
-              <strong>Project Doel:</strong>
-              <span id="modalPurpose"></span>
-            </div>
-            <div class="detail-item">
-              <strong>Gebruikte Tools:</strong>
-              <span id="modalTools"></span>
-            </div>
-            <div class="detail-item">
-              <strong>Datum:</strong>
-              <span id="modalProjectDate"></span>
-            </div>
-            <div class="detail-item">
-              <strong>Status:</strong>
-              <span id="modalFeatured"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
 
   <script src="script.js"></script>
 </body>

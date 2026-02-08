@@ -4,9 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact - Jesse Hielema</title>
-  <!-- Split CSS structure -->
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="contact.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="index.css">
 </head>
 <body>
   <!-- Navigatiebalk -->
@@ -28,46 +33,13 @@
     </div>
   </header>
 
-  <!-- Side Menu -->
-  <div id="overlay"></div>
-  <nav id="sideMenu">
-    <button id="closeMenu">&times;</button>
-    <ul>
-      <li><a href="index.html">Home <span class="menu-arrow">→</span></a></li>
-      <li><a href="about.html">Over mij <span class="menu-arrow">→</span></a></li>
-      <li><a href="contact.html">Contact <span class="menu-arrow">→</span></a></li>
-      <li><a href="#portfolio">Portfolio <span class="menu-arrow">→</span></a></li>
-    </ul>
-    
-    <div class="menu-footer">
-      <div class="social-section">
-        <h4 class="section-title">Volg mij</h4>
-        <div class="social-icons">
-          <a href="https://instagram.com/jesse_hielema" target="_blank" class="social-icon">
-            <img src="images/icons8-instagram-48.png" alt="Instagram">
-          </a>
-          <a href="https://linkedin.com/in/jesse-hielema" target="_blank" class="social-icon">
-            <img src="images/icons8-linkedin-48.png" alt="LinkedIn">
-          </a>
-        </div>
-      </div>
-      
-      <div class="contact-section">
-        <h4 class="section-title">Direct Contact</h4>
-        <a href="mailto:jesse.hielema@example.com" class="email-link">jesse.hielema@example.com</a>
-      </div>
-    </div>
-  </nav>
 
   <!-- Hoofdinhoud -->
   <main class="content">
-    <!-- Page Title -->
-    <div class="page-title bold">CONTACT</div>
-    
     <!-- Contact Hero Section --> 
     <section class="contact-hero">
       <div class="contact-hero-content">
-        <h1>LET'S CREATE SOMETHING <span class="bold-word">BOLD</span> TOGETHER</h1>
+        <h1>LET'S <span class="bold-word">CREATE</span> TOGETHER</h1>
         <p>Klaar om te beginnen?</p>
       </div>
     </section>
@@ -77,7 +49,7 @@
       <div class="contact-container">
         <div class="contact-info">
           <h2>Get In Touch</h2>
-          <p>Ik help bedrijven en individuen met <strong>BOLD design</strong> dat resultaat oplevert. Van branding tot digital design - laten we samen iets bijzonders creëren.</p>
+          <p>Ik help bedrijven en individuen met <strong>designs die vertrouwd aanvoelen</strong> en resultaat opleveren. Van branding tot digital design - laten we samen iets bijzonders creëren.</p>
           
           <div class="contact-details">
             <div class="contact-item">
@@ -166,7 +138,7 @@
             </div>
             
             <button type="submit" class="submit-btn">
-              SEND <span class="bold-word">BOLD</span> MESSAGE
+              VERSTUUR BERICHT
               <svg class="submit-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
@@ -180,7 +152,7 @@
     <section class="success-message" id="successMessage" style="display: none;">
       <div class="success-content">
         <h2>🎉 Message Sent!</h2>
-        <p>Bedankt voor je bericht! Ik neem binnen 24 uur contact met je op om je <strong>BOLD</strong> project te bespreken.</p>
+        <p>Bedankt voor je bericht! Ik neem binnen 24 uur contact met je op om je project te bespreken.</p>
         <a href="index.html" class="back-btn">Terug naar Home</a>
       </div>
     </section>
@@ -189,53 +161,45 @@
   <!-- Footer -->
   <footer class="main-footer">
     <div class="footer-content">
-      <div class="footer-section">
-        <div class="footer-brand">
-          <img src="images/mono-rond.png" alt="Jesse Hielema Logo" class="footer-logo">
-          <h3>Jesse Hielema</h3>
-          <p>Creative Designer</p>
-        </div>
+      <!-- Links: Jesse Hielema + functie -->
+      <div class="footer-brand">
+        <h3>Jesse Hielema</h3>
+        <p>Creative Designer</p>
       </div>
-      
-      <div class="footer-section">
-        <h4>Contact</h4>
-        <div class="contact-info">
-          <a href="mailto:Jessehielema@gmail.com" class="footer-link">
-            <img src="images/icons8-mail-48.png" alt="Email" class="footer-icon">
-            Jessehielema@gmail.com
-          </a>
-          <p class="footer-text">Groningen, Nederland</p>
-        </div>
-      </div>
-      
-      <div class="footer-section">
-        <h4>Volg mij</h4>
+
+      <!-- Midden: Volg Mij -->
+      <div class="footer-social-section">
+        <h4>Volg Mij</h4>
         <div class="footer-social">
-          <a href="https://instagram.com/jesse_hielema" target="_blank" class="footer-social-link">
+          <a href="https://instagram.com/jesse_hielema" class="footer-social-link" target="_blank">
             <img src="images/icons8-instagram-48.png" alt="Instagram" class="footer-icon">
             Instagram
           </a>
-          <a href="https://linkedin.com/in/jesse-hielema" target="_blank" class="footer-social-link">
+          <a href="https://linkedin.com/in/jesse-hielema" class="footer-social-link" target="_blank">
             <img src="images/icons8-linkedin-48.png" alt="LinkedIn" class="footer-icon">
             LinkedIn
           </a>
         </div>
       </div>
-      
-      <div class="footer-section">
-        <h4>Navigatie</h4>
-        <ul class="footer-list">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="about.html">Over mij</a></li>
-          <li><a href="index.html#portfolio">Portfolio</a></li>
-          <li><a href="contact.html">Contact</a></li>
-        </ul>
+
+      <!-- Rechts: Contact -->
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <div class="contact-info">
+          <a href="mailto:Jessehielema@gmail.com" class="footer-link">
+            <img src="images/icons8-mail-48.png" alt="E-mail" class="footer-icon">
+            Jessehielema@gmail.com
+          </a>
+          <a href="contact.html" class="footer-link">
+            <img src="images/icons8-mail-48.png" alt="Contact" class="footer-icon">
+            Contact pagina
+          </a>
+        </div>
       </div>
     </div>
-    
+
     <div class="footer-copyright">
-      <p>&copy; 2025 Jesse Hielema. Alle rechten voorbehouden.</p>
-      <p class="footer-tagline">Gemaakt met <span class="heart">♥</span> in Groningen</p>
+      <p>&copy; 2025 Jesse Hielema. Gemaakt met <span class="heart">♥</span> in Nederland.</p>
     </div>
   </footer>
 

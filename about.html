@@ -4,12 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Over Mij - Jesse Hielema</title>
-  <!-- Split CSS structure -->
-  <link rel="stylesheet" href="about-styles.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="index.css">
 
   
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Over Jesse Hielema - Creative Designer met een bold blik. Van branding en web tot interactieve installaties.">
+  <meta name="description" content="Over Jesse Hielema - Creative Designer die dingen maakt die vertrouwd aanvoelen. Van branding en web tot interactieve installaties.">
   <meta name="keywords" content="Jesse Hielema, over mij, designer, developer, portfolio, branding, UI/UX">
   <meta name="author" content="Jesse Hielema">
   
@@ -17,7 +23,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://jesshielema.github.io/portfolio/about.html">
   <meta property="og:title" content="Over Mij - Jesse Hielema">
-  <meta property="og:description" content="Designer met een bold blik. Ik ontwerp visuele ervaringen die raak zijn: helder, functioneel en met karakter.">
+  <meta property="og:description" content="Designer die dingen maakt die vertrouwd aanvoelen. Ik ontwerp visuele ervaringen die raak zijn: warm, uitnodigend en met karakter.">
   <meta property="og:image" content="https://jesshielema.github.io/portfolio/images/mono-rond.png">
   
   <!-- Favicon -->
@@ -44,17 +50,17 @@
     </div>
   </header>
 
+  <!-- Overlay -->
+  <div id="overlay"></div>
+
   <!-- Hoofdinhoud -->
   <main class="about-content">
-    <!-- Page Title -->
-    <div class="page-title bold">ABOUT</div>
-    
     <!-- Hero Section -->
     <section class="about-hero">
       <div class="about-hero-content">
         <div class="hero-text">
-          <h1>Hoi, ik ben Jesse <br> designer met een <span class="bold-accent">bold</span> blik.</h1>
-          <p>Ik ontwerp visuele ervaringen die raak zijn: helder, functioneel en met karakter. Van branding en web tot interactieve installaties.</p>
+          <h1>Jesse Hielema <br>Design dat <span class="bold-accent">vertrouwd</span> aanvoelt.</h1>
+          <p>Voor mij werkt design pas als het <strong>oprecht</strong> is. <br> Ik maak ervaringen die <span class="highlight-text">warm</span> zijn, <span class="highlight-text">uitnodigend</span> <br> en een <strong>thuisgevoel</strong> geven.</p>
         </div>
         <div class="hero-image">
           <img src="images/profiel.png" alt="Jesse Hielema" class="profile-image">
@@ -140,91 +146,49 @@
     </section>
   </main>
 
-  <!-- Side Menu -->
-  <div id="overlay"></div>
-
-  <!-- Slide-in Menu -->
-  <aside id="sideMenu">
-    <button id="closeMenu">&times;</button>
-    <ul>
-      <li><a href="index.html">Home <span class="menu-arrow">→</span></a></li>
-      <li><a href="#" onclick="scrollToFeed()">Projecten <span class="menu-arrow">→</span></a></li>
-      <li><a href="about.html">Over mij <span class="menu-arrow">→</span></a></li>
-      <li><a href="contact.html">Contact <span class="menu-arrow">→</span></a></li>
-    </ul>
-    
-    <div class="menu-footer">
-      <div class="social-section">
-        <h3 class="section-title">Volg mij</h3>
-        <div class="social-icons">
-          <a href="https://instagram.com/jesse_hielema" target="_blank" class="social-icon">
-            <img src="images/icons8-instagram-48.png" alt="Instagram">
-          </a>
-          <a href="https://linkedin.com/in/jesse-hielema" target="_blank" class="social-icon">
-            <img src="images/icons8-linkedin-48.png" alt="LinkedIn">
-          </a>
-        </div>
-      </div>
-      
-      <div class="contact-section">
-        <h3 class="section-title">Koffietje doen?</h3>
-        <a href="mailto:Jessehielema@gmail.com" class="email-link">
-          Jessehielema@gmail.com
-        </a>
-      </div>
-    </div>
-  </aside>
 
   <!-- Footer -->
   <footer class="main-footer">
     <div class="footer-content">
-      <div class="footer-section">
-        <div class="footer-brand">
-          <img src="images/mono-rond.png" alt="Jesse Hielema Logo" class="footer-logo">
-          <h3>Jesse Hielema</h3>
-          <p>Creative Designer</p>
-        </div>
+      <!-- Links: Jesse Hielema + functie -->
+      <div class="footer-brand">
+        <h3>Jesse Hielema</h3>
+        <p>Creative Designer</p>
       </div>
-      
-      <div class="footer-section">
-        <h4>Contact</h4>
-        <div class="contact-info">
-          <a href="mailto:Jessehielema@gmail.com" class="footer-link">
-            <img src="images/icons8-mail-48.png" alt="Email" class="footer-icon">
-            Jessehielema@gmail.com
-          </a>
-          <p class="footer-text">Groningen, Nederland</p>
-        </div>
-      </div>
-      
-      <div class="footer-section">
-        <h4>Volg mij</h4>
+
+      <!-- Midden: Volg Mij -->
+      <div class="footer-social-section">
+        <h4>Volg Mij</h4>
         <div class="footer-social">
-          <a href="https://instagram.com/jesse_hielema" target="_blank" class="footer-social-link">
+          <a href="https://instagram.com/jesse_hielema" class="footer-social-link" target="_blank">
             <img src="images/icons8-instagram-48.png" alt="Instagram" class="footer-icon">
             Instagram
           </a>
-          <a href="https://linkedin.com/in/jesse-hielema" target="_blank" class="footer-social-link">
+          <a href="https://linkedin.com/in/jesse-hielema" class="footer-social-link" target="_blank">
             <img src="images/icons8-linkedin-48.png" alt="LinkedIn" class="footer-icon">
             LinkedIn
           </a>
         </div>
       </div>
-      
-      <div class="footer-section">
-        <h4>Services</h4>
-        <ul class="footer-list">
-          <li>Brand Identity Design</li>
-          <li>Digital Marketing</li>
-          <li>Web Design</li>
-          <li>Visual Storytelling</li>
-        </ul>
+
+      <!-- Rechts: Contact -->
+      <div class="footer-contact">
+        <h4>Contact</h4>
+        <div class="contact-info">
+          <a href="mailto:Jessehielema@gmail.com" class="footer-link">
+            <img src="images/icons8-mail-48.png" alt="E-mail" class="footer-icon">
+            Jessehielema@gmail.com
+          </a>
+          <a href="contact.html" class="footer-link">
+            <img src="images/icons8-mail-48.png" alt="Contact" class="footer-icon">
+            Contact pagina
+          </a>
+        </div>
       </div>
     </div>
-    
+
     <div class="footer-copyright">
-      <p>&copy; 2025 Jesse Hielema. Alle rechten voorbehouden.</p>
-      <p class="footer-tagline">Designed with <span class="heart">♥</span> in Groningen</p>
+      <p>&copy; 2025 Jesse Hielema. Gemaakt met <span class="heart">♥</span> in Nederland.</p>
     </div>
   </footer>
 

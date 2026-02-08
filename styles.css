@@ -2768,7 +2768,7 @@ body.touch-scrolling *:hover {
   margin: 0 auto;
   padding: 0 60px;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 60px;
 }
 
@@ -2849,6 +2849,24 @@ body.touch-scrolling *:hover {
   display: flex;
   flex-direction: column;
   gap: 15px;
+}
+
+.footer-social-section {
+  text-align: center;
+}
+
+.footer-social-section h4 {
+  font-family: 'Bebas Neue', 'Anton', 'Arial Black', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #1937BF;
+  margin-bottom: 20px;
+}
+
+.footer-social-section .footer-social {
+  align-items: center;
 }
 
 .footer-social-link {
