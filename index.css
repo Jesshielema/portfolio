@@ -956,6 +956,7 @@ button {
   margin: 0;
   opacity: 1;
   transform: translateX(0);
+  text-transform: uppercase;
 }
 
 .projects-arrow {
