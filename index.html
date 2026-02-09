@@ -54,6 +54,9 @@
   <link rel="apple-touch-icon" href="images/mono-rond.png">
 </head>
 <body>
+  <!-- Custom Cursor -->
+  <div class="custom-cursor"></div>
+  
   <!-- Preloader -->
   <div id="preloader" class="preloader">
     <div class="preloader-content">
@@ -73,9 +76,6 @@
       <div class="ripple"></div>
     </div>
   </div>
-
-  <!-- Custom Cursor -->
-  <div class="custom-cursor"></div>
 
   <!-- Navigatiebalk -->
   <header class="navbar">
@@ -102,6 +102,7 @@
     <section class="hero-white-section" id="heroWhiteSection">
       <div class="hero-white-content">
         <h1 class="hero-title">JESSE<br>HIELEMA</h1>
+        <p class="hero-subtitle">Graphic designer.</p>
       </div>
     </section>
 
@@ -109,6 +110,13 @@
     <section class="gallery-zoom-wrapper" id="galleryZoomWrapper">
       <!-- Horizontal Scroll Gallery Hero -->
       <section class="horizontal-scroll-section" id="horizontalScrollSection">
+        <!-- Projects Title Section -->
+        <div class="projects-title-section" id="projectsTitleSection">
+          <h2 class="projects-big-title">PROJECTS</h2>
+          <svg class="projects-arrow" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 40H70M70 40L50 20M70 40L50 60" stroke="#F2F2EE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
       <div class="horizontal-scroll-container">
         <div class="horizontal-scroll-track" id="horizontalTrack">
           <a href="ui-ux.html" class="scroll-item" data-project="UI/UX Design" data-description="Gebruiksvriendelijke interfaces en digitale ervaringen" data-date="2024-2026">
@@ -163,7 +171,7 @@
       
       <!-- Scroll Indicator -->
       <div class="scroll-indicator">
-        <span>See my Work</span>
+        <span>Scroll to see my Work</span>
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
@@ -171,41 +179,72 @@
     </section>
     </section>
 
-    <!-- My Experiences Section -->
+    <!-- Featured Project Section -->
+    <section class="featured-project">
+      <!-- Magazine-style Grid Layout -->
+      <div class="featured-main-grid">
+        <!-- Large Hero Image -->
+        <div class="featured-hero-image">
+          <img src="images/kopwerk.jpg" alt="Tripje met de trein">
+        </div>
+
+        <!-- Info Panel (Orange) -->
+        <div class="featured-info-panel">
+          <h2 class="featured-label">FEATURED</h2>
+          <div class="featured-info-content">
+            <h3 class="featured-project-title">TRIPJE MET<br>DE TREIN</h3>
+            <p class="featured-studio">Studio Kopwerk</p>
+            <p class="featured-year">2023</p>
+            <p class="featured-description">Een creatief project dat storytelling combineert met visuele identiteit. Van concept tot uitvoering - branding, web en motion design samengevoegd in één verhaal.</p>
+            <a href="branding.html" class="featured-link">Bekijk het volledige project →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Grid with 4 Square Images -->
+      <div class="featured-bottom-grid">
+        <div class="featured-small-image">
+          <img src="images/Kopwerk 1.jpeg" alt="Detail 1">
+        </div>
+        <div class="featured-small-image">
+          <img src="images/kopwerk 3.jpeg" alt="Detail 2">
+        </div>
+        <div class="featured-small-image">
+          <img src="images/kopwerk 2.jpeg" alt="Detail 3">
+        </div>
+        <div class="featured-small-image">
+          <img src="video/Kopwerk vid2.jpeg" alt="Detail 4">
+        </div>
+      </div>
+    </section>
+
+    <!-- My Journey Section -->
     <section class="experiences">
-      <div class="experiences-content">
-        <h2>My Experiences</h2>
-        <div class="timeline">
-          <div class="timeline-item">
-            <div class="timeline-date">2024 - Present</div>
-            <div class="timeline-content">
-              <h3>Senior Creative Designer</h3>
-              <p class="timeline-company">Creative Agency Amsterdam</p>
-              <p>Leading creative projects and mentoring junior designers in brand identity and digital experiences.</p>
+      <!-- Compact Title Section - White Background -->
+      <div class="experiences-hero">
+        <h2 class="experiences-title">JOURNEY</h2>
+      </div>
+
+      <!-- Compact Grid Layout -->
+      <div class="experiences-grid">
+        <!-- Item 1 -->
+        <div class="experience-item bg-black">
+          <div class="experience-content">
+            <span class="experience-year">NOW</span>
+            <h3 class="experience-role">CMD<br>STUDENT</h3>
+            <div class="experience-details">
+              <p class="experience-company">Hanzehogeschool Groningen - 2e jaar</p>
             </div>
           </div>
-          <div class="timeline-item">
-            <div class="timeline-date">2022 - 2024</div>
-            <div class="timeline-content">
-              <h3>UI/UX Designer</h3>
-              <p class="timeline-company">Tech Startup Rotterdam</p>
-              <p>Designed user interfaces and experiences for mobile and web applications, focusing on user-centered design.</p>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-date">2020 - 2022</div>
-            <div class="timeline-content">
-              <h3>Graphic Designer</h3>
-              <p class="timeline-company">Design Studio Utrecht</p>
-              <p>Created visual identities, marketing materials and digital content for various clients across different industries.</p>
-            </div>
-          </div>
-          <div class="timeline-item">
-            <div class="timeline-date">2018 - 2020</div>
-            <div class="timeline-content">
-              <h3>Junior Designer</h3>
-              <p class="timeline-company">Local Design Agency</p>
-              <p>Started my career working on print materials, logos and basic web design projects.</p>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="experience-item bg-white">
+          <div class="experience-content">
+            <span class="experience-year">2023</span>
+            <h3 class="experience-role">PLANTY</h3>
+            <div class="experience-details">
+              <p class="experience-company">Industrieel Product Ontwerpen</p>
             </div>
           </div>
         </div>

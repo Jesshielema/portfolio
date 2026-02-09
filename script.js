@@ -622,6 +622,18 @@ class ScrollAnimations {
   
   init() {
     gsap.registerPlugin(ScrollTrigger);
+    
+    // Animate hero subtitle
+    const heroSubtitle = document.querySelector('.hero-subtitle');
+    if (heroSubtitle) {
+      gsap.to(heroSubtitle, {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        delay: 0.8,
+        ease: 'power3.out'
+      });
+    }
   }
 }
 
@@ -685,6 +697,8 @@ class HorizontalScroll {
   constructor() {
     this.heroSection = $('#heroWhiteSection');
     this.zoomWrapper = $('#galleryZoomWrapper');
+    this.projectsTitleSection = $('#projectsTitleSection');
+    this.projectsTitle = $('.projects-big-title');
     this.section = $('#horizontalScrollSection');
     this.track = $('#horizontalTrack');
     this.container = $('.horizontal-scroll-container');
@@ -713,6 +727,42 @@ class HorizontalScroll {
     
     // Set initial active label
     this.updateLabels(0);
+    
+    // Animate PROJECTS title - slides left as gallery appears
+    const projectsTitle = document.querySelector('.projects-big-title');
+    const projectsArrow = document.querySelector('.projects-arrow');
+    const projectsTitleSection = document.querySelector('.projects-title-section');
+    
+    if (projectsTitle && projectsTitleSection) {
+      gsap.to([projectsTitle, projectsArrow], {
+        x: '-100vw',
+        opacity: 0,
+        ease: 'power2.in',
+        scrollTrigger: {
+          trigger: projectsTitleSection,
+          start: 'top top',
+          end: '+=100vh',
+          scrub: 0.5,
+          invalidateOnRefresh: true
+        }
+      });
+    }
+    
+    // Animate PROJECTS title - slides left as gallery appears
+    if (this.projectsTitle && this.projectsTitleSection) {
+      gsap.to(this.projectsTitle, {
+        x: '-100vw',
+        opacity: 0,
+        ease: 'power2.in',
+        scrollTrigger: {
+          trigger: this.projectsTitleSection,
+          start: 'top top',
+          end: '+=100vh',
+          scrub: 0.5,
+          invalidateOnRefresh: true
+        }
+      });
+    }
     
     // Calculate total scroll distance
     // Add extra distance so the last item can reach the center
@@ -863,6 +913,41 @@ class HorizontalScroll {
 
 // === INITIALIZATION ===
 document.addEventListener('DOMContentLoaded', () => {
+  // Initialize custom cursor
+  const cursor = document.querySelector('.custom-cursor');
+  if (cursor) {
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorX = 0;
+    let cursorY = 0;
+    
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+    
+    function animateCursor() {
+      const dx = mouseX - cursorX;
+      const dy = mouseY - cursorY;
+      
+      cursorX += dx * 0.8;
+      cursorY += dy * 0.8;
+      
+      cursor.style.left = cursorX + 'px';
+      cursor.style.top = cursorY + 'px';
+      
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+    
+    // Hover effect on interactive elements
+    const hoverElements = document.querySelectorAll('a, button, .scroll-item, .grid-item');
+    hoverElements.forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+    });
+  }
+  
   // Initialize all modules
   new Preloader();
   new Navigation();
@@ -873,6 +958,29 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.gsap && window.ScrollTrigger) {
     new ScrollAnimations();
     new HorizontalScroll();
+    
+    // Animate Journey Section
+    animateJourneySection();
+    
+    // Animate Featured Project
+    animateFeaturedProject();
+    
+    // Hide scroll indicator when reaching projects section
+    const scrollIndicator = document.querySelector('.scroll-indicator');
+    const projectsTitleSection = document.querySelector('.projects-title-section');
+    
+    if (scrollIndicator && projectsTitleSection) {
+      gsap.to(scrollIndicator, {
+        opacity: 0,
+        pointerEvents: 'none',
+        scrollTrigger: {
+          trigger: projectsTitleSection,
+          start: 'top 80%',
+          end: 'top 10%',
+          scrub: true
+        }
+      });
+    }
   } else {
     console.warn('GSAP or ScrollTrigger not loaded. Some animations will not work.');
   }
@@ -880,21 +988,122 @@ document.addEventListener('DOMContentLoaded', () => {
   // Navbar color change on scroll
   const navbar = document.querySelector('.navbar');
   const gallerySection = document.querySelector('.horizontal-scroll-section');
+  const featuredSection = document.querySelector('.featured-project');
   
   if (navbar && gallerySection) {
     window.addEventListener('scroll', () => {
       const galleryRect = gallerySection.getBoundingClientRect();
+      const featuredRect = featuredSection ? featuredSection.getBoundingClientRect() : null;
       const navbarHeight = navbar.offsetHeight;
       
-      // If gallery top is at or above navbar bottom, add dark class
-      if (galleryRect.top <= navbarHeight) {
+      // If featured section touches navbar (top reaches navbar bottom), add white class
+      if (featuredRect && featuredRect.top <= navbarHeight) {
+        navbar.classList.remove('dark');
+        navbar.classList.add('white');
+      }
+      // Else if gallery is at navbar, add dark class (make black)
+      else if (galleryRect.top <= navbarHeight) {
         navbar.classList.add('dark');
+        navbar.classList.remove('white');
       } else {
         navbar.classList.remove('dark');
+        navbar.classList.remove('white');
       }
     });
   }
 });
+
+// === JOURNEY SECTION ANIMATIONS ===
+function animateJourneySection() {
+  const experiencesTitle = document.querySelector('.experiences-title');
+  const experienceItems = document.querySelectorAll('.experience-item');
+  
+  if (!experiencesTitle || !experienceItems.length) return;
+  
+  // Animate title on scroll
+  gsap.to(experiencesTitle, {
+    opacity: 1,
+    y: 0,
+    duration: 1,
+    ease: 'power3.out',
+    scrollTrigger: {
+      trigger: '.experiences-hero',
+      start: 'top 70%',
+      toggleActions: 'play none none none'
+    }
+  });
+  
+  // Animate each experience item
+  experienceItems.forEach((item, index) => {
+    gsap.to(item, {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      delay: index * 0.15,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: item,
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+  });
+}
+
+// === FEATURED PROJECT ANIMATIONS ===
+function animateFeaturedProject() {
+  const featuredProjectTitle = document.querySelector('.featured-project-title');
+  const featuredStudio = document.querySelector('.featured-studio');
+  const featuredYear = document.querySelector('.featured-year');
+  const featuredDescription = document.querySelector('.featured-description');
+  const featuredLink = document.querySelector('.featured-link');
+  
+  if (!featuredProjectTitle) return;
+  
+  // Create timeline for sequential text animations
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.featured-info-panel',
+      start: 'top 75%',
+      toggleActions: 'play none none none'
+    }
+  });
+  
+  // Animate project info from different directions
+  tl.to(featuredProjectTitle, {
+    opacity: 1,
+    y: 0,
+    duration: 0.8,
+    ease: 'power3.out'
+  })
+  .to(featuredStudio, {
+    opacity: 1,
+    x: 0,
+    duration: 0.6,
+    ease: 'power3.out'
+  }, '-=0.4')
+  .to(featuredYear, {
+    opacity: 1,
+    x: 0,
+    duration: 0.6,
+    ease: 'power3.out'
+  }, '-=0.5');
+  
+  // Separate timeline for description
+  gsap.to([featuredDescription, featuredLink], {
+    opacity: 1,
+    y: 0,
+    duration: 0.8,
+    stagger: 0.2,
+    ease: 'power3.out',
+    scrollTrigger: {
+      trigger: '.featured-info-content',
+      start: 'top 70%',
+      toggleActions: 'play none none none'
+    }
+  });
+}
+
 // === SMOOTH SCROLL FOR ANCHOR LINKS ===
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
@@ -928,44 +1137,6 @@ if (logoVideo) {
   logoContainer.addEventListener('mouseleave', () => {
     logoVideo.pause();
     logoVideo.currentTime = 0;
-  });
-}
-
-// === CUSTOM CURSOR ===
-const customCursor = $('.custom-cursor');
-if (customCursor) {
-  let mouseX = 0;
-  let mouseY = 0;
-  let cursorX = 0;
-  let cursorY = 0;
-  
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-  
-  function animateCursor() {
-    const speed = 0.2;
-    cursorX += (mouseX - cursorX) * speed;
-    cursorY += (mouseY - cursorY) * speed;
-    
-    customCursor.style.left = cursorX + 'px';
-    customCursor.style.top = cursorY + 'px';
-    
-    requestAnimationFrame(animateCursor);
-  }
-  
-  animateCursor();
-  
-  // Add hover effect on interactive elements
-  const interactiveElements = 'a, button, .scroll-item, .timeline-item';
-  document.querySelectorAll(interactiveElements).forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      customCursor.classList.add('hover');
-    });
-    el.addEventListener('mouseleave', () => {
-      customCursor.classList.remove('hover');
-    });
   });
 }
 
