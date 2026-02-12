@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio - Jesse Hielema</title>
-  
+
   <!-- GSAP + ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  
+
   <!-- Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-XXXXXXXXXX');
-    
+
     // Track contact form submissions
     function trackFormSubmission() {
       gtag('event', 'form_submit', {
@@ -24,7 +25,7 @@
         event_label: 'Contact Form Submission'
       });
     }
-    
+
     // Track project views
     function trackProjectView(projectName) {
       gtag('event', 'view_item', {
@@ -33,47 +34,41 @@
       });
     }
   </script>
-  
+
   <!-- Split CSS structure to prevent conflicts -->
   <link rel="stylesheet" href="index.css">
-  
+
   <!-- SEO Meta Tags -->
-  <meta name="description" content="Jesse Hielema - Creative Designer & Developer. Bold designs that win. Portfolio met branding, UI/UX, motion graphics en web development.">
-  <meta name="keywords" content="Jesse Hielema, designer, developer, portfolio, branding, UI/UX, motion graphics, web development">
+  <meta name="description"
+    content="Jesse Hielema - Creative Designer & Developer. Bold designs that win. Portfolio met branding, UI/UX, motion graphics en web development.">
+  <meta name="keywords"
+    content="Jesse Hielema, designer, developer, portfolio, branding, UI/UX, motion graphics, web development">
   <meta name="author" content="Jesse Hielema">
-  
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://jesshielema.github.io/portfolio/">
   <meta property="og:title" content="Jesse Hielema - Creative Designer & Developer">
-  <meta property="og:description" content="Bold designs that win. Creative portfolio met branding, UI/UX, motion graphics en web development.">
+  <meta property="og:description"
+    content="Bold designs that win. Creative portfolio met branding, UI/UX, motion graphics en web development.">
   <meta property="og:image" content="https://jesshielema.github.io/portfolio/images/mono-rond.png">
-  
+
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="images/mono-rond.png">
   <link rel="apple-touch-icon" href="images/mono-rond.png">
 </head>
+
 <body>
   <!-- Custom Cursor -->
   <div class="custom-cursor"></div>
-  
+
   <!-- Preloader -->
   <div id="preloader" class="preloader">
     <div class="preloader-content">
-      <div class="preloader-circle-container">
-        <svg class="preloader-circle" viewBox="0 0 200 200">
-          <circle class="circle-bg" cx="100" cy="100" r="90" />
-          <circle class="circle-progress" cx="100" cy="100" r="90" id="progressCircle" />
-        </svg>
-        <div class="preloader-logo">
-          <img src="images/mono-wit-01-01.png" alt="Jesse Hielema Logo" class="preloader-logo-img">
-        </div>
+      <div class="preloader-logo">
+        <img src="images/mono-wit-01-01.png" alt="Jesse Hielema Logo" class="preloader-logo-img">
       </div>
       <div class="preloader-percentage" id="preloaderPercentage">0%</div>
-    </div>
-    <div class="ripple-container" id="rippleContainer">
-      <div class="ripple"></div>
-      <div class="ripple"></div>
     </div>
   </div>
 
@@ -101,7 +96,7 @@
     <!-- Hero Section with Jesse Hielema -->
     <section class="hero-white-section" id="heroWhiteSection">
       <div class="hero-white-content">
-        <h1 class="hero-title">JESSE<br>HIELEMA</h1>
+        <h1 class="hero-title"><span class="hero-name-orange">JESSE</span><br>HIELEMA</h1>
         <p class="hero-subtitle">graphic designer.</p>
       </div>
     </section>
@@ -113,146 +108,152 @@
         <!-- Projects Title Section -->
         <div class="projects-title-section" id="projectsTitleSection">
           <h2 class="projects-big-title">projects</h2>
-          <svg class="projects-arrow" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 40H70M70 40L50 20M70 40L50 60" stroke="#F2F2EE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg class="projects-arrow" width="80" height="80" viewBox="0 0 80 80" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 40H70M70 40L50 20M70 40L50 60" stroke="#E86A33" stroke-width="3" stroke-linecap="round"
+              stroke-linejoin="round" />
           </svg>
         </div>
-      <div class="horizontal-scroll-container">
-        <div class="horizontal-scroll-track" id="horizontalTrack">
-          <a href="ui-ux.html" class="scroll-item" data-project="UI/UX Design" data-description="Gebruiksvriendelijke interfaces en digitale ervaringen" data-date="2024-2026">
-            <img src="images/project1.jpg" alt="UI/UX Design">
-          </a>
-          <a href="web-development.html" class="scroll-item" data-project="Web Development" data-description="Moderne websites en web applicaties" data-date="2023-2026">
-            <img src="images/project2.jpg" alt="Web Development">
-          </a>
-          <a href="branding.html" class="scroll-item" data-project="Branding" data-description="Sterke merkidentiteiten die blijven hangen" data-date="2022-2026">
-            <img src="images/project3.jpg" alt="Branding">
-          </a>
-          <a href="logos.html" class="scroll-item" data-project="Logo's" data-description="Unieke logo's met impact" data-date="2021-2026">
-            <img src="images/project4.jpg" alt="Logo's">
-          </a>
-          <a href="illustraties.html" class="scroll-item" data-project="Illustraties" data-description="Creatieve illustraties en visual storytelling" data-date="2022-2026">
-            <img src="images/project5.png" alt="Illustraties">
-          </a>
-          <a href="motion-graphics.html" class="scroll-item" data-project="Motion Graphics" data-description="Dynamische animaties en bewegend beeld" data-date="2023-2026">
-            <img src="images/project6.png" alt="Motion Graphics">
-          </a>
-          <a href="fotografie.html" class="scroll-item" data-project="Fotografie" data-description="Professionele fotografie voor verschillende doeleinden" data-date="2021-2026">
-            <img src="images/project7.png" alt="Fotografie">
-          </a>
-          <a href="print-design.html" class="scroll-item" data-project="Print Design" data-description="Gedrukte materialen en publicaties" data-date="2020-2026">
-            <img src="images/project8.png" alt="Print Design">
-          </a>
-          <a href="packaging.html" class="scroll-item" data-project="Packaging" data-description="Verpakkingsdesign met oog voor detail" data-date="2023-2026">
-            <img src="images/project9.png" alt="Packaging">
-          </a>
-          <a href="editorial-design.html" class="scroll-item" data-project="Editorial Design" data-description="Magazines, brochures en redactionele layouts" data-date="2022-2026">
-            <img src="images/project10.png" alt="Editorial Design">
-          </a>
+        <div class="horizontal-scroll-container">
+          <div class="horizontal-scroll-track" id="horizontalTrack">
+            <a href="ui-ux.html" class="scroll-item" data-project="UI/UX Design"
+              data-description="Gebruiksvriendelijke interfaces en digitale ervaringen" data-date="2024-2026">
+              <img src="images/project1.jpg" alt="UI/UX Design">
+            </a>
+            <a href="web-development.html" class="scroll-item" data-project="Web Development"
+              data-description="Moderne websites en web applicaties" data-date="2023-2026">
+              <img src="images/project2.jpg" alt="Web Development">
+            </a>
+            <a href="branding.html" class="scroll-item" data-project="Branding"
+              data-description="Sterke merkidentiteiten die blijven hangen" data-date="2022-2026">
+              <img src="images/project3.jpg" alt="Branding">
+            </a>
+            <a href="logos.html" class="scroll-item" data-project="Logo's" data-description="Unieke logo's met impact"
+              data-date="2021-2026">
+              <img src="images/project4.jpg" alt="Logo's">
+            </a>
+            <a href="illustraties.html" class="scroll-item" data-project="Illustraties"
+              data-description="Creatieve illustraties en visual storytelling" data-date="2022-2026">
+              <img src="images/project5.png" alt="Illustraties">
+            </a>
+            <a href="motion-graphics.html" class="scroll-item" data-project="Motion Graphics"
+              data-description="Dynamische animaties en bewegend beeld" data-date="2023-2026">
+              <img src="images/project6.png" alt="Motion Graphics">
+            </a>
+            <a href="fotografie.html" class="scroll-item" data-project="Fotografie"
+              data-description="Professionele fotografie voor verschillende doeleinden" data-date="2021-2026">
+              <img src="images/project7.png" alt="Fotografie">
+            </a>
+            <a href="print-design.html" class="scroll-item" data-project="Print Design"
+              data-description="Gedrukte materialen en publicaties" data-date="2020-2026">
+              <img src="images/project8.png" alt="Print Design">
+            </a>
+            <a href="packaging.html" class="scroll-item" data-project="Packaging"
+              data-description="Verpakkingsdesign met oog voor detail" data-date="2023-2026">
+              <img src="images/project9.png" alt="Packaging">
+            </a>
+            <a href="editorial-design.html" class="scroll-item" data-project="Editorial Design"
+              data-description="Magazines, brochures en redactionele layouts" data-date="2022-2026">
+              <img src="images/project10.png" alt="Editorial Design">
+            </a>
+          </div>
+          <div class="project-info" id="projectInfo">
+            <div class="project-info-title" id="projectInfoTitle"></div>
+            <div class="project-info-details" id="projectInfoDescription"></div>
+            <div class="project-info-meta" id="projectInfoDate"></div>
+          </div>
+          <div class="project-labels" id="projectLabels">
+            <div class="label-item" data-index="0">UI/UX DESIGN</div>
+            <div class="label-item" data-index="1">WEB DEVELOPMENT</div>
+            <div class="label-item" data-index="2">BRANDING</div>
+            <div class="label-item" data-index="3">LOGO'S</div>
+            <div class="label-item" data-index="4">ILLUSTRATIES</div>
+            <div class="label-item" data-index="5">MOTION GRAPHICS</div>
+            <div class="label-item" data-index="6">FOTOGRAFIE</div>
+            <div class="label-item" data-index="7">PRINT DESIGN</div>
+            <div class="label-item" data-index="8">PACKAGING</div>
+            <div class="label-item" data-index="9">EDITORIAL DESIGN</div>
+          </div>
         </div>
-        <div class="project-info" id="projectInfo">
-          <div class="project-info-title" id="projectInfoTitle"></div>
-          <div class="project-info-details" id="projectInfoDescription"></div>
-          <div class="project-info-meta" id="projectInfoDate"></div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+          <span>Explore my Work</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
         </div>
-        <div class="project-labels" id="projectLabels">
-          <div class="label-item" data-index="0">UI/UX DESIGN</div>
-          <div class="label-item" data-index="1">WEB DEVELOPMENT</div>
-          <div class="label-item" data-index="2">BRANDING</div>
-          <div class="label-item" data-index="3">LOGO'S</div>
-          <div class="label-item" data-index="4">ILLUSTRATIES</div>
-          <div class="label-item" data-index="5">MOTION GRAPHICS</div>
-          <div class="label-item" data-index="6">FOTOGRAFIE</div>
-          <div class="label-item" data-index="7">PRINT DESIGN</div>
-          <div class="label-item" data-index="8">PACKAGING</div>
-          <div class="label-item" data-index="9">EDITORIAL DESIGN</div>
-        </div>
-      </div>
-      
-      <!-- Scroll Indicator -->
-      <div class="scroll-indicator">
-        <span>Scroll to see my Work</span>
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-    </section>
+      </section>
     </section>
 
     <!-- Featured Project Section -->
     <section class="featured-project">
-      <!-- Magazine-style Grid Layout -->
-      <div class="featured-main-grid">
-        <!-- Large Hero Image -->
-        <div class="featured-hero-image">
-          <img src="images/kopwerk.jpg" alt="Tripje met de trein">
+      <div class="featured-container">
+        <!-- Vertical Title on the Left -->
+        <div class="featured-vertical-title">
+          <h2 class="featured-title-text">
+            <span class="featured-title-orange">TRIPJE MET</span>
+            <span class="featured-title-black">DE TREIN</span>
+          </h2>
         </div>
 
-        <!-- Info Panel (Orange) -->
-        <div class="featured-info-panel">
-          <h2 class="featured-label">FEATURED</h2>
-          <div class="featured-info-content">
-            <h3 class="featured-project-title">TRIPJE MET<br>DE TREIN</h3>
-            <p class="featured-studio">Studio Kopwerk</p>
-            <p class="featured-year">2023</p>
-            <p class="featured-description">Een creatief project dat storytelling combineert met visuele identiteit. Van concept tot uitvoering - branding, web en motion design samengevoegd in één verhaal.</p>
-            <a href="branding.html" class="featured-link">Bekijk het volledige project →</a>
+        <!-- Main Content Area -->
+        <div class="featured-main-content">
+          <!-- Hero Image -->
+          <div class="featured-hero-image">
+            <img src="images/kopwerk.jpg" alt="Tripje met de trein - Travel information">
           </div>
-        </div>
-      </div>
 
-      <!-- Bottom Grid with 4 Square Images -->
-      <div class="featured-bottom-grid">
-        <div class="featured-small-image">
-          <img src="images/Kopwerk 1.jpeg" alt="Detail 1">
-        </div>
-        <div class="featured-small-image">
-          <img src="images/kopwerk 3.jpeg" alt="Detail 2">
-        </div>
-        <div class="featured-small-image">
-          <img src="images/kopwerk 2.jpeg" alt="Detail 3">
-        </div>
-        <div class="featured-small-image">
-          <img src="video/Kopwerk vid2.jpeg" alt="Detail 4">
+          <!-- Text Content Below Image -->
+          <div class="featured-text-content">
+            <p class="featured-description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum urna eu arcu luctus, quis convallis diam maximus. Aenean posuere massa eget ligula mollis, nec ullamcorper felis rutrum. Fusce quam erat, semper vitae ultrices id. Orci varius natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Mauris est elit. Suspendisse at lacinia massa, ac gravida lorem ultrices id. Orci varius natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Mauris est elit. Sed tristique vehicula mauris et tempus. Nullam in felis sit amet orci iaculis scelerisque quis sit amet elit.
+            </p>
+            <h3 class="featured-studio">Studio <span class="featured-studio-orange">Kopwerk</span></h3>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- My Journey Section -->
-    <section class="experiences">
-      <!-- Compact Title Section - White Background -->
-      <div class="experiences-hero">
-        <h2 class="experiences-title">JOURNEY</h2>
+    <!-- Over Mij Section -->
+    <section class="over-mij">
+      <!-- Title Section -->
+      <div class="over-mij-hero">
+        <h2 class="over-mij-title">OVER MIJ</h2>
       </div>
 
-      <!-- Compact Grid Layout -->
-      <div class="experiences-grid">
-        <!-- Item 1 -->
-        <div class="experience-item bg-black">
-          <div class="experience-content">
-            <span class="experience-year">NOW</span>
-            <h3 class="experience-role">CMD<br>STUDENT</h3>
-            <div class="experience-details">
-              <p class="experience-company">Hanzehogeschool Groningen - 2e jaar</p>
-            </div>
-          </div>
+      <!-- Grid Layout met 8 afbeeldingen -->
+      <div class="over-mij-grid">
+        <div class="over-mij-item">
+          <img src="images/Instagram Post 1.png" alt="Jesse Hielema">
         </div>
-
-        <!-- Item 2 -->
-        <div class="experience-item bg-white">
-          <div class="experience-content">
-            <span class="experience-year">2023</span>
-            <h3 class="experience-role">PLANTY</h3>
-            <div class="experience-details">
-              <p class="experience-company">Industrieel Product Ontwerpen</p>
-            </div>
-          </div>
+        <div class="over-mij-item">
+          <img src="images/Instagram Post 9.png" alt="Jesse Hielema">
+        </div>
+        <div class="over-mij-item">
+          <img src="images/Instagram Post 8.png" alt="Jesse Hielema">
+        </div>
+        <div class="over-mij-item">
+          <img src="images/Instagram Post 2.png" alt="Jesse Hielema">
+        </div>
+        <div class="over-mij-item">
+          <img src="images/Instagram Post 3.png" alt="Jesse Hielema">
+        </div>
+        <div class="over-mij-item">
+          <img src="images/Instagram Post 5.png" alt="Jesse Hielema">
+        </div>
+        <div class="over-mij-item">
+          <img src="images/Instagram Post 4.png" alt="Jesse Hielema">
+        </div>
+        <div class="over-mij-item">
+          <img src="images/Instagram Post 6.png" alt="Jesse Hielema">
         </div>
       </div>
     </section>
   </main>
 
- 
+
   <!-- Footer -->
   <footer class="main-footer">
     <div class="footer-content">
@@ -310,20 +311,26 @@
           <span class="menu-projects-title">Projecten</span>
           <ul class="menu-projects-list">
             <li><a href="ui-ux.html" data-category="ui-ux">UI/UX Design <span class="menu-arrow">→</span></a></li>
-            <li><a href="web-development.html" data-category="web">Web Development <span class="menu-arrow">→</span></a></li>
+            <li><a href="web-development.html" data-category="web">Web Development <span class="menu-arrow">→</span></a>
+            </li>
             <li><a href="branding.html" data-category="branding">Branding <span class="menu-arrow">→</span></a></li>
             <li><a href="logos.html" data-category="logos">Logo's <span class="menu-arrow">→</span></a></li>
-            <li><a href="illustraties.html" data-category="illustrations">Illustraties <span class="menu-arrow">→</span></a></li>
-            <li><a href="motion-graphics.html" data-category="motion">Motion Graphics <span class="menu-arrow">→</span></a></li>
-            <li><a href="fotografie.html" data-category="photography">Fotografie <span class="menu-arrow">→</span></a></li>
-            <li><a href="print-design.html" data-category="print">Print Design <span class="menu-arrow">→</span></a></li>
+            <li><a href="illustraties.html" data-category="illustrations">Illustraties <span
+                  class="menu-arrow">→</span></a></li>
+            <li><a href="motion-graphics.html" data-category="motion">Motion Graphics <span
+                  class="menu-arrow">→</span></a></li>
+            <li><a href="fotografie.html" data-category="photography">Fotografie <span class="menu-arrow">→</span></a>
+            </li>
+            <li><a href="print-design.html" data-category="print">Print Design <span class="menu-arrow">→</span></a>
+            </li>
             <li><a href="packaging.html" data-category="packaging">Packaging <span class="menu-arrow">→</span></a></li>
-            <li><a href="editorial-design.html" data-category="editorial">Editorial Design <span class="menu-arrow">→</span></a></li>
+            <li><a href="editorial-design.html" data-category="editorial">Editorial Design <span
+                  class="menu-arrow">→</span></a></li>
           </ul>
         </li>
       </ul>
     </nav>
-    
+
     <div class="menu-footer">
       <div class="menu-social">
         <a href="https://instagram.com/jesse_hielema" target="_blank" class="menu-social-link">
@@ -340,4 +347,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>
