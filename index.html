@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio - Jesse Hielema</title>
 
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
   <!-- GSAP + ScrollTrigger -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -37,6 +40,7 @@
 
   <!-- Split CSS structure to prevent conflicts -->
   <link rel="stylesheet" href="index.css?v=20260212">
+  <link rel="stylesheet" href="feed-system.css?v=20260321">
 
   <!-- SEO Meta Tags -->
   <meta name="description"
@@ -59,102 +63,253 @@
 </head>
 
 <body>
-  <!-- Custom Cursor -->
-  <div class="custom-cursor"></div>
-
-  <!-- Preloader -->
-  <div id="preloader" class="preloader">
-    <div class="preloader-content">
-      <div class="preloader-logo">
-        <img src="images/mono-wit-01-01.png" alt="Jesse Hielema Logo" class="preloader-logo-img">
-      </div>
-      <div class="preloader-percentage" id="preloaderPercentage">0%</div>
-    </div>
-  </div>
+  <!-- Page Transition Overlay -->
+  <div class="page-transition" id="pageTransition"></div>
+  <style>
+    .page-transition {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #0F0F10;
+      transform: scaleY(1);
+      transform-origin: top;
+      pointer-events: none;
+      animation: pageReveal 0.7s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+    }
+    .page-transition.out {
+      animation: pageCover 0.5s cubic-bezier(0.77, 0, 0.18, 1) forwards;
+    }
+    @keyframes pageReveal {
+      0% { transform: scaleY(1); transform-origin: top; }
+      100% { transform: scaleY(0); transform-origin: top; }
+    }
+    @keyframes pageCover {
+      0% { transform: scaleY(0); transform-origin: bottom; }
+      100% { transform: scaleY(1); transform-origin: bottom; }
+    }
+  </style>
+  <script>
+    document.addEventListener('click', function(e) {
+      var link = e.target.closest('a');
+      if (!link) return;
+      var href = link.getAttribute('href');
+      if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('http') || link.target === '_blank') return;
+      e.preventDefault();
+      var overlay = document.getElementById('pageTransition');
+      overlay.classList.add('out');
+      setTimeout(function() { window.location.href = href; }, 500);
+    });
+  </script>
 
   <!-- Navigatiebalk -->
   <header class="navbar">
     <div class="nav-left">
-      <a href="about.html" class="nav-about-link">Jesse Hielema</a>
-    </div>
-    <div class="nav-center">
       <a href="index.html" class="logo-container">
-        <img src="images/mono-wit-01-01.png" alt="Logo" class="logo">
-        <img src="images/mono-rond.png" alt="Logo Dark" class="logo-dark">
+        <img src="images/MonogramOranje.svg" alt="Logo" class="logo-svg">
         <video class="logo-video" muted loop>
           <source src="video/Monogram.webm" type="video/webm">
         </video>
       </a>
     </div>
+    <div class="nav-center">
+      <nav class="nav-links">
+        <a href="#feedWrapper" class="nav-link">PROJECTEN</a>
+        <a href="about.html" class="nav-link">OVER MIJ</a>
+        <a href="#diensten" class="nav-link">DIENSTEN</a>
+      </nav>
+    </div>
     <div class="nav-right">
-      <button id="menuBtn">MENU</button>
+      <div class="like-counter-navbar" id="likeCounterNavbar" role="button" tabindex="0">
+        <span class="heart-icon">♥</span>
+        <span class="like-count">0</span>
+        <span class="like-feedback" id="likeFeedback">Kies je favorieten</span>
+      </div>
+      <a href="contact.html" class="contact-btn">CONTACT!</a>
     </div>
   </header>
 
   <!-- Hoofdinhoud -->
   <main class="content">
-    <!-- Hero Section with Jesse Hielema -->
-    <section class="hero-white-section" id="heroWhiteSection">
-      <div class="hero-white-content">
-        <h1 class="hero-title"><span class="hero-name-orange">JESSE</span><br>HIELEMA</h1>
-        <p class="hero-subtitle">graphic designer.</p>
+    <!-- Horizontal Scroll Wrapper: Hero → About -->
+    <div class="hero-about-wrapper" id="heroAboutWrapper">
+      <div class="hero-about-track" id="heroAboutTrack">
+
+        <!-- Hero Section (Panel 1) -->
+        <section class="hero-section hero-about-panel" id="heroSection">
+          <div class="hero-content">
+            <p class="hero-subtitle">
+              <span class="hero-subtitle-text">GRAFISCH ONTWERPER</span>
+            </p>
+        <h1 class="hero-title">JESSE<br><span class="hero-name-orange">HIELEMA</span></h1>
+        <div class="hero-underline"></div>
+      </div>
+
+      <!-- Scroll Circle Badge -->
+      <div class="scroll-circle">
+        <svg viewBox="0 0 200 200" class="scroll-circle-text">
+          <defs>
+            <path id="circlePath" d="M 100,100 m -80,0 a 80,80 0 1,1 160,0 a 80,80 0 1,1 -160,0" />
+          </defs>
+          <text>
+            <textPath href="#circlePath" startOffset="0%">Scroll to see my work - Scroll to see my work - Scroll to see my work - </textPath>
+          </text>
+        </svg>
+        <div class="scroll-circle-arrow">&#8595;</div>
       </div>
     </section>
 
-    <!-- Zoom Wrapper for Gallery -->
-    <section class="gallery-zoom-wrapper" id="galleryZoomWrapper">
-      <!-- Horizontal Scroll Gallery Hero -->
-      <section class="horizontal-scroll-section" id="horizontalScrollSection">
-        <!-- Projects Title Section -->
-        <div class="projects-title-section" id="projectsTitleSection">
-          <h2 class="projects-big-title">projects</h2>
-          <svg class="projects-arrow" width="80" height="80" viewBox="0 0 80 80" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 40H70M70 40L50 20M70 40L50 60" stroke="#E86A33" stroke-width="3" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg>
+        <!-- Over Mij Section (Panel 2) -->
+        <section class="over-mij-section hero-about-panel" id="aboutPanel">
+          <div class="over-mij-container">
+            <div class="over-mij-image">
+              <img src="images/profielfoto.png" alt="Jesse Hielema">
+            </div>
+            <div class="over-mij-info">
+              <p class="over-mij-subtitle">MIJN NAAM IS</p>
+              <h2 class="over-mij-name">Jesse</h2>
+              <div class="over-mij-content">
+                <p class="over-mij-text">Ik ben een grafisch ontwerper die altijd op zoek is naar hoe iets beter kan.</p>
+                <p class="over-mij-text">Waarom werkt iets, en hoe maak je het sterker?</p>
+                <p class="over-mij-text">Ik werk gestructureerd, ben kritisch en ga pas door als het klopt. <br> Maar ja, het moet natuurlijk ook gewoon leuk blijven.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Fullscreen Doomscroll Feed -->
+    <section class="feed-wrapper" id="feedWrapper">
+      <div class="feed-intro" id="feedIntro">
+        <div class="feed-intro-inner" id="feedIntroInner">
+          <h2 class="feed-intro-title">DUS TIJD OM HET TE LATEN ZIEN!</h2>
+          <p class="feed-intro-description">
+            Zie iets wat je aanspreekt? Geef een like!<br>
+            Zo leer ik jouw smaak kennen en maken we sneller iets dat echt bij je past.<br><br>
+            Je scrollt toch al, maak het nuttig!
+          </p>
         </div>
+
+        <!-- Sticky Filter Bar -->
+        <div class="filter-bar" id="filterBar">
+          <div class="filter-container">
+            <button class="filter-btn active" data-filter="all">Alles</button>
+            <button class="filter-btn" data-filter="Branding">Branding</button>
+            <button class="filter-btn" data-filter="Web">Web</button>
+            <button class="filter-btn" data-filter="Campagne">Campagne</button>
+            <button class="filter-btn" data-filter="Logo">Logo</button>
+          </div>
+        </div>
+
+        <div class="feed-container" id="feedContainer"></div>
+      </div>
+      
+      <!-- Liked Projects Modal -->
+      <div class="liked-projects-modal" id="likedProjectsModal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Gelikte Projecten</h2>
+            <button class="modal-close" id="modalCloseBtn">✕</button>
+          </div>
+          <div class="modal-body" id="likedProjectsList">
+            <p class="empty-state">Je hebt nog geen projecten geliked</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Detail Overlay -->
+      <div class="detail-overlay" id="detailOverlay">
+        <button class="overlay-close">✕</button>
+        <div class="overlay-content">
+          <div class="overlay-image-side">
+            <img id="overlayImage" src="" alt="Project">
+          </div>
+          <div class="overlay-info-side">
+            <div class="overlay-info-content">
+              <h2 id="overlayYear" class="overlay-year"></h2>
+              <h1 id="overlayTitle" class="overlay-title"></h1>
+              <p id="overlayDescription" class="overlay-description"></p>
+              
+              <div class="techniques-section">
+                <h3>Technieken</h3>
+                <div id="overlayTechniques" class="techniques-grid"></div>
+              </div>
+              
+              <div class="input-section">
+                <h3>Mijn Input</h3>
+                <p id="overlayInput"></p>
+              </div>
+              
+              <div class="overlay-footer">
+                <div class="footer-buttons">
+                  <a id="readMoreLink" href="#" class="read-more-button">Lees meer over dit project →</a>
+                  <button class="cta-button">Laten we samenwerken →</button>
+                </div>
+                <p id="overlayLikeCount" class="like-count-text"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HIDDEN: Old Gallery Content Below (keeping for reference) -->
+    <section class="gallery-wrapper-old" id="galleryWrapper" style="display:none;">
+      <section class="horizontal-scroll-section" id="horizontalScrollSection">
+        <!-- Projects Title -->
+        <h2 class="projects-big-title" id="projectsTitle">MIJN<br>PROJECTEN</h2>
         <div class="horizontal-scroll-container">
           <div class="horizontal-scroll-track" id="horizontalTrack">
             <a href="ui-ux.html" class="scroll-item" data-project="UI/UX Design"
               data-description="Gebruiksvriendelijke interfaces en digitale ervaringen" data-date="2024-2026">
               <img src="images/project1.jpg" alt="UI/UX Design">
+              <span class="scroll-item-title">UI/UX Design</span>
             </a>
             <a href="web-development.html" class="scroll-item" data-project="Web Development"
               data-description="Moderne websites en web applicaties" data-date="2023-2026">
               <img src="images/project2.jpg" alt="Web Development">
+              <span class="scroll-item-title">Web Development</span>
             </a>
             <a href="branding.html" class="scroll-item" data-project="Branding"
               data-description="Sterke merkidentiteiten die blijven hangen" data-date="2022-2026">
               <img src="images/project3.jpg" alt="Branding">
+              <span class="scroll-item-title">Branding</span>
             </a>
             <a href="logos.html" class="scroll-item" data-project="Logo's" data-description="Unieke logo's met impact"
               data-date="2021-2026">
               <img src="images/project4.jpg" alt="Logo's">
+              <span class="scroll-item-title">Logo's</span>
             </a>
             <a href="illustraties.html" class="scroll-item" data-project="Illustraties"
               data-description="Creatieve illustraties en visual storytelling" data-date="2022-2026">
               <img src="images/project5.png" alt="Illustraties">
+              <span class="scroll-item-title">Illustraties</span>
             </a>
             <a href="motion-graphics.html" class="scroll-item" data-project="Motion Graphics"
               data-description="Dynamische animaties en bewegend beeld" data-date="2023-2026">
               <img src="images/project6.png" alt="Motion Graphics">
+              <span class="scroll-item-title">Motion Graphics</span>
             </a>
             <a href="fotografie.html" class="scroll-item" data-project="Fotografie"
               data-description="Professionele fotografie voor verschillende doeleinden" data-date="2021-2026">
               <img src="images/project7.png" alt="Fotografie">
+              <span class="scroll-item-title">Fotografie</span>
             </a>
             <a href="print-design.html" class="scroll-item" data-project="Print Design"
               data-description="Gedrukte materialen en publicaties" data-date="2020-2026">
               <img src="images/project8.png" alt="Print Design">
+              <span class="scroll-item-title">Print Design</span>
             </a>
             <a href="packaging.html" class="scroll-item" data-project="Packaging"
               data-description="Verpakkingsdesign met oog voor detail" data-date="2023-2026">
               <img src="images/project9.png" alt="Packaging">
+              <span class="scroll-item-title">Packaging</span>
             </a>
             <a href="editorial-design.html" class="scroll-item" data-project="Editorial Design"
               data-description="Magazines, brochures en redactionele layouts" data-date="2022-2026">
               <img src="images/project10.png" alt="Editorial Design">
+              <span class="scroll-item-title">Editorial Design</span>
             </a>
           </div>
           <div class="project-info" id="projectInfo">
@@ -175,83 +330,52 @@
             <div class="label-item" data-index="9">EDITORIAL DESIGN</div>
           </div>
         </div>
-
-        <!-- Scroll Indicator -->
-        <div class="scroll-indicator">
-          <span>Explore my Work</span>
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg>
-        </div>
-      </section>
+        </section>
     </section>
+    <!-- End Hidden Old Gallery -->
 
-    <!-- Featured Project Section -->
-    <section class="featured-project">
-      <div class="featured-container">
-        <!-- Vertical Title on the Left -->
-        <div class="featured-vertical-title">
-          <h2 class="featured-title-text">
-            <span class="featured-title-orange">TRIPJE MET</span>
-            <span class="featured-title-black">DE TREIN</span>
-          </h2>
+    <section class="diensten-section" id="diensten">
+      <div class="diensten-container">
+        <div class="diensten-header">
+          <p class="diensten-subtitle">Diensten</p>
+          <h2 class="diensten-title">Waar ik je<br>mee help</h2>
         </div>
-
-        <!-- Main Content Area -->
-        <div class="featured-main-content">
-          <!-- Hero Image -->
-          <div class="featured-hero-image">
-            <img src="images/kopwerk.jpg" alt="Tripje met de trein - Travel information">
-          </div>
-
-          <!-- Text Content Below Image -->
-          <div class="featured-text-content">
-            <p class="featured-description">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam fermentum urna eu arcu luctus, quis convallis diam maximus. Aenean posuere massa eget ligula mollis, nec ullamcorper felis rutrum. Fusce quam erat, semper vitae ultrices id. Orci varius natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Mauris est elit. Suspendisse at lacinia massa, ac gravida lorem ultrices id. Orci varius natoque penatibus et magnis dis parturient montes nascetur ridiculus mus. Mauris est elit. Sed tristique vehicula mauris et tempus. Nullam in felis sit amet orci iaculis scelerisque quis sit amet elit.
-            </p>
-            <h3 class="featured-studio">Studio <span class="featured-studio-orange">Kopwerk</span></h3>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Over Mij Section -->
-    <section class="over-mij">
-      <!-- Title Section -->
-      <div class="over-mij-hero">
-        <h2 class="over-mij-title">OVER MIJ</h2>
-      </div>
-
-      <!-- Grid Layout met 8 afbeeldingen -->
-      <div class="over-mij-grid">
-        <div class="over-mij-item">
-          <img src="images/Instagram Post 1.png" alt="Jesse Hielema">
-        </div>
-        <div class="over-mij-item">
-          <img src="images/Instagram Post 9.png" alt="Jesse Hielema">
-        </div>
-        <div class="over-mij-item">
-          <img src="images/Instagram Post 8.png" alt="Jesse Hielema">
-        </div>
-        <div class="over-mij-item">
-          <img src="images/Instagram Post 2.png" alt="Jesse Hielema">
-        </div>
-        <div class="over-mij-item">
-          <img src="images/Instagram Post 3.png" alt="Jesse Hielema">
-        </div>
-        <div class="over-mij-item">
-          <img src="images/Instagram Post 5.png" alt="Jesse Hielema">
-        </div>
-        <div class="over-mij-item">
-          <img src="images/Instagram Post 4.png" alt="Jesse Hielema">
-        </div>
-        <div class="over-mij-item">
-          <img src="images/Instagram Post 6.png" alt="Jesse Hielema">
+        <div class="diensten-list">
+          <a href="contact.html" class="dienst-card">
+            <span class="dienst-number">01</span>
+            <h3>Brand Identity</h3>
+            <p>Logo's, huisstijlen en visuele identiteiten die blijven hangen. Van concept tot eindresultaat.</p>
+            <span class="dienst-arrow">&rarr;</span>
+          </a>
+          <a href="contact.html" class="dienst-card">
+            <span class="dienst-number">02</span>
+            <h3>Web Design</h3>
+            <p>Websites die er niet alleen goed uitzien, maar ook écht werken. Responsive en doordacht.</p>
+            <span class="dienst-arrow">&rarr;</span>
+          </a>
+          <a href="contact.html" class="dienst-card">
+            <span class="dienst-number">03</span>
+            <h3>Concept & Strategie</h3>
+            <p>Creatieve concepten die verhalen vertellen. Van campagnes tot volledige merkstrategieën.</p>
+            <span class="dienst-arrow">&rarr;</span>
+          </a>
         </div>
       </div>
     </section>
   </main>
+
+  
+  <!-- Jesse Guide Floating Avatar -->
+  <div id="jesse-guide" aria-label="Jesse Guide" tabindex="0">
+    <div class="jesse-guide-avatar">
+      <div class="jesse-guide-face">
+        <div class="jesse-guide-eye"></div>
+        <div class="jesse-guide-eye"></div>
+      </div>
+      <div class="jesse-guide-arm jesse-guide-arm-left"></div>
+      <div class="jesse-guide-arm jesse-guide-arm-right"></div>
+    </div>
+  </div>
 
 
   <!-- Footer -->
@@ -299,53 +423,9 @@
     </div>
   </footer>
 
-  <!-- Slide-in Menu -->
-  <aside id="sideMenu" class="side-menu">
-    <button id="closeMenu" class="close-menu">&times;</button>
-    <nav class="menu-content">
-      <ul class="menu-list">
-        <li><a href="index.html">Home <span class="menu-arrow">→</span></a></li>
-        <li><a href="about.html">Over mij <span class="menu-arrow">→</span></a></li>
-        <li><a href="contact.html">Contact <span class="menu-arrow">→</span></a></li>
-        <li class="menu-item-projects">
-          <span class="menu-projects-title">Projecten</span>
-          <ul class="menu-projects-list">
-            <li><a href="ui-ux.html" data-category="ui-ux">UI/UX Design <span class="menu-arrow">→</span></a></li>
-            <li><a href="web-development.html" data-category="web">Web Development <span class="menu-arrow">→</span></a>
-            </li>
-            <li><a href="branding.html" data-category="branding">Branding <span class="menu-arrow">→</span></a></li>
-            <li><a href="logos.html" data-category="logos">Logo's <span class="menu-arrow">→</span></a></li>
-            <li><a href="illustraties.html" data-category="illustrations">Illustraties <span
-                  class="menu-arrow">→</span></a></li>
-            <li><a href="motion-graphics.html" data-category="motion">Motion Graphics <span
-                  class="menu-arrow">→</span></a></li>
-            <li><a href="fotografie.html" data-category="photography">Fotografie <span class="menu-arrow">→</span></a>
-            </li>
-            <li><a href="print-design.html" data-category="print">Print Design <span class="menu-arrow">→</span></a>
-            </li>
-            <li><a href="packaging.html" data-category="packaging">Packaging <span class="menu-arrow">→</span></a></li>
-            <li><a href="editorial-design.html" data-category="editorial">Editorial Design <span
-                  class="menu-arrow">→</span></a></li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="menu-footer">
-      <div class="menu-social">
-        <a href="https://instagram.com/jesse_hielema" target="_blank" class="menu-social-link">
-          <img src="images/icons8-instagram-48.png" alt="Instagram">
-        </a>
-        <a href="https://linkedin.com/in/jesse-hielema" target="_blank" class="menu-social-link">
-          <img src="images/icons8-linkedin-48.png" alt="LinkedIn">
-        </a>
-      </div>
-    </div>
-  </aside>
-
-
-
+  <script src="sync.js"></script>
   <script src="script.js?v=20260212"></script>
+  <script src="feed-system.js?v=20260321"></script>
 </body>
 
 </html>

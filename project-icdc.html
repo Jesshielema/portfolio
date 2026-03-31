@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICDC - Jesse Hielema Portfolio</title>
+  <link rel="stylesheet" href="index.css">
+  <link rel="stylesheet" href="project.css">
+</head>
+<body>
+  <!-- Page Transition Overlay -->
+  <div class="page-transition" id="pageTransition"></div>
+  <style>
+    .page-transition{position:fixed;inset:0;z-index:99999;background:#0F0F10;transform:scaleY(1);transform-origin:top;pointer-events:none;animation:pageReveal .7s cubic-bezier(.77,0,.18,1) forwards}.page-transition.out{animation:pageCover .5s cubic-bezier(.77,0,.18,1) forwards}@keyframes pageReveal{0%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(0);transform-origin:top}}@keyframes pageCover{0%{transform:scaleY(0);transform-origin:bottom}100%{transform:scaleY(1);transform-origin:bottom}}
+  </style>
+  <script>
+    document.addEventListener('click',function(e){var l=e.target.closest('a');if(!l)return;var h=l.getAttribute('href');if(!h||h.startsWith('#')||h.startsWith('mailto:')||h.startsWith('http')||l.target==='_blank')return;e.preventDefault();document.getElementById('pageTransition').classList.add('out');setTimeout(function(){window.location.href=h},500)});
+  </script>
+
+  <!-- Header -->
+  <header class="project-header">
+    <a href="index.html#feedWrapper" class="back-link">Terug naar overzicht</a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="project-container">
+    <!-- Hero -->
+    <section class="project-hero">
+      <h1 class="project-title">ICDC</h1>
+    </section>
+
+    <!-- Intro: metadata + description -->
+    <section class="project-intro">
+      <div class="project-metadata">
+        <div class="metadata-item">
+          <span class="metadata-label">Opdrachtgever</span>
+          <span class="metadata-value">Love Tomorrow / Tomorrowland</span>
+        </div>
+        <div class="metadata-item">
+          <span class="metadata-label">Type</span>
+          <span class="metadata-value">Campagne Concept</span>
+        </div>
+        <div class="metadata-item">
+          <span class="metadata-label">Jaar</span>
+          <span class="metadata-value">2025</span>
+        </div>
+        <div class="metadata-item">
+          <span class="metadata-label">Team</span>
+          <span class="metadata-value">Team Netherlands</span>
+        </div>
+      </div>
+      <div class="project-description-col">
+        <p>In één intensive week een creatief campagneconcept ontwikkeld dat festivalgangers aanzet om hun campingspullen mee terug te nemen. Een opdracht van Love Tomorrow — de duurzaamheidstak van Tomorrowland.</p>
+        <p>Het probleem is enorm: na elk festival blijven tonnen aan tenten, slaapzakken en campingspullen achter. Ons concept moest festivalgangers op een positieve manier motiveren om alles weer mee te nemen.</p>
+      </div>
+    </section>
+
+    <!-- Hero Image -->
+    <section class="gallery-section">
+      <img src="images/Team_Netherlands.jpg" alt="ICDC Team Netherlands" class="gallery-hero-image">
+    </section>
+
+    <!-- Image Grid -->
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="images/project12.png" alt="ICDC campagne concept"></div>
+      <div class="gallery-item"><img src="images/project13.jpg" alt="ICDC presentatie"></div>
+    </div>
+
+    <!-- Het Concept -->
+    <section class="project-section">
+      <h2 class="section-title">Het Concept</h2>
+      <div class="section-content">
+        <p>Ons concept draait om het idee dat je campingspullen deel zijn van je festivalverhaal. Net zoals je herinneringen meeneemt, neem je je spullen mee. We hebben dat vertaald naar een campagne die inspeelt op emotie en nostalgie in plaats van schuldgevoel.</p>
+        <p>Door campinggear te koppelen aan persoonlijke momenten — de tent waar je in danste toen het regende, de slaapzak waar je beste gesprekken in plaatsvonden — wordt weggooien geen optie meer.</p>
+      </div>
+    </section>
+
+    <!-- De Week -->
+    <section class="project-section">
+      <h2 class="section-title">De Week</h2>
+      <div class="section-content">
+        <p>ICDC is een internationale design competitie waar teams uit heel Europa in één week een campagneconcept ontwikkelen. Van briefing tot eindpresentatie — alles in vijf dagen.</p>
+        <p>Als Team Netherlands hebben we gewerkt aan concepting, art direction, campagne design en een overtuigende pitch. De druk was hoog, de energie hoger. Het resultaat: een campagne die niet alleen creatief sterk is, maar ook daadwerkelijk impact kan maken.</p>
+        <ul>
+          <li>Dag 1-2: Research, ideatie en conceptrichtingen</li>
+          <li>Dag 3-4: Visuele uitwerking en campagnemateriaal</li>
+          <li>Dag 5: Finale pitch voor de jury</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Techniques -->
+    <section class="techniques-section">
+      <h2 class="section-title">Gebruikte Technieken</h2>
+      <div class="techniques-grid">
+        <div class="technique-item">
+          <strong>Concepting</strong>
+          <span>Idee-ontwikkeling onder druk</span>
+        </div>
+        <div class="technique-item">
+          <strong>Art Direction</strong>
+          <span>Visuele richting & stijl</span>
+        </div>
+        <div class="technique-item">
+          <strong>Campagne Design</strong>
+          <span>Multi-channel uitwerking</span>
+        </div>
+        <div class="technique-item">
+          <strong>Pitching</strong>
+          <span>Presentatie aan jury</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="project-cta">
+      <h2>Samen impact maken?</h2>
+      <p>Creatieve concepten die niet alleen er goed uitzien, maar ook echt iets veranderen. Laten we praten.</p>
+      <a href="contact.html" class="cta-button">Neem Contact Op</a>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="project-footer">
+    <a href="index.html#feedWrapper" class="footer-back-button">Terug naar projecten</a>
+  </footer>
+
+  <script src="feed-system.js"></script>
+</body>
+</html>

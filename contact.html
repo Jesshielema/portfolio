@@ -1,188 +1,138 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact - Jesse Hielema</title>
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- CSS -->
-  <link rel="stylesheet" href="index.css">
+
+  <link rel="stylesheet" href="index.css?v=20260330">
+
+  <meta name="description" content="Neem contact op met Jesse Hielema over jouw favoriete projecten en mogelijke samenwerking.">
+  <meta name="keywords" content="Jesse Hielema, contact, samenwerking, design, portfolio">
+  <meta name="author" content="Jesse Hielema">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="images/mono-rond.png">
+  <link rel="apple-touch-icon" href="images/mono-rond.png">
 </head>
+
 <body>
-  <!-- Navigatiebalk -->
+  <!-- Page Transition Overlay -->
+  <div class="page-transition" id="pageTransition"></div>
+  <style>
+    .page-transition{position:fixed;inset:0;z-index:99999;background:#0F0F10;transform:scaleY(1);transform-origin:top;pointer-events:none;animation:pageReveal .7s cubic-bezier(.77,0,.18,1) forwards}.page-transition.out{animation:pageCover .5s cubic-bezier(.77,0,.18,1) forwards}@keyframes pageReveal{0%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(0);transform-origin:top}}@keyframes pageCover{0%{transform:scaleY(0);transform-origin:bottom}100%{transform:scaleY(1);transform-origin:bottom}}
+  </style>
+  <script>
+    document.addEventListener('click',function(e){var l=e.target.closest('a');if(!l)return;var h=l.getAttribute('href');if(!h||h.startsWith('#')||h.startsWith('mailto:')||h.startsWith('http')||l.target==='_blank')return;e.preventDefault();document.getElementById('pageTransition').classList.add('out');setTimeout(function(){window.location.href=h},500)});
+  </script>
+
   <header class="navbar">
     <div class="nav-left">
-      <a href="about.html" class="nav-about-link">Jesse Hielema</a>
-    </div>
-    <div class="nav-center">
       <a href="index.html" class="logo-container">
-        <img src="images/mono-wit-01-01.png" alt="Logo" class="logo">
-        <img src="images/mono-rond.png" alt="Logo Dark" class="logo-dark">
+        <img src="images/MonogramOranje.svg" alt="Logo" class="logo-svg">
         <video class="logo-video" muted loop>
           <source src="video/Monogram.webm" type="video/webm">
         </video>
       </a>
     </div>
+    <div class="nav-center">
+      <nav class="nav-links">
+        <a href="index.html#feedWrapper" class="nav-link">PROJECTEN</a>
+        <a href="about.html" class="nav-link">OVER MIJ</a>
+        <a href="index.html#diensten" class="nav-link">DIENSTEN</a>
+      </nav>
+    </div>
     <div class="nav-right">
-      <button id="menuBtn">MENU</button>
+      <a href="contact.html" class="contact-btn">CONTACT!</a>
     </div>
   </header>
 
-
-  <!-- Hoofdinhoud -->
   <main class="content">
-    <!-- Contact Hero Section --> 
-    <section class="contact-hero">
-      <div class="contact-hero-content">
-        <h1>LET'S <span class="bold-word">CREATE</span> TOGETHER</h1>
-        <p>Klaar om te beginnen?</p>
-      </div>
-    </section>
-
-    <!-- Contact Form Section -->
-    <section class="contact-form-section">
-      <div class="contact-container">
-        <div class="contact-info">
-          <h2>Get In Touch</h2>
-          <p>Ik help bedrijven en individuen met <strong>designs die vertrouwd aanvoelen</strong> en resultaat opleveren. Van branding tot digital design - laten we samen iets bijzonders creëren.</p>
+    <section class="contact-page">
+      <div class="contact-page-inner">
+        
+        <div class="contact-left">
+          <p class="contact-label">Contact</p>
+          <h1 class="contact-heading">Laten we<br>samenwerken</h1>
+          <p class="contact-description">Heb je een idee, project of vraag? Stuur me een bericht en ik reageer binnen 24 uur.</p>
           
-          <div class="contact-details">
-            <div class="contact-item">
-              <div class="contact-icon">📧</div>
-              <div class="contact-text">
-                <h4>Email</h4>
-                <a href="mailto:jessehielema@gmail.com">jessehielema@gmail.com</a>
+          <div class="contact-details-list">
+            <a href="mailto:Jessehielema@gmail.com" class="contact-detail-item">
+              <span class="contact-detail-icon">&#9993;</span>
+              <div>
+                <span class="contact-detail-label">Email</span>
+                <span class="contact-detail-value">Jessehielema@gmail.com</span>
               </div>
-            </div>
-            
-            <div class="contact-item">
-              <div class="contact-icon">📱</div>
-              <div class="contact-text">
-                <h4>Telefoon</h4>
-                <a href="tel:+31612345678">+31 6 12 34 56 78</a>
+            </a>
+            <a href="https://instagram.com/jesse_hielema" target="_blank" rel="noreferrer" class="contact-detail-item">
+              <span class="contact-detail-icon">&#9737;</span>
+              <div>
+                <span class="contact-detail-label">Instagram</span>
+                <span class="contact-detail-value">@jesse_hielema</span>
               </div>
-            </div>
-            
-            <div class="contact-item">
-              <div class="contact-icon">🌍</div>
-              <div class="contact-text">
-                <h4>Locatie</h4>
-                <p>Nederland</p>
+            </a>
+            <a href="https://linkedin.com/in/jesse-hielema" target="_blank" rel="noreferrer" class="contact-detail-item">
+              <span class="contact-detail-icon">&#9741;</span>
+              <div>
+                <span class="contact-detail-label">LinkedIn</span>
+                <span class="contact-detail-value">Jesse Hielema</span>
               </div>
-            </div>
-            
-            <div class="contact-item">
-              <div class="contact-icon">⚡</div>
-              <div class="contact-text">
-                <h4>Response Tijd</h4>
-                <p>Binnen 24 uur</p>
-              </div>
-            </div>
+            </a>
           </div>
         </div>
 
-        <div class="contact-form-wrapper">
-          <form name="contact" method="POST" data-netlify="true" netlify action="/success.html" class="contact-form" data-netlify-recaptcha="true">
-            <input type="hidden" name="form-name" value="contact">
-            
-            <!-- Email notification settings -->
-            <input type="hidden" name="subject" value="Nieuw Contact Formulier - Portfolio Website">
-            <input type="hidden" name="_replyto" value="jessehielema@gmail.com">
-            
-            <!-- FormSubmit backup (will also send email directly) -->
-            <input type="hidden" name="_next" value="https://jesshielema.github.io/portfolio/success.html">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_captcha" value="false">
-            
+        <div class="contact-right">
+          <form class="contact-form" id="contactForm" novalidate>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Naam</label>
+                <input id="name" name="name" type="text" autocomplete="name" placeholder="Je naam" required>
+              </div>
+              <div class="form-group">
+                <label for="email">E-mail</label>
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="je@email.nl" required>
+              </div>
+            </div>
             <div class="form-group">
-              <label for="name">Naam *</label>
-              <input type="text" id="name" name="name" required>
+              <label for="subject">Onderwerp</label>
+              <input id="subject" name="subject" type="text" placeholder="Waar gaat het over?" required>
             </div>
-            
             <div class="form-group">
-              <label for="email">Email *</label>
-              <input type="email" id="email" name="email" required>
+              <label for="message">Bericht</label>
+              <textarea id="message" name="message" placeholder="Vertel me over je project of idee..." required></textarea>
             </div>
-            
-            <div class="form-group">
-              <label for="company">Bedrijf</label>
-              <input type="text" id="company" name="company">
-            </div>
-            
-            <div class="form-group">
-              <label for="phone">Telefoon</label>
-              <input type="tel" id="phone" name="phone">
-            </div>
-            
-            <div class="form-group">
-              <label for="project-type">Type Project</label>
-              <select id="project-type" name="project-type">
-                <option value="">Selecteer project type</option>
-                <option value="branding">Branding & Logo Design</option>
-                <option value="website">Website Design</option>
-                <option value="print">Print Design</option>
-                <option value="marketing">Marketing Materialen</option>
-                <option value="packaging">Packaging Design</option>
-                <option value="other">Anders</option>
-              </select>
-            </div>
-            
-            <div class="form-group full-width">
-              <label for="message">Vertel over je project *</label>
-              <textarea id="message" name="message" rows="6" required placeholder="Beschrijf je project, doelen, timeline en wat je zoekt in een designer..."></textarea>
-            </div>
-            
             <button type="submit" class="submit-btn">
-              VERSTUUR BERICHT
-              <svg class="submit-arrow" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
+              Verstuur bericht
+              <span class="submit-arrow">&rarr;</span>
             </button>
           </form>
         </div>
-      </div>
-    </section>
 
-    <!-- Success Message -->
-    <section class="success-message" id="successMessage" style="display: none;">
-      <div class="success-content">
-        <h2>🎉 Message Sent!</h2>
-        <p>Bedankt voor je bericht! Ik neem binnen 24 uur contact met je op om je project te bespreken.</p>
-        <a href="index.html" class="back-btn">Terug naar Home</a>
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
   <footer class="main-footer">
     <div class="footer-content">
-      <!-- Links: Jesse Hielema + functie -->
       <div class="footer-brand">
         <h3>Jesse Hielema</h3>
         <p>Creative Designer</p>
       </div>
 
-      <!-- Midden: Volg Mij -->
       <div class="footer-social-section">
         <h4>Volg Mij</h4>
         <div class="footer-social">
-          <a href="https://instagram.com/jesse_hielema" class="footer-social-link" target="_blank">
+          <a href="https://instagram.com/jesse_hielema" class="footer-social-link" target="_blank" rel="noreferrer">
             <img src="images/icons8-instagram-48.png" alt="Instagram" class="footer-icon">
             Instagram
           </a>
-          <a href="https://linkedin.com/in/jesse-hielema" class="footer-social-link" target="_blank">
+          <a href="https://linkedin.com/in/jesse-hielema" class="footer-social-link" target="_blank" rel="noreferrer">
             <img src="images/icons8-linkedin-48.png" alt="LinkedIn" class="footer-icon">
             LinkedIn
           </a>
         </div>
       </div>
 
-      <!-- Rechts: Contact -->
       <div class="footer-contact">
         <h4>Contact</h4>
         <div class="contact-info">
@@ -203,72 +153,72 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
   <script>
-    // Contact form success handling
-    const form = document.querySelector('.contact-form');
-    const successMessage = document.getElementById('successMessage');
-    
-    // Check for success parameter in URL
-    if (window.location.search.includes('success=true')) {
-      document.querySelector('.contact-form-section').style.display = 'none';
-      successMessage.style.display = 'block';
-    }
-    
-    // Enhanced form submission with dual delivery
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const submitBtn = form.querySelector('.submit-btn');
-      const originalText = submitBtn.innerHTML;
-      
-      submitBtn.innerHTML = 'SENDING... <div class="spinner"></div>';
-      submitBtn.disabled = true;
-      
+    (function () {
+      const form = document.getElementById('contactForm');
+      const subjectInput = document.getElementById('subject');
+      const messageInput = document.getElementById('message');
+
+      const params = new URLSearchParams(window.location.search);
+      const urlSubject = params.get('subject');
+      const urlMessage = params.get('message');
+
+      let storedSubject = '';
+      let storedMessage = '';
       try {
-        // Get form data
-        const formData = new FormData(form);
-        
-        // 1. Submit to Netlify (primary)
-        console.log('📧 Sending via Netlify Forms...');
-        const netlifyResponse = await fetch('/', {
-          method: 'POST',
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams(formData).toString()
-        });
-        
-        // 2. Also send via FormSubmit as backup
-        console.log('📧 Sending backup via FormSubmit...');
-        const formSubmitData = new FormData();
-        formSubmitData.append('name', formData.get('name'));
-        formSubmitData.append('email', formData.get('email'));
-        formSubmitData.append('company', formData.get('company') || 'Niet opgegeven');
-        formSubmitData.append('phone', formData.get('phone') || 'Niet opgegeven');
-        formSubmitData.append('project-type', formData.get('project-type') || 'Niet opgegeven');
-        formSubmitData.append('message', formData.get('message'));
-        formSubmitData.append('_subject', 'Portfolio Contact Form - Nieuw Bericht');
-        
-        await fetch('https://formsubmit.co/jessehielema@gmail.com', {
-          method: 'POST',
-          body: formSubmitData
-        });
-        
-        console.log('✅ Form submitted successfully via both services!');
-        
-        // Redirect to success page
-        window.location.href = '/success.html?success=true';
-        
-      } catch (error) {
-        console.error('❌ Form submission error:', error);
-        
-        // Fallback: try original Netlify submission
-        submitBtn.innerHTML = originalText;
-        submitBtn.disabled = false;
-        
-        // Let the original form submission proceed
-        form.submit();
+        storedSubject = localStorage.getItem('contact-prefill-subject') || '';
+        storedMessage = localStorage.getItem('contact-prefill-message') || '';
+      } catch (e) {
+        // Ignore localStorage errors in private or restricted environments.
       }
-    });
+
+      const prefillSubject = urlSubject || storedSubject;
+      const prefillMessage = urlMessage || storedMessage;
+
+      if (prefillSubject) {
+        subjectInput.value = prefillSubject;
+      }
+
+      if (prefillMessage) {
+        messageInput.value = prefillMessage;
+      }
+
+      if (prefillSubject || prefillMessage) {
+        try {
+          localStorage.removeItem('contact-prefill-subject');
+          localStorage.removeItem('contact-prefill-message');
+        } catch (e) {
+          // Ignore localStorage cleanup errors.
+        }
+      }
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const subject = subjectInput.value.trim();
+        const message = messageInput.value.trim();
+
+        const body = [
+          `Naam: ${name}`,
+          `E-mail: ${email}`,
+          '',
+          message
+        ].join('\n');
+
+        const mailtoUrl = `mailto:Jessehielema@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoUrl;
+      });
+    })();
   </script>
+  <script src="sync.js"></script>
+  <script src="script.js?v=20260330"></script>
 </body>
+
 </html>

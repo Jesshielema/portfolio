@@ -3,12 +3,29 @@
  * Premium gallery experience with smooth animations
  */
 
+// === LENIS SMOOTH SCROLL ===
+const lenis = new Lenis({
+  duration: 1.2,
+  easing: (t) => Math.min(1, 1 - Math.pow(2, -10 * t)), // expo ease-out
+  orientation: 'vertical',
+  gestureOrientation: 'vertical',
+  smoothWheel: true,
+  wheelMultiplier: 1,
+  touchMultiplier: 2,
+  infinite: false,
+});
+
+// Connect Lenis to GSAP ScrollTrigger
+lenis.on('scroll', ScrollTrigger.update);
+
+gsap.ticker.add((time) => {
+  lenis.raf(time * 1000);
+});
+
+gsap.ticker.lagSmoothing(0);
+
 // === CONFIGURATION ===
 const CONFIG = {
-  preloader: {
-    duration: 2500, // Total loading duration in ms
-    minDuration: 1500 // Minimum duration to show preloader
-  },
   horizontal: {
     cardWidth: 450, // Width of each gallery card
     cardGap: 40, // Gap between cards
@@ -23,197 +40,6 @@ const $$ = (selector) => document.querySelectorAll(selector);
 
 // Check for reduced motion preference
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-// === PRELOADER ===
-class Preloader {
-  constructor() {
-    this.preloader = $('#preloader');
-    this.percentage = $('#preloaderPercentage');
-    this.logo = $('.preloader-logo-img');
-    this.startTime = Date.now();
-
-    if (!this.preloader) return;
-
-    // Add loading class to body
-    document.body.classList.add('loading');
-
-    this.init();
-  }
-
-  init() {
-    // Start loading animation
-    this.animateProgress();
-
-    // Wait for minimum duration and actual page load
-    Promise.all([
-      this.waitMinDuration(),
-      this.waitPageLoad()
-    ]).then(() => {
-      this.complete();
-    });
-  }
-
-  animateProgress() {
-    const duration = CONFIG.preloader.duration;
-    const startTime = Date.now();
-
-    const animate = () => {
-      const elapsed = Date.now() - startTime;
-      // Stop at 95% until page is actually loaded
-      const progress = Math.min((elapsed / duration) * 0.95, 0.95);
-
-      // Update percentage
-      if (this.percentage) {
-        this.percentage.textContent = Math.floor(progress * 100) + '%';
-      }
-
-      if (progress < 0.95) {
-        requestAnimationFrame(animate);
-      }
-    };
-
-    requestAnimationFrame(animate);
-  }
-
-  waitMinDuration() {
-    return new Promise(resolve => {
-      setTimeout(resolve, CONFIG.preloader.minDuration);
-    });
-  }
-
-  waitPageLoad() {
-    return new Promise(resolve => {
-      if (document.readyState === 'complete') {
-        resolve();
-      } else {
-        window.addEventListener('load', resolve);
-      }
-    });
-  }
-
-  complete() {
-    // Animate from 95% to 100%
-    const startTime = Date.now();
-    const fillDuration = 600; // Duration to fill last 5%
-
-    const finishAnimation = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / fillDuration, 1);
-      const easeProgress = this.easeOutCubic(progress);
-
-      const currentPercentage = 95 + (5 * easeProgress);
-
-      if (this.percentage) {
-        this.percentage.textContent = Math.floor(currentPercentage) + '%';
-      }
-
-      if (progress < 1) {
-        requestAnimationFrame(finishAnimation);
-      } else {
-        // Completed at 100%
-        setTimeout(() => {
-          this.fadeOutWithScale();
-        }, 400);
-      }
-    };
-
-    requestAnimationFrame(finishAnimation);
-  }
-
-  easeOutCubic(t) {
-    return 1 - Math.pow(1 - t, 3);
-  }
-
-  fadeOutWithScale() {
-    // Zwart scherm naar beneden laten vallen en tegelijkertijd laten vervagen
-    if (this.preloader) {
-      this.preloader.classList.add('slide-down');
-    }
-
-    // Start entrance animations
-    setTimeout(() => {
-      this.triggerEntranceAnimations();
-    }, 200);
-
-    // Verwijder preloader na animatie
-    setTimeout(() => {
-      this.remove();
-    }, 1400);
-  }
-
-  remove() {
-    document.body.classList.remove('loading');
-    if (this.preloader) {
-      this.preloader.remove();
-    }
-
-    // Trigger entrance animations
-    this.triggerEntranceAnimations();
-  }
-
-  triggerEntranceAnimations() {
-    // Animate hero title
-    const heroTitle = $('.hero-title');
-    if (heroTitle) {
-      setTimeout(() => {
-        heroTitle.style.transition = 'opacity 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-        heroTitle.style.opacity = '1';
-        heroTitle.style.transform = 'translateY(0)';
-      }, 100);
-    }
-
-    // Animate hero quote
-    const heroQuote = $('.hero-quote');
-    if (heroQuote) {
-      setTimeout(() => {
-        heroQuote.style.transition = 'opacity 0.8s ease, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-        heroQuote.style.opacity = '1';
-        heroQuote.style.transform = 'translateY(0)';
-      }, 250);
-    }
-
-    // Animate hero video
-    const heroVideo = $('.hero-video');
-    if (heroVideo) {
-      setTimeout(() => {
-        heroVideo.style.transition = 'opacity 1s ease';
-        heroVideo.style.opacity = '1';
-      }, 400);
-    }
-
-    // Animate hero image
-    const heroImage = $('.hero-image');
-    if (heroImage) {
-      setTimeout(() => {
-        heroImage.style.transition = 'opacity 1s ease';
-        heroImage.style.opacity = '1';
-      }, 400);
-    }
-
-    // Navbar is already visible, no need to animate
-    
-    // Fade in hero mosaic items
-    const mosaicItems = $$('.mosaic-item');
-
-    if (window.gsap && !prefersReducedMotion) {
-      gsap.from(mosaicItems, {
-        opacity: 0,
-        y: 30,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power2.out'
-      });
-    } else {
-      // Fallback without GSAP
-      mosaicItems.forEach((item, index) => {
-        setTimeout(() => {
-          item.style.opacity = '1';
-          item.style.transform = 'translateY(0)';
-        }, index * 100);
-      });
-    }
-  }
-}
 
 // === QUOTE ANIMATION ===
 class QuoteAnimation {
@@ -298,11 +124,6 @@ class QuoteAnimation {
 class Navigation {
   constructor() {
     this.navbar = $('.navbar');
-    this.menuBtn = $('#menuBtn');
-    this.sideMenu = $('#sideMenu');
-    this.closeBtn = $('#closeMenu');
-    this.pageWrapper = $('#pageWrapper');
-    this.menuContent = $('.menu-content');
 
     if (!this.navbar) return;
 
@@ -314,24 +135,8 @@ class Navigation {
     this.handleScroll();
     window.addEventListener('scroll', () => this.handleScroll());
 
-    // Menu toggle
-    if (this.menuBtn && this.sideMenu) {
-      this.menuBtn.addEventListener('click', () => this.openMenu());
-    }
-
-    if (this.closeBtn) {
-      this.closeBtn.addEventListener('click', () => this.closeMenu());
-    }
-
-    // Close menu on ESC
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.sideMenu.classList.contains('active')) {
-        this.closeMenu();
-      }
-    });
-
-    // Auto-scroll functionality on hover
-    this.initAutoScroll();
+    // Section-based navbar color switching
+    this.setupNavbarColors();
   }
 
   handleScroll() {
@@ -342,132 +147,25 @@ class Navigation {
     }
   }
 
-  openMenu() {
-    this.sideMenu.classList.add('active');
-    if (this.pageWrapper) {
-      this.pageWrapper.classList.add('menu-open');
+  setupNavbarColors() {
+    if (!window.gsap || !window.ScrollTrigger) return;
+
+    const galleryWrapper = $('#galleryWrapper');
+    const overMijSection = $('.over-mij-section');
+    const navbar = this.navbar;
+
+    // Dark navbar when gallery section is in view
+    if (galleryWrapper) {
+      ScrollTrigger.create({
+        trigger: galleryWrapper,
+        start: 'top top',
+        end: 'bottom top',
+        onEnter: () => navbar.classList.add('navbar-dark'),
+        onLeaveBack: () => navbar.classList.remove('navbar-dark'),
+        onLeave: () => navbar.classList.remove('navbar-dark'),
+        onEnterBack: () => navbar.classList.add('navbar-dark'),
+      });
     }
-    document.body.style.overflow = 'hidden';
-  }
-
-  closeMenu() {
-    this.sideMenu.classList.remove('active');
-    if (this.pageWrapper) {
-      this.pageWrapper.classList.remove('menu-open');
-    }
-    document.body.style.overflow = '';
-  }
-
-  initAutoScroll() {
-    if (!this.menuContent) return;
-
-    let scrollSpeed = 0;
-    let isScrolling = false;
-    let animationId = null;
-
-    const AUTO_SCROLL_THRESHOLD = 50; // pixels from top/bottom to trigger
-    const MAX_SCROLL_SPEED = 15; // max pixels per frame
-
-    const autoScroll = () => {
-      if (isScrolling) {
-        this.menuContent.scrollTop += scrollSpeed;
-        animationId = requestAnimationFrame(autoScroll);
-      }
-    };
-
-    this.menuContent.addEventListener('mousemove', (e) => {
-      const rect = this.menuContent.getBoundingClientRect();
-      const mouseY = e.clientY - rect.top;
-      const height = rect.height;
-
-      // Calculate distance from top and bottom
-      const distanceFromTop = mouseY;
-      const distanceFromBottom = height - mouseY;
-
-      // Scroll down when near bottom
-      if (distanceFromBottom < AUTO_SCROLL_THRESHOLD) {
-        const intensity = 1 - (distanceFromBottom / AUTO_SCROLL_THRESHOLD);
-        scrollSpeed = intensity * MAX_SCROLL_SPEED;
-
-        if (!isScrolling) {
-          isScrolling = true;
-          autoScroll();
-        }
-      }
-      // Scroll up when near top
-      else if (distanceFromTop < AUTO_SCROLL_THRESHOLD) {
-        const intensity = 1 - (distanceFromTop / AUTO_SCROLL_THRESHOLD);
-        scrollSpeed = -intensity * MAX_SCROLL_SPEED;
-
-        if (!isScrolling) {
-          isScrolling = true;
-          autoScroll();
-        }
-      }
-      // Stop scrolling when in middle area
-      else {
-        isScrolling = false;
-        scrollSpeed = 0;
-        if (animationId) {
-          cancelAnimationFrame(animationId);
-          animationId = null;
-        }
-      }
-    });
-
-    this.menuContent.addEventListener('mouseleave', () => {
-      isScrolling = false;
-      scrollSpeed = 0;
-      if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-      }
-    });
-
-    // Visual feedback: add hover zones
-    const createHoverZone = (position) => {
-      const zone = document.createElement('div');
-      zone.className = `menu-scroll-zone menu-scroll-zone-${position}`;
-      zone.style.cssText = `
-        position: absolute;
-        ${position}: 0;
-        left: 0;
-        right: 0;
-        height: ${AUTO_SCROLL_THRESHOLD}px;
-        pointer-events: none;
-        background: linear-gradient(to ${position === 'top' ? 'bottom' : 'top'}, 
-          rgba(228, 87, 46, 0.1), transparent);
-        opacity: 0;
-        transition: opacity 0.3s;
-        z-index: 1;
-      `;
-      return zone;
-    };
-
-    const topZone = createHoverZone('top');
-    const bottomZone = createHoverZone('bottom');
-
-    this.menuContent.style.position = 'relative';
-    this.menuContent.appendChild(topZone);
-    this.menuContent.appendChild(bottomZone);
-
-    // Show zones when hovering near edges
-    this.menuContent.addEventListener('mousemove', (e) => {
-      const rect = this.menuContent.getBoundingClientRect();
-      const mouseY = e.clientY - rect.top;
-      const height = rect.height;
-
-      if (mouseY < AUTO_SCROLL_THRESHOLD) {
-        topZone.style.opacity = '1';
-        bottomZone.style.opacity = '0';
-      } else if ((height - mouseY) < AUTO_SCROLL_THRESHOLD) {
-        topZone.style.opacity = '0';
-        bottomZone.style.opacity = '1';
-      } else {
-        topZone.style.opacity = '0';
-        bottomZone.style.opacity = '0';
-      }
-    });
   }
 }
 
@@ -661,10 +359,9 @@ class PerformanceOptimizer {
 // === HORIZONTAL SCROLL GALLERY ===
 class HorizontalScroll {
   constructor() {
-    this.heroSection = $('#heroWhiteSection');
-    this.zoomWrapper = $('#galleryZoomWrapper');
-    this.projectsTitleSection = $('#projectsTitleSection');
-    this.projectsTitle = $('.projects-big-title');
+    this.heroSection = $('#heroSection');
+    this.galleryWrapper = $('#galleryWrapper');
+    this.projectsTitle = $('#projectsTitle');
     this.section = $('#horizontalScrollSection');
     this.track = $('#horizontalTrack');
     this.container = $('.horizontal-scroll-container');
@@ -693,91 +390,113 @@ class HorizontalScroll {
 
     // Set initial active label
     this.updateLabels(0);
-
-    // Animate PROJECTS title - slides left as gallery appears
-    const projectsTitle = document.querySelector('.projects-big-title');
-    const projectsArrow = document.querySelector('.projects-arrow');
-    const projectsTitleSection = document.querySelector('.projects-title-section');
-
-    if (projectsTitle && projectsTitleSection) {
-      gsap.to([projectsTitle, projectsArrow], {
-        x: '-100vw',
-        opacity: 0,
-        ease: 'power2.in',
-        scrollTrigger: {
-          trigger: projectsTitleSection,
-          start: 'top top',
-          end: '+=100vh',
-          scrub: 0.5,
-          invalidateOnRefresh: true
-        }
-      });
+    
+    // Set first item as active immediately
+    if (this.scrollItems.length > 0) {
+      this.scrollItems[0].classList.add('active');
     }
-
-    // Animate PROJECTS title - slides left as gallery appears
-    if (this.projectsTitle && this.projectsTitleSection) {
-      gsap.to(this.projectsTitle, {
-        x: '-100vw',
-        opacity: 0,
-        ease: 'power2.in',
-        scrollTrigger: {
-          trigger: this.projectsTitleSection,
-          start: 'top top',
-          end: '+=100vh',
-          scrub: 0.5,
-          invalidateOnRefresh: true
-        }
-      });
-    }
-
-    // Calculate total scroll distance
-    // Add extra distance so the last item can reach the center
+    
+    // Setup animations
+    this.setupHeroScroll();
+    this.setupHorizontalScroll();
+  }
+  
+  setupHorizontalScroll() {
     const trackWidth = this.track.scrollWidth;
     const containerWidth = this.section.offsetWidth;
-    const extraDistance = containerWidth / 2;
-    const scrollDistance = trackWidth - containerWidth + extraDistance;
+    const itemWidth = this.scrollItems[0]?.offsetWidth || 300;
+    
+    // Calculate initial offset - start images off-screen to the right
+    const initialOffset = containerWidth + 100;
+    
+    // End position: center first item, then scroll through all
+    const centeredOffset = (containerWidth / 2) - (itemWidth / 2);
+    const scrollDistance = trackWidth - itemWidth;
 
-    // Initial position: start from right side of screen
-    const startPosition = containerWidth;
-
-    // Create animation timeline
-    const tl = gsap.timeline({
+    // Create master timeline - gallery below hero, horizontal scroll on vertical scroll
+    const masterTl = gsap.timeline({
       scrollTrigger: {
-        trigger: this.section,
+        trigger: this.galleryWrapper,
         start: 'top top',
-        end: () => `+=${scrollDistance + startPosition}`,
-        scrub: 0.5,
-        pin: true,
+        end: '+=200%',
+        scrub: 1,
+        pin: this.section,
+        pinSpacing: false,
         anticipatePin: 1,
-        invalidateOnRefresh: true,
-        markers: false,
-        onUpdate: (self) => {
-          // Update active item based on position (this will also handle showing info)
-          this.updateActiveItemByPosition();
-        }
+        invalidateOnRefresh: true
       }
     });
 
-    // Stage 1: Slide in from right (30% of total animation)
-    tl.fromTo(this.track,
-      { x: startPosition },
+    // Phase 1: Title starts centered (already positioned via CSS), drifts to the left
+    masterTl.fromTo(this.projectsTitle,
+      { x: 0, opacity: 1, scale: 1 },
       {
-        x: 0,
-        ease: 'power2.out',
-        duration: 0.3
-      }
+        x: -(containerWidth * 0.35),
+        opacity: 0.9,
+        scale: 0.7,
+        ease: 'power1.inOut',
+        duration: 0.25
+      }, 0
     );
 
-    // Stage 2: Horizontal scroll (70% of total animation)
-    tl.to(this.track, {
-      x: -scrollDistance,
+    // Phase 1b: Images come in from the right
+    masterTl.fromTo(this.track, {
+      x: initialOffset
+    }, {
+      x: centeredOffset,
+      ease: 'power2.out',
+      duration: 0.25,
+    }, 0);
+
+    // Phase 2: Scroll through all gallery items
+    masterTl.to(this.track, {
+      x: -(scrollDistance - centeredOffset),
       ease: 'none',
-      duration: 0.7
-    });
+      duration: 0.65,
+      onUpdate: () => {
+        this.updateActiveItemByPosition();
+      }
+    }, 0.25);
+
+    // Keep title pinned at left side during gallery scroll
+    masterTl.to(this.projectsTitle, {
+      x: -(containerWidth * 0.35),
+      opacity: 0.9,
+      scale: 0.7,
+      ease: 'none',
+      duration: 0.65
+    }, 0.25);
+
+    // Hold position at end
+    masterTl.to(this.track, {
+      x: -(scrollDistance - centeredOffset),
+      ease: 'none',
+      duration: 0.1
+    }, 0.9);
+  }
+  
+  setupHeroScroll() {
+    // MOVES text: subtle animation on scroll
+    const movesText = document.querySelector('.moves-text');
+    if (movesText) {
+      gsap.to(movesText, {
+        skewX: -15,
+        x: '-40px',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: this.galleryWrapper,
+          start: 'top bottom',
+          end: 'top top',
+          scrub: 1,
+          invalidateOnRefresh: true
+        }
+      });
+    }
   }
 
   updateActiveItemByPosition() {
-    const centerX = window.innerWidth / 2;
+    const sectionRect = this.section.getBoundingClientRect();
+    const centerX = sectionRect.left + (sectionRect.width / 2);
     let activeIndex = 0;
     let closestIndex = 0;
     let closestDistance = Infinity;
@@ -800,7 +519,7 @@ class HorizontalScroll {
     const firstItemRect = this.scrollItems[0].getBoundingClientRect();
     const firstItemCenterX = firstItemRect.left + (firstItemRect.width / 2);
     const firstItemDistance = Math.abs(firstItemCenterX - centerX);
-    const threshold = window.innerWidth * 0.15; // 15% of screen width as threshold
+    const threshold = sectionRect.width * 0.15; // 15% of section width as threshold
 
     if (firstItemDistance < threshold && !this.isZoomed) {
       // First item is centered, show info
@@ -830,10 +549,14 @@ class HorizontalScroll {
       // Show project info for active item
       if (this.isZoomed) {
         const item = this.scrollItems[activeIndex];
-        const title = item.dataset.project;
+        const title = item.dataset.project || '';
+        const description = item.dataset.description || '';
+        const date = item.dataset.date || '';
 
         this.projectInfoTitle.textContent = title;
-        this.projectInfo.classList.add('visible');
+        this.projectInfoDescription.textContent = description;
+        this.projectInfoDate.textContent = date;
+        this.projectInfo.classList.add('show');
       }
     }
   }
@@ -856,7 +579,6 @@ class HorizontalScroll {
 
     // Remove active class from all items
     this.scrollItems.forEach(item => item.classList.remove('active'));
-    this.projectInfo.classList.remove('visible');
   }
 
   updateLabels(activeIndex) {
@@ -879,71 +601,88 @@ class HorizontalScroll {
 
 // === INITIALIZATION ===
 document.addEventListener('DOMContentLoaded', () => {
-  // Initialize custom cursor
-  const cursor = document.querySelector('.custom-cursor');
-  if (cursor) {
-    let mouseX = 0;
-    let mouseY = 0;
-    let cursorX = 0;
-    let cursorY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    });
-
-    function animateCursor() {
-      const dx = mouseX - cursorX;
-      const dy = mouseY - cursorY;
-
-      cursorX += dx * 0.8;
-      cursorY += dy * 0.8;
-
-      cursor.style.left = cursorX + 'px';
-      cursor.style.top = cursorY + 'px';
-
-      requestAnimationFrame(animateCursor);
-    }
-    animateCursor();
-
-    // Hover effect on interactive elements
-    const hoverElements = document.querySelectorAll('a, button, .scroll-item, .grid-item');
-    hoverElements.forEach(el => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-    });
-  }
-
   // Initialize all modules
-  new Preloader();
   new Navigation();
   new MosaicGallery();
   new PerformanceOptimizer();
+
+  // Hero subtitle cycling text
+  const subtitleText = document.querySelector('.hero-subtitle-text');
+  if (subtitleText) {
+    const titles = [
+      'GRAFISCH ONTWERPER',
+      'CONCEPT DENKER',
+      'VISUEEL DENKER',
+      'CREATIEF STRATEEG',
+      'IDEEËNMAKER',
+      'CONCEPT DRIVEN DESIGNER',
+      'VAN IDEE NAAR DESIGN'
+    ];
+    let currentIndex = 0;
+
+    setInterval(() => {
+      subtitleText.classList.add('fade-out');
+      setTimeout(() => {
+        currentIndex = (currentIndex + 1) % titles.length;
+        subtitleText.textContent = titles[currentIndex];
+        subtitleText.classList.remove('fade-out');
+      }, 300);
+    }, 2000);
+  }
 
   // Wait for GSAP to load before initializing scroll animations
   if (window.gsap && window.ScrollTrigger) {
     new ScrollAnimations();
     new HorizontalScroll();
 
+    // Hero → About horizontal scroll
+    const heroAboutWrapper = document.getElementById('heroAboutWrapper');
+    const heroAboutTrack = document.getElementById('heroAboutTrack');
+    if (heroAboutWrapper && heroAboutTrack) {
+      let overMijTriggered = false;
+      gsap.to(heroAboutTrack, {
+        x: () => -(heroAboutTrack.scrollWidth - window.innerWidth),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: heroAboutWrapper,
+          start: 'top top',
+          end: () => '+=' + (heroAboutTrack.scrollWidth - window.innerWidth + window.innerHeight),
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            // Trigger over-mij animation when scrolled ~40% into horizontal scroll
+            if (self.progress > 0.4 && !overMijTriggered) {
+              overMijTriggered = true;
+              if (window.triggerOverMijAnimation) window.triggerOverMijAnimation();
+            }
+          }
+        }
+      });
+    }
+
     // Animate Journey Section
     animateJourneySection();
-
-    // Animate Featured Project
-    animateFeaturedProject();
 
     // Animate Over Mij Section
     animateOverMijSection();
 
+    // Refresh ScrollTrigger after all animations are set up
+    setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
     // Hide scroll indicator when reaching projects section
     const scrollIndicator = document.querySelector('.scroll-indicator');
-    const projectsTitleSection = document.querySelector('.projects-title-section');
+    const projectsTitle = document.querySelector('.projects-big-title');
 
-    if (scrollIndicator && projectsTitleSection) {
+    if (scrollIndicator && projectsTitle) {
       gsap.to(scrollIndicator, {
         opacity: 0,
         pointerEvents: 'none',
         scrollTrigger: {
-          trigger: projectsTitleSection,
+          trigger: projectsTitle,
           start: 'top 80%',
           end: 'top 10%',
           scrub: true
@@ -954,23 +693,56 @@ document.addEventListener('DOMContentLoaded', () => {
     console.warn('GSAP or ScrollTrigger not loaded. Some animations will not work.');
   }
 
-  // Navbar color change on scroll
+  // Navbar color change and scroll behavior on scroll
   const navbar = document.querySelector('.navbar');
   const gallerySection = document.querySelector('.horizontal-scroll-section');
-  const featuredSection = document.querySelector('.featured-project');
-  const overMijSection = document.querySelector('.over-mij');
+  const overMijSection = document.querySelector('.over-mij-section');
 
-  if (navbar && gallerySection) {
+  if (navbar) {
     let ticking = false;
     let lastState = 'default';
+    let lastScrollTop = window.scrollY || 0;
+    let downDistance = 0;
+    let upDistance = 0;
+    let hasScrolledClass = false;
 
     window.addEventListener('scroll', () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          const galleryRect = gallerySection.getBoundingClientRect();
-          const featuredRect = featuredSection ? featuredSection.getBoundingClientRect() : null;
+          const scrollTop = window.scrollY;
+          const galleryRect = gallerySection ? gallerySection.getBoundingClientRect() : null;
           const overMijRect = overMijSection ? overMijSection.getBoundingClientRect() : null;
           const navbarHeight = navbar.offsetHeight;
+
+          // Stabilize compact navbar transitions using directional distance thresholds.
+          const delta = scrollTop - lastScrollTop;
+          const absDelta = Math.abs(delta);
+
+          if (absDelta > 0.5) {
+            if (delta > 0) {
+              downDistance += delta;
+              upDistance = 0;
+            } else {
+              upDistance += -delta;
+              downDistance = 0;
+            }
+          }
+
+          const minCompactScroll = 80;
+          const downTriggerDistance = 18;
+          const upTriggerDistance = 10;
+
+          if (!hasScrolledClass && scrollTop > minCompactScroll && downDistance > downTriggerDistance) {
+            navbar.classList.add('navbar-scrolled');
+            hasScrolledClass = true;
+            downDistance = 0;
+          } else if (hasScrolledClass && (scrollTop <= minCompactScroll || upDistance > upTriggerDistance)) {
+            navbar.classList.remove('navbar-scrolled');
+            hasScrolledClass = false;
+            upDistance = 0;
+          }
+
+          lastScrollTop = scrollTop;
 
           let newState = 'default';
 
@@ -978,12 +750,8 @@ document.addEventListener('DOMContentLoaded', () => {
           if (overMijRect && overMijRect.top <= navbarHeight && overMijRect.bottom > navbarHeight) {
             newState = 'dark';
           }
-          // Else if featured section touches navbar (top reaches navbar bottom), add white class
-          else if (featuredRect && featuredRect.top <= navbarHeight && featuredRect.bottom > navbarHeight) {
-            newState = 'white';
-          }
           // Else if gallery is at navbar, add dark class (make black)
-          else if (galleryRect.top <= navbarHeight) {
+          else if (galleryRect && galleryRect.top <= navbarHeight) {
             newState = 'dark';
           }
 
@@ -1003,6 +771,26 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+
+      // Skip if href is just "#"
+      if (href === '#') return;
+
+      e.preventDefault();
+      const target = $(href);
+
+      if (target) {
+        target.scrollIntoView({
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+          block: 'start'
+        });
+      }
+    });
+  });
 });
 
 // === JOURNEY SECTION ANIMATIONS ===
@@ -1042,96 +830,92 @@ function animateJourneySection() {
   });
 }
 
-// === FEATURED PROJECT ANIMATIONS ===
-function animateFeaturedProject() {
-  const featuredVerticalTitle = document.querySelector('.featured-vertical-title');
-  const featuredHeroImage = document.querySelector('.featured-hero-image');
-  const featuredDescription = document.querySelector('.featured-description');
-  const featuredStudio = document.querySelector('.featured-studio');
-
-  if (!featuredVerticalTitle) return;
-
-  // Animate vertical title
-  gsap.to(featuredVerticalTitle, {
-    opacity: 1,
-    x: 0,
-    duration: 0.8,
-    ease: 'power3.out',
-    scrollTrigger: {
-      trigger: '.featured-project',
-      start: 'top 70%',
-      toggleActions: 'play none none none'
-    }
-  });
-
-  // Animate hero image
-  gsap.to(featuredHeroImage, {
-    opacity: 1,
-    scale: 1,
-    duration: 1,
-    ease: 'power3.out',
-    scrollTrigger: {
-      trigger: '.featured-hero-image',
-      start: 'top 75%',
-      toggleActions: 'play none none none'
-    }
-  });
-
-  // Animate description and studio
-  gsap.to([featuredDescription, featuredStudio], {
-    opacity: 1,
-    y: 0,
-    duration: 0.8,
-    stagger: 0.2,
-    ease: 'power3.out',
-    scrollTrigger: {
-      trigger: '.featured-text-content',
-      start: 'top 80%',
-      toggleActions: 'play none none none'
-    }
-  });
-}
-
 // === OVER MIJ SECTION ANIMATIONS ===
 function animateOverMijSection() {
-  const overMijItems = document.querySelectorAll('.over-mij-item');
+  const overMijSection = document.querySelector('.over-mij-section');
+  const overMijSubtitle = document.querySelector('.over-mij-subtitle');
+  const overMijName = document.querySelector('.over-mij-name');
+  const overMijTexts = document.querySelectorAll('.over-mij-text');
+  const overMijQuestion = document.querySelector('.over-mij-question');
   
-  if (!overMijItems.length) return;
+  if (!overMijSubtitle || !overMijSection) return;
 
-  // Animate each item with stagger from bottom
-  overMijItems.forEach((item, index) => {
-    ScrollTrigger.create({
-      trigger: item,
-      start: 'top 90%',
-      onEnter: () => {
-        setTimeout(() => {
-          item.classList.add('animate-in');
-        }, index * 100); // Stagger delay
-      },
-      once: true
+  // Words to highlight with special animation
+  const highlightWords = ['beter', 'werkt', 'sterker', 'leuk', 'creatief', 'beste', 'blijft', 'hangen'];
+
+  // Wrap each word in a span, mark highlight words
+  const wrapWords = (element) => {
+    const text = element.textContent;
+    const words = text.split(' ');
+    element.innerHTML = words.map(word => {
+      const clean = word.replace(/[.,!?]/g, '');
+      const isHighlight = highlightWords.some(hw => clean.toLowerCase() === hw.toLowerCase());
+      return `<span class="word${isHighlight ? ' word-highlight' : ''}">${word}</span>`;
+    }).join(' ');
+  };
+
+  overMijTexts.forEach(wrapWords);
+  if (overMijQuestion) wrapWords(overMijQuestion);
+
+  // Set initial states
+  gsap.set(overMijSubtitle, { opacity: 0, y: -20 });
+  gsap.set(overMijName, { opacity: 0, scale: 0.95, y: 30 });
+  const allWords = overMijSection.querySelectorAll('.word');
+  gsap.set(allWords, { opacity: 0, y: 8 });
+
+  let hasAnimated = false;
+
+  // Function to trigger the animation (called when panel is in view)
+  window.triggerOverMijAnimation = () => {
+    if (hasAnimated) return;
+    hasAnimated = true;
+
+    const tl = gsap.timeline();
+
+    // 1) Subtitle slides in
+    tl.to(overMijSubtitle, {
+      opacity: 1, y: 0, duration: 0.6, ease: 'power3.out'
     });
-  });
+
+    // 2) Name scales in
+    tl.to(overMijName, {
+      opacity: 1, scale: 1, y: 0, duration: 0.8, ease: 'power3.out'
+    }, '-=0.3');
+
+    // 3) Words appear one by one at reading pace
+    tl.to(allWords, {
+      opacity: 1,
+      y: 0,
+      duration: 0.25,
+      stagger: 0.12,
+      ease: 'power2.out',
+      onStart: function() {
+        // Add highlight animation to special words as they appear
+        allWords.forEach((word, i) => {
+          if (word.classList.contains('word-highlight')) {
+            gsap.fromTo(word, 
+              { scale: 1, color: 'inherit' },
+              { 
+                scale: 1.15, 
+                color: '#E85D04', 
+                fontWeight: 700,
+                duration: 0.4, 
+                delay: i * 0.12 + 0.2,
+                ease: 'back.out(2)',
+                yoyo: true,
+                repeat: 1,
+                repeatDelay: 0.1,
+                onComplete: () => {
+                  gsap.set(word, { scale: 1, color: '#E85D04', fontWeight: 700 });
+                }
+              }
+            );
+          }
+        });
+      }
+    }, '-=0.2');
+  };
 }
-
-// === SMOOTH SCROLL FOR ANCHOR LINKS ===
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    const href = this.getAttribute('href');
-
-    // Skip if href is just "#"
-    if (href === '#') return;
-
-    e.preventDefault();
-    const target = $(href);
-
-    if (target) {
-      target.scrollIntoView({
-        behavior: prefersReducedMotion ? 'auto' : 'smooth',
-        block: 'start'
-      });
-    }
-  });
-});
 
 // === LOGO VIDEO AUTOPLAY ON HOVER ===
 const logoVideo = $('.logo-video');
@@ -1157,5 +941,220 @@ window.PortfolioApp = {
 
 // Initialize quote animation
 const quoteAnimation = new QuoteAnimation();
+
+// === INTRO TEXT ANIMATION (About Page) ===
+function initIntroTextAnimation() {
+  // Check if we're on the about page and GSAP is available
+  const introSection = document.querySelector('.intro-text-animated');
+  if (!introSection || !window.gsap || !window.ScrollTrigger) return;
+
+  const paragraphs = document.querySelectorAll('.intro-paragraph');
+  const highlightWords = document.querySelectorAll('.highlight-word');
+
+  // Animate paragraphs on scroll
+  gsap.registerPlugin(ScrollTrigger);
+  
+  paragraphs.forEach((paragraph, index) => {
+    gsap.to(paragraph, {
+      scrollTrigger: {
+        trigger: paragraph,
+        start: 'top 85%',
+        end: 'top 60%',
+        toggleActions: 'play none none none',
+        once: true
+      },
+      duration: 0.8,
+      delay: index * 0.15,
+      onStart: () => {
+        paragraph.classList.add('animate-in');
+      }
+    });
+  });
+
+  // Highlight words as they scroll into view (subtle wave effect)
+  highlightWords.forEach((word, index) => {
+    gsap.to(word, {
+      scrollTrigger: {
+        trigger: word,
+        start: 'top 75%',
+        end: 'top 40%',
+        toggleActions: 'play none none reverse',
+        onEnter: () => {
+          setTimeout(() => {
+            word.classList.add('active');
+            // Remove after some time for a wave effect
+            setTimeout(() => {
+              word.classList.remove('active');
+            }, 1500);
+          }, index * 100); // Stagger the highlights
+        }
+      }
+    });
+  });
+}
+
+// Initialize intro text animation when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initIntroTextAnimation);
+} else {
+  initIntroTextAnimation();
+}
+
+// === PROJECTEN PAGINA - FILTER FUNCTIONALITEIT ===
+function initProjectenFilter() {
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const projectItems = document.querySelectorAll('.project-item');
+
+  if (filterButtons.length && projectItems.length) {
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to clicked button
+        button.classList.add('active');
+
+        // Get filter value
+        const filter = button.getAttribute('data-filter');
+
+        // Filter projects with animation
+        projectItems.forEach((item, index) => {
+          const category = item.getAttribute('data-category');
+          
+          if (filter === 'all' || category === filter) {
+            // Show item
+            setTimeout(() => {
+              item.classList.remove('hidden');
+              item.style.animation = 'none';
+              // Trigger reflow
+              void item.offsetWidth;
+              item.style.animation = `fadeInUp 0.6s ease forwards ${index * 0.1}s`;
+            }, 50);
+          } else {
+            // Hide item
+            item.classList.add('hidden');
+          }
+        });
+      });
+    });
+  }
+
+  // GSAP Scroll Animations for projecten page
+  if (window.gsap && window.ScrollTrigger) {
+    // Animate title
+    gsap.from('.projecten-title', {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: '.projecten-title',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    // Animate filter buttons
+    gsap.from('.filter-btn', {
+      opacity: 0,
+      y: 20,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.projecten-filter',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+
+    // Animate project items
+    gsap.from('.project-item', {
+      opacity: 0,
+      y: 30,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: 'power2.out',
+      scrollTrigger: {
+        trigger: '.projecten-grid',
+        start: 'top 80%',
+        toggleActions: 'play none none none'
+      }
+    });
+  }
+}
+
+// === IMAGE OPTIMIZATION - LAZY LOADING ===
+function initImageOptimization() {
+  // Lazy Loading voor alle afbeeldingen
+  if ('IntersectionObserver' in window) {
+    const imageObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          
+          // Laad de afbeelding
+          if (img.dataset.src) {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+          }
+          
+          // Voeg fade-in effect toe
+          img.style.opacity = '0';
+          img.style.transition = 'opacity 0.3s ease';
+          
+          img.onload = function() {
+            this.style.opacity = '1';
+          };
+          
+          // Stop met observeren
+          imageObserver.unobserve(img);
+        }
+      });
+    }, {
+      rootMargin: '50px 0px' // Begin met laden 50px voor de afbeelding zichtbaar wordt
+    });
+
+    // Observeer alle afbeeldingen die lazy geladen moeten worden
+    document.querySelectorAll('img[data-src]').forEach(img => {
+      imageObserver.observe(img);
+    });
+  }
+  
+  // Fallback voor oude browsers - laad alle afbeeldingen direct
+  else {
+    document.querySelectorAll('img[data-src]').forEach(img => {
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+    });
+  }
+  
+  // Preload belangrijke afbeeldingen (logo's)
+  const criticalImages = [
+    'images/mono-rond.png',
+    'images/mono-wit-01-01.png'
+  ];
+
+  criticalImages.forEach(src => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = src;
+    document.head.appendChild(link);
+  });
+  
+  console.log('✅ Image optimization loaded');
+}
+
+// Initialize projecten filter and image optimization
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    initProjectenFilter();
+    initImageOptimization();
+  });
+} else {
+  initProjectenFilter();
+  initImageOptimization();
+}
 
 console.log('🎨 Portfolio initialized successfully');
