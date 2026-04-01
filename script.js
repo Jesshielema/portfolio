@@ -635,10 +635,10 @@ document.addEventListener('DOMContentLoaded', () => {
     new ScrollAnimations();
     new HorizontalScroll();
 
-    // Hero → About horizontal scroll
+    // Hero → About horizontal scroll (desktop only, stacked on mobile)
     const heroAboutWrapper = document.getElementById('heroAboutWrapper');
     const heroAboutTrack = document.getElementById('heroAboutTrack');
-    if (heroAboutWrapper && heroAboutTrack) {
+    if (heroAboutWrapper && heroAboutTrack && window.innerWidth > 768) {
       let overMijTriggered = false;
       gsap.to(heroAboutTrack, {
         x: () => -(heroAboutTrack.scrollWidth - window.innerWidth),
@@ -915,6 +915,18 @@ function animateOverMijSection() {
       }
     }, '-=0.2');
   };
+
+  // On mobile (no horizontal scroll), use ScrollTrigger to trigger animation
+  if (window.innerWidth <= 768) {
+    ScrollTrigger.create({
+      trigger: overMijSection,
+      start: 'top 80%',
+      once: true,
+      onEnter: () => {
+        if (window.triggerOverMijAnimation) window.triggerOverMijAnimation();
+      }
+    });
+  }
 }
 
 // === LOGO VIDEO AUTOPLAY ON HOVER ===

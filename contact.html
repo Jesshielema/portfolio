@@ -44,8 +44,33 @@
     </div>
     <div class="nav-right">
       <a href="contact.html" class="contact-btn">CONTACT!</a>
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menu openen" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
     </div>
   </header>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+    <div class="mobile-menu">
+      <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Menu sluiten">&times;</button>
+      <nav class="mobile-nav-links">
+        <a href="index.html#feedWrapper" class="mobile-nav-link">PROJECTEN</a>
+        <a href="about.html" class="mobile-nav-link">OVER MIJ</a>
+        <a href="index.html#diensten" class="mobile-nav-link">DIENSTEN</a>
+        <a href="contact.html" class="mobile-nav-link mobile-nav-cta">CONTACT!</a>
+      </nav>
+      <div class="mobile-menu-footer">
+        <div class="mobile-menu-social">
+          <a href="https://instagram.com/jesse_hielema" target="_blank">Instagram</a>
+          <a href="https://linkedin.com/in/jesse-hielema" target="_blank">LinkedIn</a>
+        </div>
+        <p class="mobile-menu-email">Jessehielema@gmail.com</p>
+      </div>
+    </div>
+  </div>
 
   <main class="content">
     <section class="contact-page">
@@ -219,6 +244,39 @@
   </script>
   <script src="sync.js"></script>
   <script src="script.js?v=20260330"></script>
+
+  <!-- Hamburger Menu Logic -->
+  <script>
+    (function() {
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+      const mobileMenuClose = document.getElementById('mobileMenuClose');
+      const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+      function openMenu() {
+        mobileMenuOverlay.classList.add('active');
+        hamburgerBtn.classList.add('active');
+        hamburgerBtn.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
+      function closeMenu() {
+        mobileMenuOverlay.classList.remove('active');
+        hamburgerBtn.classList.remove('active');
+        hamburgerBtn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+      hamburgerBtn.addEventListener('click', function() {
+        mobileMenuOverlay.classList.contains('active') ? closeMenu() : openMenu();
+      });
+      mobileMenuClose.addEventListener('click', closeMenu);
+      mobileMenuOverlay.addEventListener('click', function(e) {
+        if (e.target === mobileMenuOverlay) closeMenu();
+      });
+      mobileNavLinks.forEach(function(link) { link.addEventListener('click', closeMenu); });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && mobileMenuOverlay.classList.contains('active')) closeMenu();
+      });
+    })();
+  </script>
 </body>
 
 </html>

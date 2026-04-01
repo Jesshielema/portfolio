@@ -9,12 +9,12 @@ const FEED_PROJECTS = [
     id: 1,
     year: "2026",
     title: "Startpunt",
-    description: "Het fundament waar richting en stijl samenkomen",
-    images: ["images/startpunt.jpg", "images/project7.png", "images/project8.png", "images/project9.png"],
+    description: "Een interactieve installatie die bezoekers op een speelse manier laat ontdekken wat voor type reiziger ze zijn in Groningen.",
+    images: ["images/startpunt.png", "images/startpuntrender.png", "images/startpuntdetails.png", "images/startpuntdetails2.png", "images/startpuntvragen.png"],
     image: "images/startpunt.png",
     tags: ["Strategie", "Concept", "Richting"],
     techniques: ["Concepting", "Visual Direction", "Figma", "Prototype"],
-    input: "Van losse ideeen naar een helder vertrekpunt met duidelijke keuzes in stijl en structuur.",
+    input: "Character Design: Het vertalen van abstracte gebruikersprofielen naar visuele persoonlijkheden",
     link: "#"
   },
   {
@@ -24,9 +24,9 @@ const FEED_PROJECTS = [
     description: "Visuele identiteit en digitale vertaling voor 1Veen",
     images: ["images/project2.jpg", "images/project10.png", "images/project11.png"],
     image: "images/1Veen.jpg",
-    tags: ["Brand", "Website", "Identity"],
-    techniques: ["Brand Design", "Webdesign", "UI", "Responsive"],
-    input: "Een consistente look en feel ontwikkeld die zowel online als in communicatie-uitingen sterk blijft staan.",
+    tags: ["Branding", "App", "Media-ecosysteem"],
+    techniques: ["Brand Design", "Appdesign", "UI", "Ar-technologie"],
+    input: "Een AR-app die gebruikers op een toegankelijke manier helpt het Fochteloërveen te ontdekken, met persoonlijke routes en navigatie direct zichtbaar in de echte wereld.",
     link: "#",
     featured: true
   },
@@ -47,8 +47,8 @@ const FEED_PROJECTS = [
     year: "2026",
     title: "Website redesign",
     description: "Een bestaande site opnieuw ontworpen voor meer impact",
-    images: ["images/project5.png", "images/project16.png", "images/project17.png"],
-    image: "images/cocacola.png",
+    images: ["images/cocacola2.png"],
+    image: "images/cocacola2.png",
     tags: ["Redesign", "UX", "Frontend"],
     techniques: ["Webdesign", "Wireframing", "UI", "Responsive Design"],
     input: "Structuur, hiërarchie en stijl vernieuwd zodat de site sneller leest en sterker overkomt.",
@@ -59,8 +59,8 @@ const FEED_PROJECTS = [
     year: "2026",
     title: "CHECK!",
     description: "Strak en doelgericht concept met een duidelijke boodschap",
-    images: ["images/project6.png", "images/project18.png", "images/project19.jpg", "images/project21.png"],
-    image: "images/poster.png",
+    images: ["images/Poster.png", "images/check1.png"],
+    image: "images/CHECK.png",
     tags: ["Concept", "Visual", "Brand"],
     techniques: ["Art Direction", "Logo Design", "Layout", "Branding"],
     input: "Een krachtig visueel concept uitgewerkt met focus op herkenning en een heldere call-to-action.",
@@ -68,7 +68,7 @@ const FEED_PROJECTS = [
   },
   {
     id: 7,
-    year: "2025",
+    year: "2026",
     title: "ICDC",
     description: "Campagneconcept voor Love Tomorrow tegen achtergelaten campinggear",
     images: ["images/project12.png", "images/project13.jpg"],
@@ -372,6 +372,7 @@ class FeedSystem {
 
   setupFilterBar() {
     const filterBtns = document.querySelectorAll('.filter-btn');
+    const filterSelect = document.getElementById('filterSelect');
 
     const categoryMap = {
       'Branding': ['Brand', 'Identity', 'Branding', 'Visual', 'Art Direction', 'Visual Direction'],
@@ -380,40 +381,53 @@ class FeedSystem {
       'Logo': ['Logo', 'Logo Design', 'Identity']
     };
 
+    const applyFilter = (filterValue) => {
+      const cards = this.container.querySelectorAll('.feed-card');
+      cards.forEach(card => {
+        const projectId = parseInt(card.dataset.projectId);
+        const project = FEED_PROJECTS.find(p => p.id === projectId);
+        if (!project) return;
+
+        if (filterValue === 'all') {
+          card.classList.remove('filter-hidden');
+          return;
+        }
+
+        const relevantTags = categoryMap[filterValue] || [];
+        const matchTags = project.tags.some(tag =>
+          relevantTags.some(t => tag.toLowerCase().includes(t.toLowerCase()))
+        );
+        const matchTech = project.techniques.some(tech =>
+          relevantTags.some(t => tech.toLowerCase().includes(t.toLowerCase()))
+        );
+
+        if (matchTags || matchTech) {
+          card.classList.remove('filter-hidden');
+        } else {
+          card.classList.add('filter-hidden');
+        }
+      });
+    };
+
     filterBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         filterBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-
-        const filterValue = btn.dataset.filter;
-        const cards = this.container.querySelectorAll('.feed-card');
-
-        cards.forEach(card => {
-          const projectId = parseInt(card.dataset.projectId);
-          const project = FEED_PROJECTS.find(p => p.id === projectId);
-          if (!project) return;
-
-          if (filterValue === 'all') {
-            card.classList.remove('filter-hidden');
-            return;
-          }
-
-          const relevantTags = categoryMap[filterValue] || [];
-          const matchTags = project.tags.some(tag =>
-            relevantTags.some(t => tag.toLowerCase().includes(t.toLowerCase()))
-          );
-          const matchTech = project.techniques.some(tech =>
-            relevantTags.some(t => tech.toLowerCase().includes(t.toLowerCase()))
-          );
-
-          if (matchTags || matchTech) {
-            card.classList.remove('filter-hidden');
-          } else {
-            card.classList.add('filter-hidden');
-          }
-        });
+        applyFilter(btn.dataset.filter);
       });
     });
+
+    // Mobile dropdown filter
+    if (filterSelect) {
+      filterSelect.addEventListener('change', () => {
+        const filterValue = filterSelect.value;
+        // Sync button state
+        filterBtns.forEach(b => {
+          b.classList.toggle('active', b.dataset.filter === filterValue);
+        });
+        applyFilter(filterValue);
+      });
+    }
   }
 
   setupEventListeners() {
