@@ -549,7 +549,7 @@ class FeedSystem {
     // CTA button in overlay
     const ctaBtn = this.overlay.querySelector('.cta-button');
     ctaBtn?.addEventListener('click', () => {
-      window.location.href = '/contact.html';
+      window.location.href = '/contact';
     });
   }
 
@@ -769,15 +769,15 @@ class FeedSystem {
     if (readMoreLink) {
       // Map project titles to their page files
       const projectPages = {
-        'Startpunt': 'project-startpunt.html',
-        '1Veen': 'project-1veen.html',
-        'Tripje met de trein': 'project-tripje-met-trein.html',
-        'Website redesign': 'project-website-redesign.html',
-        'CHECK!': 'project-check.html',
-        'ICDC': 'project-icdc.html'
+        'Startpunt': '/project-startpunt',
+        '1Veen': '/project-1veen',
+        'Tripje met de trein': '/project-tripje-met-trein',
+        'Website redesign': '/project-website-redesign',
+        'CHECK!': '/project-check',
+        'ICDC': '/project-icdc'
       };
       
-      const pageFile = projectPages[project.title] || 'index.html';
+      const pageFile = projectPages[project.title] || '/';
       readMoreLink.href = pageFile;
     }
 
@@ -866,7 +866,7 @@ class FeedSystem {
       message: prefillMessage
     });
 
-    window.location.href = `contact.html?${params.toString()}`;
+    window.location.href = `/contact?${params.toString()}`;
   }
 }
 
