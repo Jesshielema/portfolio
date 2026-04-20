@@ -127,9 +127,9 @@ button {
   justify-content: space-between;
   align-items: center;
   padding: 28px var(--spacing-xl);
-  background: #FFFFFF;
+  background: transparent;
   backdrop-filter: none;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+  box-shadow: none;
   z-index: 1000;
   transition: padding 0.3s ease, background 0.3s ease, box-shadow 0.3s ease, border 0.3s ease, border-radius 0.3s ease, top 0.3s ease;
   overflow: visible;
@@ -153,6 +153,10 @@ button {
 
 .navbar.navbar-scrolled .nav-center {
   display: none !important;
+}
+
+.navbar.navbar-scrolled .nav-link {
+  color: #1A1A1A;
 }
 
 .navbar.navbar-scrolled .nav-left {
@@ -212,7 +216,7 @@ button {
   font-size: 0.875rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #1A1A1A;
+  color: #FFFFFF;
   transition: color 0.3s ease;
   text-decoration: none;
   position: relative;
@@ -349,6 +353,7 @@ button {
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  margin-top: -80px;
 }
 
 .hero-about-track {
@@ -399,7 +404,7 @@ button {
 /* === HERO SECTION === */
 .hero-section {
   min-height: 100vh;
-  background: #FFFFFF;
+  background: url('images/achtergrondfoto2.png') center center / cover no-repeat;
   position: relative;
   top: 0;
   left: 0;
@@ -407,22 +412,24 @@ button {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  padding: 120px var(--spacing-xl) var(--spacing-xl);
-  text-align: center;
+  align-items: flex-start;
+  padding: 0 var(--spacing-xl) var(--spacing-xl);
+  text-align: left;
   z-index: 1;
 }
 
 .hero-content {
-  max-width: 1200px;
+  max-width: 700px;
   width: 100%;
+  padding-left: var(--spacing-xl);
 }
 
 /* === SCROLL CIRCLE BADGE === */
 .scroll-circle {
   position: absolute;
-  bottom: 120px;
+  top: 50%;
   right: 80px;
+  transform: translateY(-50%);
   width: 140px;
   height: 140px;
   cursor: pointer;
@@ -440,7 +447,7 @@ button {
   font-family: 'alternate-gothic-atf', 'Bebas Neue', sans-serif;
   font-size: 15.5px;
   font-weight: 700;
-  fill: var(--accent-orange);
+  fill: #FFFFFF;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
@@ -451,7 +458,7 @@ button {
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 36px;
-  color: var(--accent-orange);
+  color: #FFFFFF;
   font-weight: 700;
   line-height: 1;
 }
@@ -464,18 +471,19 @@ button {
 .hero-subtitle {
   font-family: 'alternate-gothic-atf', 'Bebas Neue', sans-serif;
   font-size: 32px;
-  font-weight: 400;
+  font-weight: 700;
   line-height: 34px;
   letter-spacing: 0.2em;
-  color: #E86A33;
-  text-align: center;
-  margin-bottom: 20px;
+  color: #FFFFFF;
+  text-align: left;
   text-transform: uppercase;
   opacity: 0;
   transform: translateY(30px);
   word-wrap: break-word;
   animation: heroFadeIn 1s ease-out 0.3s forwards;
   min-height: 34px;
+  margin-top: 14px;
+  margin-bottom: 0;
 }
 
 .hero-subtitle-text {
@@ -495,10 +503,10 @@ button {
 
 .hero-title {
   font-family: 'alternate-gothic-atf', 'Bebas Neue', sans-serif;
-  font-size: 200px;
+  font-size: 140px;
   font-weight: 700;
-  line-height: 172px;
-  color: #1A1A1A;
+  line-height: 90px;
+  color: #FFFFFF;
   margin: 0;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -509,7 +517,7 @@ button {
 }
 
 .hero-name-orange {
-  color: #E86A33;
+  color: #FFFFFF;
 }
 
 .moves-text {
@@ -1742,6 +1750,17 @@ button:focus {
   padding-top: 0;
 }
 
+/* About animation base */
+.about-page .anim-fade {
+  opacity: 0;
+  transform: translateY(60px);
+  will-change: opacity, transform;
+}
+
+.about-section-number {
+  will-change: transform;
+}
+
 /* About Hero */
 .about-hero {
   padding: 160px 60px 100px;
@@ -1862,7 +1881,8 @@ button:focus {
 .about-skill-item {
   padding: 32px;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease;
+  will-change: opacity, transform;
 }
 
 .about-skill-item:hover {
@@ -1902,6 +1922,20 @@ button:focus {
   display: flex;
   flex-direction: column;
   gap: 0;
+  position: relative;
+  padding-left: 28px;
+}
+
+/* Timeline draw line */
+.about-timeline-line {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, #E85D04 0%, rgba(232, 93, 4, 0.2) 100%);
+  transform-origin: top center;
+  will-change: transform;
 }
 
 .about-exp-item {
@@ -1911,9 +1945,23 @@ button:focus {
   padding: 32px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   align-items: start;
+  position: relative;
 }
 
-.about-exp-item:first-child {
+/* Dot on timeline */
+.about-exp-item::before {
+  content: '';
+  position: absolute;
+  left: -33px;
+  top: 38px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #E85D04;
+  box-shadow: 0 0 8px rgba(232, 93, 4, 0.4);
+}
+
+.about-exp-item:first-of-type {
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
@@ -1996,6 +2044,20 @@ button:focus {
   transform: translateX(4px);
 }
 
+/* CTA glow pulse animation */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(232, 93, 4, 0);
+  }
+  50% {
+    box-shadow: 0 0 24px 6px rgba(232, 93, 4, 0.35);
+  }
+}
+
+.about-cta-btn.glow-pulse {
+  animation: glowPulse 2s ease-in-out 3;
+}
+
 /* About Responsive */
 @media (max-width: 900px) {
   .about-hero {
@@ -2039,6 +2101,14 @@ button:focus {
   .about-exp-item {
     grid-template-columns: 1fr;
     gap: 8px;
+  }
+  
+  .about-experience-list {
+    padding-left: 24px;
+  }
+  
+  .about-exp-item::before {
+    left: -29px;
   }
   
   .about-cta {
@@ -2524,8 +2594,8 @@ button:focus {
   }
   
   .hero-title {
-    font-size: 220px;
-    line-height: 190px;
+    font-size: 180px;
+    line-height: 156px;
   }
   
   .projects-big-title {
@@ -2544,8 +2614,8 @@ button:focus {
 /* === DESKTOP (1024px - 1440px) - Standard laptops === */
 @media (max-width: 1440px) {
   .hero-title {
-    font-size: 180px;
-    line-height: 155px;
+    font-size: 150px;
+    line-height: 130px;
   }
   
   .projects-big-title {
@@ -2611,8 +2681,8 @@ button:focus {
   }
   
   .hero-title {
-    font-size: 140px;
-    line-height: 120px;
+    font-size: 110px;
+    line-height: 96px;
   }
   
   /* Projects Title */
@@ -2697,8 +2767,8 @@ button:focus {
   }
   
   .hero-title {
-    font-size: 90px;
-    line-height: 80px;
+    font-size: 72px;
+    line-height: 64px;
   }
   
   /* Gallery */
@@ -2826,8 +2896,8 @@ button:focus {
   }
   
   .hero-title {
-    font-size: 56px;
-    line-height: 52px;
+    font-size: 48px;
+    line-height: 44px;
   }
 
   .diensten-section {
@@ -3019,8 +3089,8 @@ button:focus {
 /* === EXTRA SMALL MOBILE (< 400px) === */
 @media (max-width: 400px) {
   .hero-title {
-    font-size: 48px;
-    line-height: 46px;
+    font-size: 42px;
+    line-height: 40px;
   }
   
   .hero-subtitle {
@@ -3053,8 +3123,8 @@ button:focus {
   }
   
   .hero-title {
-    font-size: 70px;
-    line-height: 65px;
+    font-size: 58px;
+    line-height: 52px;
   }
   
   .navbar {
@@ -3282,20 +3352,25 @@ button:focus {
   }
 
   .navbar.navbar-scrolled {
-    width: 100% !important;
-    left: 0 !important;
-    right: 0 !important;
-    transform: none !important;
-    top: 0;
-    border-radius: 0;
-    padding: 10px 16px;
-    gap: 10px;
+    width: auto !important;
+    max-width: calc(100% - 24px);
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    top: 12px;
+    border-radius: 999px;
+    padding: 10px 14px;
+    gap: 12px;
     justify-content: space-between;
   }
 
   .navbar.navbar-scrolled .nav-left,
   .navbar.navbar-scrolled .nav-right {
     position: static;
+  }
+
+  .navbar.navbar-scrolled .like-counter-navbar {
+    display: none !important;
   }
 
   /* Like counter smaller on mobile */
@@ -3351,8 +3426,8 @@ button:focus {
   }
 
   .hero-title {
-    font-size: 96px;
-    line-height: 86px;
+    font-size: 78px;
+    line-height: 70px;
   }
 
   .hero-underline {
@@ -3487,8 +3562,8 @@ button:focus {
   }
 
   .hero-title {
-    font-size: 76px;
-    line-height: 68px;
+    font-size: 62px;
+    line-height: 56px;
   }
 
   .scroll-circle {
@@ -3579,8 +3654,8 @@ button:focus {
 /* Extra small phones (< 375px) */
 @media (max-width: 375px) {
   .hero-title {
-    font-size: 62px;
-    line-height: 56px;
+    font-size: 54px;
+    line-height: 48px;
   }
 
   .hero-subtitle {
@@ -3598,6 +3673,37 @@ button:focus {
 
   .mobile-nav-link {
     font-size: 1.3rem;
+  }
+}
+
+/* Mobile visibility hardening for media-heavy sections */
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 100svh;
+  }
+
+  .scroll-circle {
+    z-index: 5;
+  }
+
+  .scroll-item {
+    width: 52vw;
+    height: 52vw;
+    max-width: 210px;
+    max-height: 210px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-section {
+    min-height: 100svh;
+  }
+
+  .hero-about-track,
+  .hero-about-panel,
+  .over-mij-image img {
+    width: 100%;
+    max-width: 100%;
   }
 }
 

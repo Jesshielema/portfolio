@@ -22,7 +22,7 @@ const FEED_PROJECTS = [
     year: "2025",
     title: "1Veen",
     description: "Visuele identiteit en digitale vertaling voor 1Veen",
-    images: ["images/project2.jpg", "images/project10.png", "images/project11.png"],
+    images: ["images/1veen1.png", "images/1veen2.png"],
     image: "images/1Veen.jpg",
     tags: ["Branding", "App", "Media-ecosysteem"],
     techniques: ["Brand Design", "Appdesign", "UI", "Ar-technologie"],
@@ -71,7 +71,7 @@ const FEED_PROJECTS = [
     year: "2026",
     title: "ICDC",
     description: "Campagneconcept voor Love Tomorrow tegen achtergelaten campinggear",
-    images: ["images/project12.png", "images/project13.jpg"],
+    images: ["images/icdc1.jpg", "images/icdc2.jpg"],
     image: "images/Team_Netherlands.jpg",
     tags: ["Campagne", "Concept", "Duurzaamheid"],
     techniques: ["Concepting", "Art Direction", "Campagne Design", "Pitching"],
@@ -83,42 +83,82 @@ const FEED_PROJECTS = [
 // === LIKE MANAGER ===
 class LikeManager {
   constructor() {
+    this.storageKey = 'feed-likes';
+    this.validProjectIds = new Set(FEED_PROJECTS.map(project => project.id));
     this.likes = this.loadLikes();
   }
 
   loadLikes() {
     try {
-      const stored = localStorage.getItem('feed-likes');
-      return stored ? JSON.parse(stored) : {};
+      const stored = localStorage.getItem(this.storageKey);
+      if (!stored) {
+        return new Set();
+      }
+
+      const parsed = JSON.parse(stored);
+      const likedIds = new Set();
+
+      // Support legacy object shape and a possible future array shape.
+      if (Array.isArray(parsed)) {
+        parsed.forEach(id => {
+          const numericId = Number(id);
+          if (this.validProjectIds.has(numericId)) {
+            likedIds.add(numericId);
+          }
+        });
+      } else if (parsed && typeof parsed === 'object') {
+        Object.entries(parsed).forEach(([key, value]) => {
+          const numericId = Number(key);
+          if (value === true && this.validProjectIds.has(numericId)) {
+            likedIds.add(numericId);
+          }
+        });
+      }
+
+      return likedIds;
     } catch (e) {
-      return {};
+      return new Set();
     }
   }
 
   saveLikes() {
     try {
-      localStorage.setItem('feed-likes', JSON.stringify(this.likes));
+      const serialized = {};
+      this.likes.forEach((id) => {
+        serialized[id] = true;
+      });
+      localStorage.setItem(this.storageKey, JSON.stringify(serialized));
     } catch (e) {
       console.warn('Could not save likes');
     }
   }
 
   toggleLike(projectId) {
-    if (!this.likes[projectId]) {
-      this.likes[projectId] = true;
-    } else {
-      this.likes[projectId] = !this.likes[projectId];
+    const normalizedId = Number(projectId);
+    if (!this.validProjectIds.has(normalizedId)) {
+      return false;
     }
+
+    if (this.likes.has(normalizedId)) {
+      this.likes.delete(normalizedId);
+    } else {
+      this.likes.add(normalizedId);
+    }
+
     this.saveLikes();
-    return this.likes[projectId];
+    return this.likes.has(normalizedId);
   }
 
   isLiked(projectId) {
-    return this.likes[projectId] || false;
+    return this.likes.has(Number(projectId));
+  }
+
+  getLikedProjectIds() {
+    return Array.from(this.likes);
   }
 
   getTotalLikes() {
-    return Object.values(this.likes).filter(v => v === true).length;
+    return this.likes.size;
   }
 }
 
@@ -263,7 +303,9 @@ class FeedSystem {
   renderFeed() {
     if (!this.container) return;
 
-    this.container.innerHTML = FEED_PROJECTS.map((project) => `
+    this.container.innerHTML = FEED_PROJECTS.map((project) => {
+      const liked = this.likeManager.isLiked(project.id);
+      return `
       <div class="feed-card${project.featured ? ' feed-card--featured' : ''}" data-project-id="${project.id}">
         ${project.featured ? '<span class="feed-card-badge">&#9733; Uitgelicht</span>' : ''}
         <div class="feed-card-image-container">
@@ -282,13 +324,25 @@ class FeedSystem {
           </div>
           
           <div class="feed-card-right">
-            <button class="like-btn-feed" data-project-id="${project.id}">
-              <div class="heart-btn ${this.likeManager.isLiked(project.id) ? 'liked' : ''}" data-heart-id="${project.id}">${this.likeManager.isLiked(project.id) ? '♥' : '♡'}</div>
+            <button class="like-btn-feed" data-project-id="${project.id}" aria-label="Like ${project.title}">
+              <div class="heart-btn ${liked ? 'liked' : ''}" data-heart-id="${project.id}" aria-pressed="${liked}">${liked ? '♥' : '♡'}</div>
             </button>
           </div>
         </div>
       </div>
-    `).join('');
+    `;
+    }).join('');
+  }
+
+  syncHeartsUI() {
+    if (!this.container) return;
+    this.container.querySelectorAll('.heart-btn').forEach((heart) => {
+      const projectId = Number(heart.dataset.heartId);
+      const liked = this.likeManager.isLiked(projectId);
+      heart.textContent = liked ? '♥' : '♡';
+      heart.classList.toggle('liked', liked);
+      heart.setAttribute('aria-pressed', String(liked));
+    });
   }
 
   setupScrollAnimations() {
@@ -503,6 +557,15 @@ class FeedSystem {
       });
     }
 
+    // Keep UI in sync when likes change in another tab/window.
+    window.addEventListener('storage', (e) => {
+      if (e.key === this.likeManager.storageKey) {
+        this.likeManager.likes = this.likeManager.loadLikes();
+        this.syncHeartsUI();
+        this.updateNavbarLikeCount(false);
+      }
+    });
+
     // Double-click to like (desktop)
     this.container.addEventListener('dblclick', (e) => {
       const card = e.target.closest('.feed-card');
@@ -554,20 +617,18 @@ class FeedSystem {
   }
 
   handleLike(heartBtn) {
-    const projectId = parseInt(heartBtn.dataset.heartId);
+    const projectId = Number(heartBtn.dataset.heartId);
     const isNowLiked = this.likeManager.toggleLike(projectId);
 
-    // Update heart visuals
+    heartBtn.textContent = isNowLiked ? '♥' : '♡';
+    heartBtn.classList.toggle('liked', isNowLiked);
+    heartBtn.setAttribute('aria-pressed', String(isNowLiked));
+
     if (isNowLiked) {
-      heartBtn.textContent = '♥';
-      heartBtn.classList.add('liked');
       
       // Animations only on like (not unlike)
       this.createBurstAnimation(heartBtn);
       this.createFlyingHeart(heartBtn);
-    } else {
-      heartBtn.textContent = '♡';
-      heartBtn.classList.remove('liked');
     }
 
     // Update navbar
@@ -795,9 +856,7 @@ class FeedSystem {
     const modal = document.getElementById('likedProjectsModal');
     const list = document.getElementById('likedProjectsList');
     
-    const likedProjectIds = Object.keys(this.likeManager.likes)
-      .filter(key => this.likeManager.likes[key] === true)
-      .map(id => parseInt(id));
+    const likedProjectIds = this.likeManager.getLikedProjectIds();
     
     if (likedProjectIds.length === 0) {
       list.innerHTML = '<p class="empty-state">Je hebt nog geen projecten geliked</p>';

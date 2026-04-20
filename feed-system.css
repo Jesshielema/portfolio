@@ -244,13 +244,19 @@
 
 .filter-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 10px;
   justify-content: center;
   align-items: center;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filter-container::-webkit-scrollbar {
+  display: none;
 }
 
 .filter-btn {
@@ -267,6 +273,7 @@
   transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
   font-family: 'Manrope', sans-serif;
   white-space: nowrap;
+  flex: 0 0 auto;
   opacity: 1 !important;
 }
 
@@ -1174,6 +1181,17 @@
   .thumbnail {
     width: 50px;
     height: 50px;
+  }
+}
+
+@media (max-width: 600px) {
+  .feed-card {
+    aspect-ratio: 4 / 5;
+  }
+
+  .feed-card-image,
+  .carousel-image {
+    object-fit: cover;
   }
 }
 

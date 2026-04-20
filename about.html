@@ -8,6 +8,13 @@
 
   <link rel="stylesheet" href="index.css?v=20260331">
 
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
   <meta name="description" content="Leer Jesse Hielema kennen — creative designer uit Nederland die altijd op zoek is naar hoe iets beter kan.">
   <meta name="keywords" content="Jesse Hielema, over mij, creative designer, portfolio, grafisch ontwerper">
   <meta name="author" content="Jesse Hielema">
@@ -30,7 +37,7 @@
     <div class="nav-left">
       <a href="/" class="logo-container">
         <img src="images/MonogramOranje.svg" alt="Logo" class="logo-svg">
-        <video class="logo-video" muted loop>
+        <video class="logo-video" autoplay muted loop playsinline preload="metadata">
           <source src="video/Monogram.webm" type="video/webm">
         </video>
       </a>
@@ -79,11 +86,11 @@
       <div class="about-hero">
         <div class="about-hero-inner">
           <div class="about-hero-text">
-            <p class="about-label">Over mij</p>
-            <h1 class="about-name">Jesse<br>Hielema</h1>
-            <p class="about-role">Creative Designer — Nederland</p>
+            <p class="about-label anim-fade">Over mij</p>
+            <h1 class="about-name anim-fade">Jesse<br>Hielema</h1>
+            <p class="about-role anim-fade">Creative Designer, Nederland</p>
           </div>
-          <div class="about-hero-image">
+          <div class="about-hero-image anim-fade">
             <img src="images/profielfoto.png" alt="Jesse Hielema">
           </div>
         </div>
@@ -92,14 +99,14 @@
       <!-- Intro -->
       <div class="about-intro">
         <div class="about-intro-inner">
-          <div class="about-intro-left">
+          <div class="about-intro-left anim-fade">
             <span class="about-section-number">01</span>
             <h2>Wie ik ben</h2>
           </div>
           <div class="about-intro-right">
-            <p>Ik ben een grafisch ontwerper die altijd op zoek is naar hoe iets beter kan. Waarom werkt iets, en hoe maak je het sterker?</p>
-            <p>Ik werk gestructureerd, ben kritisch en ga pas door als het klopt. Maar ja, het moet natuurlijk ook gewoon leuk blijven.</p>
-            <p>Of het nou gaat om een logo, een website of een volledig merkconcept — ik duik er diep in en lever werk waar je wat aan hebt.</p>
+            <p class="anim-fade">Ik ben Jesse. Grafisch ontwerper, wandelaar, sporter en vaste klant van de Groningse binnenstad.</p>
+            <p class="anim-fade">Overdag bedenk ik dingen die er goed uitzien én ergens op slaan. In mijn vrije tijd zoek ik de natuur op, sport ik mezelf kapot of dwaal ik door Groningen zonder doel, en dat laatste levert verrassend vaak de beste ideeën op.</p>
+            <p class="anim-fade">Ik werk gestructureerd, ben kritisch (op mijn eigen werk het meest) en ga pas door als het klopt. Maar serieus blijft het nooit te lang, dat zou zonde zijn.</p>
           </div>
         </div>
       </div>
@@ -107,26 +114,26 @@
       <!-- Skills -->
       <div class="about-skills">
         <div class="about-skills-inner">
-          <div class="about-skills-header">
+          <div class="about-skills-header anim-fade">
             <span class="about-section-number">02</span>
             <h2>Waar ik goed in ben</h2>
           </div>
           <div class="about-skills-grid">
-            <div class="about-skill-item">
+            <div class="about-skill-item anim-fade">
               <h3>Brand Identity</h3>
-              <p>Logo's, huisstijlen en visuele systemen die een merk herkenbaar maken.</p>
+              <p>Logo's en huisstijlen die blijven hangen. Niet omdat ze schreeuwen, maar omdat ze kloppen.</p>
             </div>
-            <div class="about-skill-item">
+            <div class="about-skill-item anim-fade">
               <h3>Web Design</h3>
-              <p>Websites die er goed uitzien én goed werken. Van concept tot pixel-perfect resultaat.</p>
+              <p>Websites die er goed uitzien én gewoon werken. Op elk scherm, tot de laatste pixel.</p>
             </div>
-            <div class="about-skill-item">
+            <div class="about-skill-item anim-fade">
               <h3>Concept & Strategie</h3>
-              <p>Creatieve concepten die verhalen vertellen en doelen bereiken.</p>
+              <p>Ik stel de vragen die je misschien nog niet had bedacht. Dat is niet lastig, dat is handig.</p>
             </div>
-            <div class="about-skill-item">
+            <div class="about-skill-item anim-fade">
               <h3>Visual Design</h3>
-              <p>Campagnebeelden, social content en alles wat visueel moet overtuigen.</p>
+              <p>Alles wat visueel moet landen: campagnes, social content, beelden die bijblijven.</p>
             </div>
           </div>
         </div>
@@ -135,30 +142,31 @@
       <!-- Experience -->
       <div class="about-experience">
         <div class="about-experience-inner">
-          <div class="about-experience-header">
+          <div class="about-experience-header anim-fade">
             <span class="about-section-number">03</span>
-            <h2>Waar ik heb gewerkt</h2>
+            <h2>Ervaring</h2>
           </div>
           <div class="about-experience-list">
-            <div class="about-exp-item">
-              <span class="about-exp-year">2025</span>
+            <div class="about-timeline-line"></div>
+            <div class="about-exp-item anim-fade">
+              <span class="about-exp-year">2022 - heden</span>
               <div class="about-exp-info">
-                <h3>ICDC — Team Netherlands</h3>
-                <p>Internationale creatieve design wedstrijd, Tomorrowland / Love Tomorrow</p>
+                <h3>CMD, Hanzehogeschool Groningen</h3>
+                <p>Hier leerde ik het vak, en hoe ik denk over design als communicatiemiddel.</p>
               </div>
             </div>
-            <div class="about-exp-item">
+            <div class="about-exp-item anim-fade">
               <span class="about-exp-year">2024</span>
               <div class="about-exp-info">
                 <h3>Studio Kopwerk</h3>
-                <p>Stage grafisch ontwerp — merken, campagnes en visuele communicatie</p>
+                <p>Stage grafisch ontwerp. Echte opdrachten, echte klanten, veel geleerd.</p>
               </div>
             </div>
-            <div class="about-exp-item">
-              <span class="about-exp-year">2022 — heden</span>
+            <div class="about-exp-item anim-fade">
+              <span class="about-exp-year">2025</span>
               <div class="about-exp-info">
-                <h3>CMD — Hogeschool Rotterdam</h3>
-                <p>Communication & Multimedia Design</p>
+                <h3>ICDC, Team Netherlands</h3>
+                <p>Designwedstrijd op Tomorrowland. Merkconcept voor Love Tomorrow, van strategie tot eindresultaat. </p>
               </div>
             </div>
           </div>
@@ -168,9 +176,9 @@
       <!-- CTA -->
       <div class="about-cta">
         <div class="about-cta-inner">
-          <h2>Zullen we samenwerken?</h2>
-          <p>Heb je een project in gedachten of wil je gewoon even sparren? Ik hoor het graag.</p>
-          <a href="/contact" class="about-cta-btn">Neem contact op <span>&rarr;</span></a>
+          <h2 class="anim-fade">Zullen we samenwerken?</h2>
+          <p class="anim-fade">Heb je een project, een idee, of gewoon zin om even te sparren? Ik hoor het graag, ook als het nog een beetje vaag is.</p>
+          <a href="/contact" class="about-cta-btn anim-fade">Neem contact op <span>&rarr;</span></a>
         </div>
       </div>
 
@@ -250,6 +258,203 @@
       mobileNavLinks.forEach(function(link) { link.addEventListener('click', closeMenu); });
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && mobileMenuOverlay.classList.contains('active')) closeMenu();
+      });
+    })();
+  </script>
+
+  <!-- Lenis Smooth Scroll + GSAP Animations -->
+  <script>
+    (function () {
+      // Lenis smooth scroll
+      const lenis = new Lenis({ duration: 1.2, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); } });
+      function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+      requestAnimationFrame(raf);
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+
+      // Register ScrollTrigger
+      gsap.registerPlugin(ScrollTrigger);
+
+      // ========================================
+      // 1. HERO — Soft fade-in + upward slide
+      // ========================================
+      gsap.set('.about-hero .anim-fade', { opacity: 0, y: 50 });
+      gsap.set('.about-hero-image', { opacity: 0, y: 40, scale: 1.03 });
+
+      // Text elements fade in first
+      var heroTextEls = document.querySelectorAll('.about-hero-text .anim-fade');
+      gsap.to(heroTextEls, {
+        opacity: 1,
+        y: 0,
+        duration: 1.1,
+        stagger: 0.18,
+        ease: 'power3.out',
+        delay: 0.5
+      });
+
+      // Photo fades in slightly later for depth
+      gsap.to('.about-hero-image', {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 1.4,
+        ease: 'power2.out',
+        delay: 1.0
+      });
+
+      // Subtle parallax on hero image while scrolling
+      gsap.to('.about-hero-image img', {
+        yPercent: 12,
+        ease: 'none',
+        scrollTrigger: { trigger: '.about-hero', start: 'top top', end: 'bottom top', scrub: true }
+      });
+
+      // ========================================
+      // 2. NUMBERED BLOCKS — Staggered reveal
+      // ========================================
+      ['.about-intro', '.about-skills', '.about-experience'].forEach(function (section) {
+        var header = document.querySelector(section + ' .anim-fade');
+        if (!header) return;
+        gsap.set(header, { opacity: 0, y: 40 });
+        gsap.to(header, {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 78%',
+            toggleActions: 'play none none none'
+          }
+        });
+      });
+
+      // Intro paragraphs — staggered fade-in
+      var introParagraphs = document.querySelectorAll('.about-intro-right .anim-fade');
+      gsap.set(introParagraphs, { opacity: 0, y: 35 });
+      gsap.to(introParagraphs, {
+        opacity: 1,
+        y: 0,
+        duration: 0.85,
+        stagger: 0.15,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.about-intro-right',
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      });
+
+      // ========================================
+      // 3. SKILLS — Slide-in from left per card
+      // ========================================
+      var skillCards = document.querySelectorAll('.about-skill-item');
+      gsap.set(skillCards, { opacity: 0, x: -60 });
+      gsap.to(skillCards, {
+        opacity: 1,
+        x: 0,
+        duration: 0.8,
+        stagger: 0.12,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.about-skills-grid',
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      });
+
+      // Hover glow on skill items
+      skillCards.forEach(function (item) {
+        item.addEventListener('mouseenter', function () {
+          gsap.to(item, { borderColor: 'rgba(232, 93, 4, 0.3)', duration: 0.3 });
+        });
+        item.addEventListener('mouseleave', function () {
+          gsap.to(item, { borderColor: 'rgba(255, 255, 255, 0.06)', duration: 0.3 });
+        });
+      });
+
+      // ========================================
+      // 4. TIMELINE — Progressive line draw
+      // ========================================
+      var timelineLine = document.querySelector('.about-timeline-line');
+      if (timelineLine) {
+        gsap.set(timelineLine, { scaleY: 0 });
+        gsap.to(timelineLine, {
+          scaleY: 1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.about-experience-list',
+            start: 'top 75%',
+            end: 'bottom 60%',
+            scrub: 0.8
+          }
+        });
+      }
+
+      // Experience items — fade in as timeline draws
+      var expItems = document.querySelectorAll('.about-exp-item');
+      expItems.forEach(function (item, i) {
+        gsap.set(item, { opacity: 0, y: 30 });
+        gsap.to(item, {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: item,
+            start: 'top 82%',
+            toggleActions: 'play none none none'
+          }
+        });
+      });
+
+      // ========================================
+      // 5. CTA — Fade-in + pulse glow on button
+      // ========================================
+      var ctaElements = document.querySelectorAll('.about-cta .anim-fade');
+      gsap.set(ctaElements, { opacity: 0, y: 40 });
+      gsap.to(ctaElements, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        stagger: 0.15,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.about-cta',
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+          onEnter: function () {
+            // Add pulse glow class when button enters viewport
+            var btn = document.querySelector('.about-cta-btn');
+            if (btn) btn.classList.add('glow-pulse');
+          }
+        }
+      });
+
+      // CTA button hover
+      var ctaBtn = document.querySelector('.about-cta-btn');
+      if (ctaBtn) {
+        ctaBtn.addEventListener('mouseenter', function () {
+          gsap.to(ctaBtn, { scale: 1.04, duration: 0.25, ease: 'power2.out' });
+        });
+        ctaBtn.addEventListener('mouseleave', function () {
+          gsap.to(ctaBtn, { scale: 1, duration: 0.25, ease: 'power2.out' });
+        });
+      }
+
+      // Section number parallax
+      document.querySelectorAll('.about-section-number').forEach(function (num) {
+        gsap.to(num, {
+          y: -20,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: num.closest('.about-intro, .about-skills, .about-experience'),
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: true
+          }
+        });
       });
     })();
   </script>

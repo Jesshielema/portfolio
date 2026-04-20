@@ -1066,19 +1066,22 @@ function initProjectenFilter() {
       }
     });
 
-    // Animate filter buttons
-    gsap.from('.filter-btn', {
-      opacity: 0,
-      y: 20,
-      duration: 0.6,
-      stagger: 0.1,
-      ease: 'power2.out',
-      scrollTrigger: {
-        trigger: '.projecten-filter',
-        start: 'top 80%',
-        toggleActions: 'play none none none'
-      }
-    });
+    // Animate filter buttons only on the dedicated projecten page
+    const projectenFilter = document.querySelector('.projecten-filter');
+    if (projectenFilter) {
+      gsap.from('.projecten-filter .filter-btn', {
+        opacity: 0,
+        y: 20,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: projectenFilter,
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      });
+    }
 
     // Animate project items
     gsap.from('.project-item', {
