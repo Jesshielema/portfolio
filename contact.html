@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact - Jesse Hielema</title>
 
-  <link rel="stylesheet" href="index.css?v=20260331">
+  <link rel="stylesheet" href="index.css?v=20260420">
 
   <meta name="description" content="Neem contact op met Jesse Hielema over jouw favoriete projecten en mogelijke samenwerking.">
   <meta name="keywords" content="Jesse Hielema, contact, samenwerking, design, portfolio">
@@ -16,7 +16,7 @@
   <link rel="apple-touch-icon" href="images/mono-rond.png">
 </head>
 
-<body>
+<body class="contact-body">
   <!-- Page Transition Overlay -->
   <div class="page-transition" id="pageTransition"></div>
   <style>
@@ -26,7 +26,7 @@
     document.addEventListener('click',function(e){var l=e.target.closest('a');if(!l)return;var h=l.getAttribute('href');if(!h||h.startsWith('#')||h.startsWith('mailto:')||h.startsWith('http')||l.target==='_blank')return;e.preventDefault();document.getElementById('pageTransition').classList.add('out');setTimeout(function(){window.location.href=h},500)});
   </script>
 
-  <header class="navbar">
+  <header class="navbar navbar-contact">
     <div class="nav-left">
       <a href="/" class="logo-container">
         <img src="images/MonogramOranje.svg" alt="Logo" class="logo-svg">

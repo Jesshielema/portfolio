@@ -87,6 +87,10 @@ body::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
 
+body.contact-body {
+  background-color: #0F0F10;
+}
+
 body::before {
   content: '';
   position: fixed;
@@ -189,6 +193,23 @@ button {
 
 .navbar.navbar-dark:not(.navbar-scrolled) .logo-svg {
   filter: none;
+}
+
+.navbar.navbar-contact:not(.navbar-scrolled) {
+  background: #0F0F10;
+  box-shadow: none;
+}
+
+.navbar.navbar-contact:not(.navbar-scrolled) .nav-link {
+  color: #FFFFFF;
+}
+
+.navbar.navbar-contact:not(.navbar-scrolled) .nav-link:hover {
+  color: var(--accent-orange);
+}
+
+.navbar.navbar-contact:not(.navbar-scrolled) .hamburger-line {
+  background: #FFFFFF;
 }
 
 .nav-left {
@@ -379,8 +400,8 @@ button {
 .over-mij-section.hero-about-panel .over-mij-container {
   display: flex;
   align-items: center;
-  gap: 80px;
-  max-width: 1200px;
+  justify-content: center;
+  max-width: 900px;
   width: 100%;
 }
 
@@ -399,6 +420,39 @@ button {
 
 .over-mij-section.hero-about-panel .over-mij-info {
   flex: 1;
+  max-width: 820px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.over-mij-section.hero-about-panel .over-mij-content {
+  gap: 20px;
+  align-items: center;
+}
+
+.over-mij-section.hero-about-panel .over-mij-subtitle {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.over-mij-section.hero-about-panel .over-mij-name {
+  font-size: 9.4rem;
+  line-height: 0.85;
+  margin-bottom: 20px;
+}
+
+.over-mij-section.hero-about-panel .over-mij-text {
+  max-width: 760px;
+  font-size: 1.45rem;
+  line-height: 1.48;
+  font-weight: 500;
+}
+
+.over-mij-section.hero-about-panel .over-mij-text .word-highlight {
+  color: #E85D04;
+  font-weight: 800;
+  text-shadow: 0 0 14px rgba(232, 93, 4, 0.2);
 }
 
 /* === HERO SECTION === */
@@ -3461,6 +3515,7 @@ button:focus {
   .over-mij-section.hero-about-panel .over-mij-container {
     flex-direction: column;
     gap: 32px;
+    align-items: center;
   }
 
   .over-mij-image {
@@ -3471,18 +3526,24 @@ button:focus {
   }
 
   .over-mij-subtitle {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     margin-bottom: 12px;
   }
 
   .over-mij-name {
-    font-size: 3.5rem;
+    font-size: 4rem;
     margin-bottom: 24px;
   }
 
   .over-mij-text {
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 1.08rem;
+    line-height: 1.55;
+  }
+
+  .over-mij-section.hero-about-panel .over-mij-info,
+  .over-mij-section.hero-about-panel .over-mij-content,
+  .over-mij-section.hero-about-panel .over-mij-text {
+    text-align: center;
   }
 
   /* Diensten section */
