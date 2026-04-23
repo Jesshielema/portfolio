@@ -3488,20 +3488,9 @@ button:focus {
     width: 60px;
   }
 
-  /* Scroll circle - smaller on mobile, higher position */
+  /* Hide scroll circle on mobile (horizontal scroll not active) */
   .scroll-circle {
-    width: 90px;
-    height: 90px;
-    bottom: 140px;
-    right: 20px;
-  }
-
-  .scroll-circle-text text {
-    font-size: 12px;
-  }
-
-  .scroll-circle-arrow {
-    font-size: 24px;
+    display: none;
   }
 
   /* Over Mij panel - stack vertically, visible */
@@ -3525,18 +3514,22 @@ button:focus {
     border-radius: 12px;
   }
 
-  .over-mij-subtitle {
+  .over-mij-subtitle,
+  .over-mij-section.hero-about-panel .over-mij-subtitle {
     font-size: 0.9rem;
     margin-bottom: 12px;
   }
 
-  .over-mij-name {
-    font-size: 4rem;
-    margin-bottom: 24px;
+  .over-mij-name,
+  .over-mij-section.hero-about-panel .over-mij-name {
+    font-size: 3.5rem;
+    line-height: 0.9;
+    margin-bottom: 18px;
   }
 
-  .over-mij-text {
-    font-size: 1.08rem;
+  .over-mij-text,
+  .over-mij-section.hero-about-panel .over-mij-text {
+    font-size: 1.05rem;
     line-height: 1.55;
   }
 

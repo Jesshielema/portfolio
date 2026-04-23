@@ -10,7 +10,7 @@ const FEED_PROJECTS = [
     year: "2026",
     title: "Startpunt",
     description: "Een interactieve installatie die bezoekers op een speelse manier laat ontdekken wat voor type reiziger ze zijn in Groningen.",
-    images: ["images/startpunt.png", "images/startpuntrender.png", "images/startpuntdetails.png", "images/startpuntdetails2.png", "images/startpuntvragen.png"],
+    images: ["images/Start1.png", "images/Start2.png", "images/Start3.png", "images/Start4.png"],
     image: "images/startpunt.png",
     tags: ["Strategie", "Concept", "Richting"],
     techniques: ["Concepting", "Visual Direction", "Figma", "Prototype"],
@@ -22,7 +22,7 @@ const FEED_PROJECTS = [
     year: "2025",
     title: "1Veen",
     description: "Visuele identiteit en digitale vertaling voor 1Veen",
-    images: ["images/1veen1.png", "images/1veen2.png"],
+    images: ["images/1veen1.png", "images/1veen2.png", "images/1veen3.png", "images/1veen4.png"],
     image: "images/1Veen.jpg",
     tags: ["Branding", "App", "Media-ecosysteem"],
     techniques: ["Brand Design", "Appdesign", "UI", "Ar-technologie"],
@@ -35,7 +35,7 @@ const FEED_PROJECTS = [
     year: "2025",
     title: "Tripje met de trein",
     description: "Campagneconcept met storytelling en visuele flow",
-    images: ["images/Kopwerk 1.jpeg", "images/Kopwerk 2.jpeg", "images/Kopwerk 3.jpeg"],
+    images: ["images/TRIP1.png", "images/TRIP2.png", "images/TRIP3.png", "images/TRIP4.png", "images/TRIP5.png", "images/TRIP6.png"],
     image: "images/kopwerk.jpg",
     tags: ["Campagne", "Story", "Visual"],
     techniques: ["Storyboarding", "Layout", "Design System", "Art Direction"],
@@ -47,8 +47,8 @@ const FEED_PROJECTS = [
     year: "2026",
     title: "Website redesign",
     description: "Een bestaande site opnieuw ontworpen voor meer impact",
-    images: ["images/cocacola2.png"],
-    image: "images/cocacola2.png",
+    images: ["images/WEB1.png"],
+    image: "images/WEB1.png",
     tags: ["Redesign", "UX", "Frontend"],
     techniques: ["Webdesign", "Wireframing", "UI", "Responsive Design"],
     input: "Structuur, hiërarchie en stijl vernieuwd zodat de site sneller leest en sterker overkomt.",
@@ -59,7 +59,7 @@ const FEED_PROJECTS = [
     year: "2026",
     title: "CHECK!",
     description: "Strak en doelgericht concept met een duidelijke boodschap",
-    images: ["images/Poster.png", "images/check1.png"],
+    images: ["images/check1.png", "images/CHECK2.png", "images/CHECK3.png", "images/CHECK4.png"],
     image: "images/CHECK.png",
     tags: ["Concept", "Visual", "Brand"],
     techniques: ["Art Direction", "Logo Design", "Layout", "Branding"],
@@ -71,7 +71,7 @@ const FEED_PROJECTS = [
     year: "2026",
     title: "ICDC",
     description: "Campagneconcept voor Love Tomorrow tegen achtergelaten campinggear",
-    images: ["images/icdc1.jpg", "images/icdc2.jpg"],
+    images: ["images/ICDC1.jpg", "images/ICDC2.jpg", "images/ICDC3.jpg", "images/ICDC4.jpg"],
     image: "images/Team_Netherlands.jpg",
     tags: ["Campagne", "Concept", "Duurzaamheid"],
     techniques: ["Concepting", "Art Direction", "Campagne Design", "Pitching"],
@@ -804,6 +804,28 @@ class FeedSystem {
       leftArrow.addEventListener('click', () => { if (currentIdx > 0) goTo(currentIdx - 1); });
       rightArrow.addEventListener('click', () => { if (currentIdx < images.length - 1) goTo(currentIdx + 1); });
       dots.forEach(dot => dot.addEventListener('click', () => goTo(parseInt(dot.dataset.idx))));
+
+      // Touch/swipe support
+      const carousel = overlayImageSide.querySelector('.insta-carousel');
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let isDragging = false;
+      carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        isDragging = true;
+      }, { passive: true });
+      carousel.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        const dy = e.changedTouches[0].clientY - touchStartY;
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+          if (dx < 0 && currentIdx < images.length - 1) goTo(currentIdx + 1);
+          else if (dx > 0 && currentIdx > 0) goTo(currentIdx - 1);
+        }
+      }, { passive: true });
+
       goTo(0);
     } else {
       overlayImageSide.innerHTML = `<img id="overlayImage" src="${project.image || project.images[0]}" alt="Project" style="width:100%;height:100%;object-fit:cover;">`;
