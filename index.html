@@ -13,30 +13,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
-  <!-- Google Analytics 4 -->
+  <!-- Google Analytics 4 — replace G-XXXXXXXXXX with your real Measurement ID before enabling -->
+  <!--
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-XXXXXXXXXX');
-
-    // Track contact form submissions
-    function trackFormSubmission() {
-      gtag('event', 'form_submit', {
-        event_category: 'Contact',
-        event_label: 'Contact Form Submission'
-      });
-    }
-
-    // Track project views
-    function trackProjectView(projectName) {
-      gtag('event', 'view_item', {
-        event_category: 'Portfolio',
-        event_label: projectName
-      });
-    }
   </script>
+  -->
 
   <!-- Split CSS structure to prevent conflicts -->
   <link rel="stylesheet" href="index.css?v=20260420">
@@ -63,6 +49,7 @@
 </head>
 
 <body>
+  <a href="#main-content" class="skip-link">Ga naar inhoud</a>
   <!-- Page Transition Overlay -->
   <div class="page-transition" id="pageTransition"></div>
   <style>
@@ -119,8 +106,8 @@
       </nav>
     </div>
     <div class="nav-right">
-      <div class="like-counter-navbar" id="likeCounterNavbar" role="button" tabindex="0">
-        <span class="heart-icon">♥</span>
+      <div class="like-counter-navbar" id="likeCounterNavbar" role="button" tabindex="0" aria-label="Bekijk gelikte projecten">
+        <svg class="heart-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         <span class="like-count">0</span>
         <span class="like-feedback" id="likeFeedback">Kies je favorieten</span>
       </div>
@@ -135,7 +122,7 @@
   </header>
 
   <!-- Mobile Menu Overlay -->
-  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay" role="dialog" aria-modal="true" aria-label="Navigatiemenu">
     <div class="mobile-menu">
       <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Menu sluiten">&times;</button>
       <nav class="mobile-nav-links">
@@ -155,7 +142,7 @@
   </div>
 
   <!-- Hoofdinhoud -->
-  <main class="content">
+  <main class="content" id="main-content">
     <!-- Horizontal Scroll Wrapper: Hero → About -->
     <div class="hero-about-wrapper" id="heroAboutWrapper">
       <div class="hero-about-track" id="heroAboutTrack">
@@ -241,7 +228,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h2>Gelikte Projecten</h2>
-            <button class="modal-close" id="modalCloseBtn">✕</button>
+            <button class="modal-close" id="modalCloseBtn" aria-label="Sluiten">✕</button>
           </div>
           <div class="modal-body" id="likedProjectsList">
             <p class="empty-state">Je hebt nog geen projecten geliked</p>
@@ -251,7 +238,7 @@
       
       <!-- Detail Overlay -->
       <div class="detail-overlay" id="detailOverlay">
-        <button class="overlay-close">✕</button>
+        <button class="overlay-close" aria-label="Sluiten">✕</button>
         <div class="overlay-content">
           <div class="overlay-image-side">
             <img id="overlayImage" src="" alt="Project">
@@ -285,85 +272,6 @@
       </div>
     </section>
 
-    <!-- HIDDEN: Old Gallery Content Below (keeping for reference) -->
-    <section class="gallery-wrapper-old" id="galleryWrapper" style="display:none;">
-      <section class="horizontal-scroll-section" id="horizontalScrollSection">
-        <!-- Projects Title -->
-        <h2 class="projects-big-title" id="projectsTitle">MIJN<br>PROJECTEN</h2>
-        <div class="horizontal-scroll-container">
-          <div class="horizontal-scroll-track" id="horizontalTrack">
-            <a href="/ui-ux" class="scroll-item" data-project="UI/UX Design"
-              data-description="Gebruiksvriendelijke interfaces en digitale ervaringen" data-date="2024-2026">
-              <img src="images/project1.jpg" alt="UI/UX Design">
-              <span class="scroll-item-title">UI/UX Design</span>
-            </a>
-            <a href="/web-development" class="scroll-item" data-project="Web Development"
-              data-description="Moderne websites en web applicaties" data-date="2023-2026">
-              <img src="images/project2.jpg" alt="Web Development">
-              <span class="scroll-item-title">Web Development</span>
-            </a>
-            <a href="/branding" class="scroll-item" data-project="Branding"
-              data-description="Sterke merkidentiteiten die blijven hangen" data-date="2022-2026">
-              <img src="images/project3.jpg" alt="Branding">
-              <span class="scroll-item-title">Branding</span>
-            </a>
-            <a href="/logos" class="scroll-item" data-project="Logo's" data-description="Unieke logo's met impact"
-              data-date="2021-2026">
-              <img src="images/project4.jpg" alt="Logo's">
-              <span class="scroll-item-title">Logo's</span>
-            </a>
-            <a href="/illustraties" class="scroll-item" data-project="Illustraties"
-              data-description="Creatieve illustraties en visual storytelling" data-date="2022-2026">
-              <img src="images/project5.png" alt="Illustraties">
-              <span class="scroll-item-title">Illustraties</span>
-            </a>
-            <a href="/motion-graphics" class="scroll-item" data-project="Motion Graphics"
-              data-description="Dynamische animaties en bewegend beeld" data-date="2023-2026">
-              <img src="images/project6.png" alt="Motion Graphics">
-              <span class="scroll-item-title">Motion Graphics</span>
-            </a>
-            <a href="/fotografie" class="scroll-item" data-project="Fotografie"
-              data-description="Professionele fotografie voor verschillende doeleinden" data-date="2021-2026">
-              <img src="images/project7.png" alt="Fotografie">
-              <span class="scroll-item-title">Fotografie</span>
-            </a>
-            <a href="/print-design" class="scroll-item" data-project="Print Design"
-              data-description="Gedrukte materialen en publicaties" data-date="2020-2026">
-              <img src="images/project8.png" alt="Print Design">
-              <span class="scroll-item-title">Print Design</span>
-            </a>
-            <a href="/packaging" class="scroll-item" data-project="Packaging"
-              data-description="Verpakkingsdesign met oog voor detail" data-date="2023-2026">
-              <img src="images/project9.png" alt="Packaging">
-              <span class="scroll-item-title">Packaging</span>
-            </a>
-            <a href="/editorial-design" class="scroll-item" data-project="Editorial Design"
-              data-description="Magazines, brochures en redactionele layouts" data-date="2022-2026">
-              <img src="images/project10.png" alt="Editorial Design">
-              <span class="scroll-item-title">Editorial Design</span>
-            </a>
-          </div>
-          <div class="project-info" id="projectInfo">
-            <div class="project-info-title" id="projectInfoTitle"></div>
-            <div class="project-info-details" id="projectInfoDescription"></div>
-            <div class="project-info-meta" id="projectInfoDate"></div>
-          </div>
-          <div class="project-labels" id="projectLabels">
-            <div class="label-item" data-index="0">UI/UX DESIGN</div>
-            <div class="label-item" data-index="1">WEB DEVELOPMENT</div>
-            <div class="label-item" data-index="2">BRANDING</div>
-            <div class="label-item" data-index="3">LOGO'S</div>
-            <div class="label-item" data-index="4">ILLUSTRATIES</div>
-            <div class="label-item" data-index="5">MOTION GRAPHICS</div>
-            <div class="label-item" data-index="6">FOTOGRAFIE</div>
-            <div class="label-item" data-index="7">PRINT DESIGN</div>
-            <div class="label-item" data-index="8">PACKAGING</div>
-            <div class="label-item" data-index="9">EDITORIAL DESIGN</div>
-          </div>
-        </div>
-        </section>
-    </section>
-    <!-- End Hidden Old Gallery -->
 
     <section class="diensten-section" id="diensten">
       <div class="diensten-container">
@@ -422,12 +330,12 @@
       <div class="footer-social-section">
         <h4>Volg Mij</h4>
         <div class="footer-social">
-          <a href="https://instagram.com/jesse_hielema" class="footer-social-link" target="_blank">
-            <img src="images/icons8-instagram-48.png" alt="Instagram" class="footer-icon">
+          <a href="https://instagram.com/jesse_hielema" class="footer-social-link" target="_blank" rel="noopener noreferrer">
+            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
             Instagram
           </a>
-          <a href="https://linkedin.com/in/jesse-hielema" class="footer-social-link" target="_blank">
-            <img src="images/icons8-linkedin-48.png" alt="LinkedIn" class="footer-icon">
+          <a href="https://linkedin.com/in/jesse-hielema" class="footer-social-link" target="_blank" rel="noopener noreferrer">
+            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="20" height="20"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
             LinkedIn
           </a>
         </div>
@@ -438,11 +346,11 @@
         <h4>Contact</h4>
         <div class="contact-info">
           <a href="mailto:Jessehielema@gmail.com" class="footer-link">
-            <img src="images/icons8-mail-48.png" alt="E-mail" class="footer-icon">
+            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="20" height="20"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             Jessehielema@gmail.com
           </a>
           <a href="/contact" class="footer-link">
-            <img src="images/icons8-mail-48.png" alt="Contact" class="footer-icon">
+            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="20" height="20"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             Contact pagina
           </a>
         </div>
@@ -450,7 +358,7 @@
     </div>
 
     <div class="footer-copyright">
-      <p>&copy; 2025 Jesse Hielema. Gemaakt met <span class="heart">♥</span> in Nederland.</p>
+      <p>&copy; 2026 Jesse Hielema. Gemaakt met <span class="heart">♥</span> in Nederland.</p>
     </div>
   </footer>
 
@@ -464,13 +372,19 @@
       const hamburgerBtn = document.getElementById('hamburgerBtn');
       const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
       const mobileMenuClose = document.getElementById('mobileMenuClose');
+      const mobileMenu = document.querySelector('.mobile-menu');
       const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+      function getFocusable() {
+        return Array.from(mobileMenu.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])'));
+      }
 
       function openMenu() {
         mobileMenuOverlay.classList.add('active');
         hamburgerBtn.classList.add('active');
         hamburgerBtn.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
+        setTimeout(function() { mobileMenuClose.focus(); }, 50);
       }
 
       function closeMenu() {
@@ -478,14 +392,11 @@
         hamburgerBtn.classList.remove('active');
         hamburgerBtn.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
+        hamburgerBtn.focus();
       }
 
       hamburgerBtn.addEventListener('click', function() {
-        if (mobileMenuOverlay.classList.contains('active')) {
-          closeMenu();
-        } else {
-          openMenu();
-        }
+        mobileMenuOverlay.classList.contains('active') ? closeMenu() : openMenu();
       });
 
       mobileMenuClose.addEventListener('click', closeMenu);
@@ -499,10 +410,27 @@
       });
 
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && mobileMenuOverlay.classList.contains('active')) {
-          closeMenu();
+        if (!mobileMenuOverlay.classList.contains('active')) return;
+        if (e.key === 'Escape') { closeMenu(); return; }
+        if (e.key === 'Tab') {
+          var focusable = getFocusable();
+          var first = focusable[0];
+          var last = focusable[focusable.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+          } else {
+            if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+          }
         }
       });
+
+      // Add keyboard activation for like counter
+      var likeCounter = document.getElementById('likeCounterNavbar');
+      if (likeCounter) {
+        likeCounter.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); likeCounter.click(); }
+        });
+      }
     })();
   </script>
 </body>

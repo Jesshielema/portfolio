@@ -24,6 +24,7 @@
 </head>
 
 <body>
+  <a href="#main-content" class="skip-link">Ga naar inhoud</a>
   <!-- Page Transition Overlay -->
   <div class="page-transition" id="pageTransition"></div>
   <style>
@@ -45,7 +46,7 @@
     <div class="nav-center">
       <nav class="nav-links">
         <a href="/#feedWrapper" class="nav-link">PROJECTEN</a>
-        <a href="/about" class="nav-link">OVER MIJ</a>
+        <a href="/about" class="nav-link" aria-current="page">OVER MIJ</a>
         <a href="/#diensten" class="nav-link">DIENSTEN</a>
       </nav>
     </div>
@@ -60,12 +61,12 @@
   </header>
 
   <!-- Mobile Menu Overlay -->
-  <div class="mobile-menu-overlay" id="mobileMenuOverlay">
+  <div class="mobile-menu-overlay" id="mobileMenuOverlay" role="dialog" aria-modal="true" aria-label="Navigatiemenu">
     <div class="mobile-menu">
       <button class="mobile-menu-close" id="mobileMenuClose" aria-label="Menu sluiten">&times;</button>
       <nav class="mobile-nav-links">
         <a href="/#feedWrapper" class="mobile-nav-link">PROJECTEN</a>
-        <a href="/about" class="mobile-nav-link">OVER MIJ</a>
+        <a href="/about" class="mobile-nav-link" aria-current="page">OVER MIJ</a>
         <a href="/#diensten" class="mobile-nav-link">DIENSTEN</a>
         <a href="/contact" class="mobile-nav-link mobile-nav-cta">CONTACT!</a>
       </nav>
@@ -79,7 +80,7 @@
     </div>
   </div>
 
-  <main class="content">
+  <main class="content" id="main-content">
     <section class="about-page">
 
       <!-- Hero -->
@@ -195,12 +196,12 @@
       <div class="footer-social-section">
         <h4>Volg Mij</h4>
         <div class="footer-social">
-          <a href="https://instagram.com/jesse_hielema" class="footer-social-link" target="_blank" rel="noreferrer">
-            <img src="images/icons8-instagram-48.png" alt="Instagram" class="footer-icon">
+          <a href="https://instagram.com/jesse_hielema" class="footer-social-link" target="_blank" rel="noopener noreferrer">
+            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
             Instagram
           </a>
-          <a href="https://linkedin.com/in/jesse-hielema" class="footer-social-link" target="_blank" rel="noreferrer">
-            <img src="images/icons8-linkedin-48.png" alt="LinkedIn" class="footer-icon">
+          <a href="https://linkedin.com/in/jesse-hielema" class="footer-social-link" target="_blank" rel="noopener noreferrer">
+            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="20" height="20"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
             LinkedIn
           </a>
         </div>
@@ -210,11 +211,11 @@
         <h4>Contact</h4>
         <div class="contact-info">
           <a href="mailto:Jessehielema@gmail.com" class="footer-link">
-            <img src="images/icons8-mail-48.png" alt="E-mail" class="footer-icon">
+            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="20" height="20"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             Jessehielema@gmail.com
           </a>
           <a href="/contact" class="footer-link">
-            <img src="images/icons8-mail-48.png" alt="Contact" class="footer-icon">
+            <svg class="footer-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" width="20" height="20"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             Contact pagina
           </a>
         </div>
@@ -222,7 +223,7 @@
     </div>
 
     <div class="footer-copyright">
-      <p>&copy; 2025 Jesse Hielema. Gemaakt met <span class="heart">♥</span> in Nederland.</p>
+      <p>&copy; 2026 Jesse Hielema. Gemaakt met <span class="heart">♥</span> in Nederland.</p>
     </div>
   </footer>
 
@@ -235,18 +236,26 @@
       const hamburgerBtn = document.getElementById('hamburgerBtn');
       const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
       const mobileMenuClose = document.getElementById('mobileMenuClose');
+      const mobileMenu = document.querySelector('.mobile-menu');
       const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+      function getFocusable() {
+        return Array.from(mobileMenu.querySelectorAll('button, a[href], [tabindex]:not([tabindex="-1"])'));
+      }
+
       function openMenu() {
         mobileMenuOverlay.classList.add('active');
         hamburgerBtn.classList.add('active');
         hamburgerBtn.setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
+        setTimeout(function() { mobileMenuClose.focus(); }, 50);
       }
       function closeMenu() {
         mobileMenuOverlay.classList.remove('active');
         hamburgerBtn.classList.remove('active');
         hamburgerBtn.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
+        hamburgerBtn.focus();
       }
       hamburgerBtn.addEventListener('click', function() {
         mobileMenuOverlay.classList.contains('active') ? closeMenu() : openMenu();
@@ -257,7 +266,18 @@
       });
       mobileNavLinks.forEach(function(link) { link.addEventListener('click', closeMenu); });
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && mobileMenuOverlay.classList.contains('active')) closeMenu();
+        if (!mobileMenuOverlay.classList.contains('active')) return;
+        if (e.key === 'Escape') { closeMenu(); return; }
+        if (e.key === 'Tab') {
+          var focusable = getFocusable();
+          var first = focusable[0];
+          var last = focusable[focusable.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+          } else {
+            if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+          }
+        }
       });
     })();
   </script>
@@ -275,6 +295,15 @@
 
       // Register ScrollTrigger
       gsap.registerPlugin(ScrollTrigger);
+
+      // Show all animated elements immediately when reduced motion is preferred
+      var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) {
+        document.querySelectorAll('.anim-fade').forEach(function(el) {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+        });
+      } else {
 
       // ========================================
       // 1. HERO — Soft fade-in + upward slide
@@ -456,6 +485,8 @@
           }
         });
       });
+
+      } // end if (!prefersReducedMotion)
     })();
   </script>
 </body>
